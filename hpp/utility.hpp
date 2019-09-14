@@ -23,6 +23,7 @@ auto split (const std :: string & txt, const std :: regex & rgx, lambda func)
   return token;
 }
 
+#ifndef _MSC_VER
 #if (!defined __clang__ && __GNUC__ == 4 && __GNUC_MINOR__ < 9) || __cplusplus < 201400 // no std=c++14 support
 
 namespace std
@@ -36,6 +37,7 @@ std :: unique_ptr < type > make_unique ( std :: size_t size )
 
 }
 
+#endif
 #endif
 
 #endif // __utility_hpp__

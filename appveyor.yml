@@ -7,16 +7,6 @@ environment:
   WORKSPACE: C:\projects
 
   matrix:
-  - platform: cygwin64
-    PYTHON: "C:\\Python35-x64"
-    COMPILER: cygwin
-    CYGWIN_NOWINPATH: yes
-    CYGSH: C:\cygwin64\bin\bash -c
-  - platform: cygwin64
-    PYTHON: "C:\\Python36-x64"
-    COMPILER: cygwin
-    CYGWIN_NOWINPATH: yes
-    CYGSH: C:\cygwin64\bin\bash -c
   - platform: Win32
     PYTHON: "C:\\Python35-x64"
     COMPILER: vs

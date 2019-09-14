@@ -1,6 +1,6 @@
 | **Authors**  | **Project** | **Documentation**                                                                   | **Build Status**              |
 |:------------:|:-----------:|:-----------------------------------------------------------------------------------:|:-----------------------------:|
-| [**N. Curti**](https://github.com/Nico-Curti) |  **DNetPRO**  | [![docs](https://img.shields.io/badge/documentation-latest-blue.svg?style=plastic)](https://nico-curti.github.io/DNetPRO/) | **Linux/MacOS** : *miss* <br/> **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/tbjbqnr3am9xms1a?svg=true)](https://ci.appveyor.com/project/Nico-Curti/dnetpro) |
+| [**N. Curti**](https://github.com/Nico-Curti) |  **DNetPRO**  | [![docs](https://img.shields.io/badge/documentation-latest-blue.svg?style=plastic)](https://nico-curti.github.io/DNetPRO/) | **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/DNetPRO.svg?branch=master)](https://travis-ci.com/Nico-Curti/DNetPRO) <br/> **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/tbjbqnr3am9xms1a?svg=true)](https://ci.appveyor.com/project/Nico-Curti/dnetpro) |
 
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/issues)
