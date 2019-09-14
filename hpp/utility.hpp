@@ -4,7 +4,7 @@
 #include <utility.h>
 
 template < class lambda >
-auto split (const std :: string & txt, const std :: regex & rgx, lambda func = [](std :: string s) -> std :: string { return s; })
+auto split (const std :: string & txt, const std :: regex & rgx, lambda func)
 {
   using type = typename std :: result_of < decltype(func)(std :: string) > :: type;
 

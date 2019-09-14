@@ -67,10 +67,9 @@ before_build:
   - cd build
 
 build_script:
-  - if [%COMPILER%]==[cygwin] %CYGSH% 'cmake -G "Unix Makefiles" -DOMP=OFF "-DCMAKE_BUILD_TYPE=%configuration%" ..
-  - if [%COMPILER%]==[cygwin] %CYGSH% 'cmake --build .'
-  - if [%COMPILER%]==[vs] cmake -G "Ninja" -DOMP=OFF "-DCMAKE_TOOLCHAIN_FILE=C:\projects\vcpkg\scripts\buildsystems\vcpkg.cmake" ..
-  - if [%COMPILER%]==[vs] cmake --build .
+  - if [%MSVC_SETUP_ARG%]==[x64] cmake .. -G "Visual Studio 15 2017 Win64" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
+  - if [%MSVC_SETUP_ARG%]==[x86] cmake .. -G "Visual Studio 15 2017" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
+  - cmake --build . --config Release
 
   - cd ..
   - "%PYTHON%\\python.exe setup.py install"
