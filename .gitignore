@@ -1,0 +1,57 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Directories
+[Bb]in/
+[Oo]bj/
+.[Dd]ep/
+[Bb]uild*/
+[Tt]st/
+*.egg-info
+DNetPRO/[Ss]ource/*.c*
+DNetPRO/[Ss]ource/*.h
+__pycache__/
+[Dd]ata/
+
+# Utilities
+[Uu]tilities/
+[Ss]hare/
+[Tt]oy/*.svg
+[Tt]oy/*.dat
+[Tt]iming/*.svg
+[Tt]iming/*.dat
+pipeline/TCGA/binary*
+pipeline/TCGA/*.pickle
+pipeline/TCGA/*.best
+
+

@@ -1,0 +1,21 @@
+# Config file for the DNetPRO package
+# It defines the following variables
+#  DNetPRO_INCLUDE_DIRS - include directories for DNetPRO
+#  DNetPRO_LIBRARIES    - libraries to link against
+
+# Compute paths
+get_filename_component(DNetPRO_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(DNetPRO_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+list(APPEND CMAKE_MODULE_PATH "${DNetPRO_CMAKE_DIR}")
+
+include(CMakeFindDependencyMacro)
+
+if("${CMAKE_VERSION}" VERSION_GREATER "3.9.0")
+  find_dependency(OpenMP)
+endif()
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include("${DNetPRO_CMAKE_DIR}/DNetPROTargets.cmake")
+
+# These are IMPORTED targets created by DNetPROTargets.cmake
+set(DNetPRO_LIBRARIES byronlib)
