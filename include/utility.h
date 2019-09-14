@@ -18,7 +18,7 @@ std :: unique_ptr < int[] > lbl2num (const std :: vector < std :: string > & lbl
 template < class lambda = std :: function < std :: string (std :: string) > >
 auto split (const std :: string & txt, const std :: regex & rgx, lambda func = [](std :: string s) -> std :: string { return s; });
 
-#ifdef _MSC_VER
+#ifndef _MSC_VER
 #if (!defined __clang__ && __GNUC__ == 4 && __GNUC_MINOR__ < 9) || __cplusplus < 201400 // no std=c++14 support
 
 namespace std
