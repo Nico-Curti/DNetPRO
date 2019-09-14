@@ -1,0 +1,430 @@
+language: cpp
+
+matrix:
+  fast_finish: true
+  include:
+
+# linux + gcc
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu 14.04 - native gcc
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - COMPILER_ID="gcc"
+        - MATRIX_EVAL=""
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu 14.04 - gcc@4.8.5
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.8
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - COMPILER_ID="gcc"
+        - MATRIX_EVAL="CC=gcc-4.8 && CXX=g++-4.8"
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu 14.04 - gcc@5.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - COMPILER_ID="gcc"
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu 14.04 - gcc@6.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+
+      env:
+        - additional_defines="-DOMP=ON"
+        - COMPILER_ID="gcc"
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu 14.04 - gcc@7.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+
+      env:
+        - additional_defines="-DOMP=ON"
+        - COMPILER_ID="gcc"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu 14.04 - gcc@8.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - libopencv-dev
+      env:
+        - additional_defines="-DOMP=ON"
+        - COMPILER_ID="gcc"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+
+    # linux + clang
+
+    - os: linux
+      compiler: clang
+      name: ubuntu 14.04 - clang@3.6
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-3.8
+          packages:
+            - g++-7
+            - clang-3.6
+            - libstdc++-4.8-dev
+            - libclang-3.6-dev
+            - libc++-dev
+            - libc++abi-dev
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
+        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libstdc++ -lc++abi"
+
+    - os: linux
+      compiler: clang
+      name: ubuntu 14.04 - clang@3.8
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-3.8
+          packages:
+            - g++-7
+            - clang-3.8
+            - libstdc++-4.8-dev
+            - libclang-3.8-dev
+            - libc++-dev
+            - libc++abi-dev
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
+        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+
+
+    - os: linux
+      compiler: clang
+      name: ubuntu 14.04 - clang@3.9
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-3.9
+          packages:
+            - g++-7
+            - clang-3.9
+            - libstdc++-4.8-dev
+            - libclang-3.9-dev
+            - libc++-dev
+            - libc++abi-dev
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
+        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+
+    - os: linux
+      compiler: clang
+      name: ubuntu 14.04 - clang@4.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-4.0
+          packages:
+            - g++-7
+            - clang-4.0
+            - libstdc++-4.8-dev
+            - libclang-4.0-dev
+            - libc++-dev
+            - libc++abi-dev
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
+        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+
+    - os: linux
+      compiler: clang
+      name: ubuntu 14.04 - clang@5.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+            - libstdc++-7-dev
+            - libclang-5.0-dev
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+
+    - os: linux
+      compiler: clang
+      name: ubuntu 14.04 - clang@6.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - clang-6.0
+            - libstdc++-7-dev
+            - libclang-6.0-dev
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+
+    - os: linux
+      compiler: clang
+      name: ubuntu 14.04 - clang@7.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-trusty-7
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - clang-7
+            - libstdc++-7-dev
+            - libclang-7-dev
+
+      env:
+        - additional_defines="-DOMP=OFF"
+        - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
+        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+
+# osx + gcc + opencv2-3
+
+    - os: osx
+      osx_image: xcode10.1
+      compiler: gcc
+      name: macOS - g++-7
+      env:
+        - additional_defines="-DOMP=ON"
+        - MATRIX_EVAL="brew update && brew install gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
+        - COMPILER_ID="gcc"
+        - CXXFLAGS="-mmacosx-version-min=10.8"
+
+    - os: osx
+      compiler: gcc
+      osx_image: xcode10.1
+      name: macOS - g++-7
+      env:
+        - additional_defines="-DOMP=ON"
+        - MATRIX_EVAL="brew update && brew install gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
+        - COMPILER_ID="gcc"
+        - CXXFLAGS="-mmacosx-version-min=10.8"
+
+    - os: osx
+      compiler: gcc
+      osx_image: xcode10.1
+      name: macOS - g++-8
+      env:
+        - additional_defines="-DOMP=ON"
+        - MATRIX_EVAL="brew update && brew install gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
+        - COMPILER_ID="gcc"
+        - CXXFLAGS="-mmacosx-version-min=10.8"
+
+    - os: osx
+      osx_image: xcode10.1
+      compiler: gcc
+      name: macOS - g++-8
+      env:
+        - additional_defines="-DOMP=ON"
+        - MATRIX_EVAL="brew update && brew install gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
+        - COMPILER_ID="gcc"
+        - CXXFLAGS="-mmacosx-version-min=10.8"
+
+# osx + clang
+
+    - os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      name: macOS - native clang (llvm backend)
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-7
+          packages:
+            - libc++-dev
+            - libc++abi-dev
+      env:
+        - MATRIX_EVAL=""
+        - additional_defines="-DOMP=OFF"
+        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+
+    - os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      name: macOS - clang@7.0
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-7
+          packages:
+            - clang-7.0
+            - libc++-dev
+            - libc++abi-dev
+            - libclang-7-dev
+            - libstdc++-7-dev
+      env:
+        - MATRIX_EVAL="brew update && brew install llvm && CC=clang-7.0 && CXX=clang++-7.0"
+        - additional_defines="-DOMP=OFF"
+        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
+
+  allow_failures:
+    - name: macOS - g++-7
+    - name: macOS - g++-7
+    - name: macOS - g++-8
+    - name: macOS - g++-8
+    - name: macOS - native clang (llvm backend)
+    - name: macOS - clang@7.0
+    - name: ubuntu 14.04 - clang@3.6
+    - name: ubuntu 14.04 - clang@3.8
+    - name: ubuntu 14.04 - clang@3.9
+    - name: ubuntu 14.04 - clang@4.0
+    - name: ubuntu 14.04 - clang@5.0
+    - name: ubuntu 14.04 - clang@6.0
+    - name: ubuntu 14.04 - clang@7.0
+
+
+before_install:
+  - travis_retry eval "${MATRIX_EVAL}"
+  # Install Anaconda
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then
+        wget https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh -O miniconda.sh;
+      else
+        wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+      fi
+    else
+      if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh;
+      else
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+      fi
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+
+  # Replace dep1 dep2 ... with your dependencies
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
+  - source activate test-environment
+
+  # Install dependencies
+  - pip install numpy
+  - pip install cython
+  - pip install pandas
+  - pip install matplotlib
+  - pip install networkx
+  - pip install scikit-learn
+  - pip install seaborn
+  - python setup.py develop --user
+  - cd ..
+
+install:
+  # CMake upgrade
+
+  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then wget --no-check-certificate https://cmake.org/files/v3.13/cmake-3.13.1-Darwin-x86_64.tar.gz        ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then tar -xzf cmake-3.13.1-Darwin-x86_64.tar.gz                                                         ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then export PATH=$PWD/cmake-3.13.1-Darwin-x86_64/CMake.app/Contents/bin:$PATH                           ;fi
+
+  ###############################################################################################################################################
+
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget --no-check-certificate https://cmake.org/files/v3.13/cmake-3.13.1-Linux-x86_64.tar.gz         ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar -xzf cmake-3.13.1-Linux-x86_64.tar.gz                                                          ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH=$PWD/cmake-3.13.1-Linux-x86_64/bin:$PATH                                               ;fi
+
+
+before_script:
+  - mkdir build_debug
+  - cd build_debug
+  - cmake .. -DCMAKE_BUILD_TYPE="Debug" ${additional_defines}
+  - cd ..
+  - mkdir build_release
+  - cd build_release
+  - cmake .. -DCMAKE_BUILD_TYPE="Release" ${additional_defines}
+  - cd ..
+
+before_cache:
+  - rm -f $HOME/fresh-cache
+
+script:
+  - cd build_debug   && cmake --build . --target install -- -j8 && cd ..
+  - cd build_release && cmake --build . --target install -- -j8 && cd ..
+  # Pyron install (requirements already satisfied)
+  - python setup.py develop --user

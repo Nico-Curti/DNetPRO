@@ -65,8 +65,8 @@ or just this repository
   author = {Curti, Nico},
   title = {{DNetPRO pipeline}: Implementation of the DNetPRO pipeline for TCGA datasets},
   year = {2019},
-  url = "https://github.com/Nico-Curti/DNetPRO",
+  url = {https://github.com/Nico-Curti/DNetPRO},
   publisher = {GitHub},
-  howpublished = "\url{https://github.com/Nico-Curti/DNetPRO}"
+  howpublished = {\url{https://github.com/Nico-Curti/DNetPRO}}
 }
 ```

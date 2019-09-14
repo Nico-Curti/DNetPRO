@@ -1,0 +1,77 @@
+image: Visual Studio 2017
+clone_folder: c:\projects\DNetPRO
+configuration: Debug
+
+environment:
+
+  WORKSPACE: C:\projects
+
+  matrix:
+  - platform: cygwin64
+    PYTHON: "C:\\Python35-x64"
+    COMPILER: cygwin
+    CYGWIN_NOWINPATH: yes
+    CYGSH: C:\cygwin64\bin\bash -c
+  - platform: cygwin64
+    PYTHON: "C:\\Python36-x64"
+    COMPILER: cygwin
+    CYGWIN_NOWINPATH: yes
+    CYGSH: C:\cygwin64\bin\bash -c
+  - platform: Win32
+    PYTHON: "C:\\Python35-x64"
+    COMPILER: vs
+    MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+    MSVC_SETUP_ARG: x86
+  - platform: Win32
+    PYTHON: "C:\\Python36-x64"
+    COMPILER: vs
+    MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+    MSVC_SETUP_ARG: x86
+  - platform: Win64
+    PYTHON: "C:\\Python35-x64"
+    COMPILER: vs
+    MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+    MSVC_SETUP_ARG: x64
+  - platform: Win64
+    PYTHON: "C:\\Python36-x64"
+    COMPILER: vs
+    MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+    MSVC_SETUP_ARG: x64
+
+install:
+  - if [%COMPILER%]==[vs] cinst ninja
+  - if [%COMPILER%]==[vs] SET "PATH=C:\Program Files\CMake\bin;%PATH%"
+  - if [%COMPILER%]==[vs] SET "PATH=C:\Program Files\LLVM\bin;%PATH%"
+  - if [%COMPILER%]==[vs] call "%MSVC_SETUP_PATH%" %MSVC_SETUP_ARG%
+  - if [%COMPILER%]==[cygwin] SET "PATH=C:\cygwin64\bin;C:\cygwin64\usr\bin;%PATH%"
+  - if [%COMPILER%]==[cygwin] SET "PATH=%PATH:C:\Program Files\Git\usr\bin;=%"
+  ############################################################################
+  # Install a recent CMake
+  ############################################################################
+  - set CMAKE_URL="https://cmake.org/files/v3.12/cmake-3.12.1-win64-x64.zip"
+  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+  - 7z x cmake.zip -oC:\projects\deps > nul
+  - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
+  - set PATH=C:\projects\deps\cmake\bin;%PATH%
+  - cmake --version
+
+  - git submodule -q update --init --recursive
+  - cd C:\projects\
+  - mkdir cygwin-downloads
+  - ps: if($env:COMPILER -eq "cygwin") { Invoke-WebRequest https://cygwin.com/setup-x86_64.exe -OutFile C:\projects\cygwin-setup.exe }
+  - if [%COMPILER%]==[cygwin] C:\projects\cygwin-setup.exe --quiet-mode --no-shortcuts --no-startmenu --no-desktop --upgrade-also --root C:\cygwin64 --local-package-dir C:\projects\cygwin-downloads --packages gcc-g++,cmake,libopencv-dev
+
+before_build:
+  - cd %WORKSPACE%\DNetPRO
+  - mkdir build
+  - cd build
+
+build_script:
+  - if [%COMPILER%]==[cygwin] %CYGSH% 'cmake -G "Unix Makefiles" -DOMP=OFF "-DCMAKE_BUILD_TYPE=%configuration%" ..
+  - if [%COMPILER%]==[cygwin] %CYGSH% 'cmake --build .'
+  - if [%COMPILER%]==[vs] cmake -G "Ninja" -DOMP=OFF "-DCMAKE_TOOLCHAIN_FILE=C:\projects\vcpkg\scripts\buildsystems\vcpkg.cmake" ..
+  - if [%COMPILER%]==[vs] cmake --build .
+
+  - cd ..
+  - "%PYTHON%\\python.exe setup.py install"
+
