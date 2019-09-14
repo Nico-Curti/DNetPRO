@@ -393,7 +393,6 @@ before_install:
   - pip install networkx
   - pip install scikit-learn
   - pip install seaborn
-  - python setup.py develop --user
 
 install:
   # CMake upgrade
@@ -412,6 +411,6 @@ script:
   - chmod 777 ./build.sh
   # pay attention to omp for gcc old version
   - if [[ "$TRAVIS_COMPILER" == "clang" ]]; then bash ./build.sh "" OFF                                                                       ;fi
-  - if [[ "$TRAVIS_COMPILER" == "gcc"   ]]; then bash ./build.sh "" OFF
+  - if [[ "$TRAVIS_COMPILER" == "gcc"   ]]; then bash ./build.sh "" OFF                                                                       ;fi
   # DNetPRO install (requirements already satisfied)
   - python setup.py develop --user
