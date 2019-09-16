@@ -92,6 +92,8 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
 
   if 'GCC' in CPP_COMPILER and 'g++' in os.environ['CXX']:
     linker_args = ['-fopenmp']
+  else:
+    linker_args = []
 
   if 'Clang' in CPP_COMPILER and 'clang' in os.environ['CXX']:
     compile_args += ['-stdlib=libc++']
@@ -149,7 +151,7 @@ setup(
                                                             np.get_include(),
                                               ],  # path to .a or .so file(s)
                                               extra_compile_args = whole_compiler_args,
-                                              extra_link_args = ['-fopenmp'],
+                                              extra_link_args = [],
                                               language='c++'
                                               )
   ],

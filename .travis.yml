@@ -134,20 +134,17 @@ matrix:
           update: true
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-3.8
           packages:
-            - g++-7
             - clang-3.8
-            - libstdc++-4.8-dev
-            - libclang-3.8-dev
-            - libc++-dev
-            - libc++abi-dev
+            - g++-4.8-aarch64-linux-gnu
+            - gcc-4.8-aarch64-linux-gnu
+            - g++-4.8-multilib
+            - gcc-4.8-multilib
 
       env:
         - additional_defines="-DOMP=OFF"
         - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
         - COMPILER_ID="clang"
-        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
 
     - os: linux
@@ -187,7 +184,6 @@ matrix:
         - additional_defines="-DOMP=OFF"
         - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
         - COMPILER_ID="clang"
-        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
     - os: linux
       compiler: clang
