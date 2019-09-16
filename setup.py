@@ -103,6 +103,8 @@ elif 'MSC' in CPP_COMPILER:
 
   if ENABLE_OMP:
     linker_args = ['/openmp']
+  else:
+    linker_args = []
 
 else:
   raise ValueError('Unknown c++ compiler arg')

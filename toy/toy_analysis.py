@@ -28,8 +28,8 @@ if __name__ == '__main__':
 
     ax1.plot([0, 1], [0, 1], 'r', linewidth=2, linestyle='dashed', alpha=.5)
 
-    ax1.set_xlim(0, 1)
-    ax1.set_ylim(0, 1)
+    ax1.set_xlim(0.5, 1)
+    ax1.set_ylim(0.5, 1)
 
     ax1.set_xlabel('DNetPRO score', fontsize=24)
     ax1.set_ylabel('K-best score', fontsize=24)
@@ -53,15 +53,15 @@ if __name__ == '__main__':
   fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(14, 8))
   fig.subplots_adjust(left=0.15, right=0.9, top=0.8,  bottom=0.2)
 
-  box = sns.boxplot(x='samples',
+  box = sns.swarmplot(x='samples',
                     y='score',
                     hue='algorithm',
-                    data=db[(db.features == 40000)],
+                    data=db,#[(db.features == 10000)],
                     palette=palette,
                     ax=ax,
-                    notch=False,
-                    saturation=.75,
-                    linewidth=3,
+#                    notch=False,
+#                    saturation=.75,
+#                    linewidth=3,
                     # split=True
                     )
   for i,artist in enumerate(box.artists):

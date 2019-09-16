@@ -272,12 +272,12 @@ int main(int argc, char *argv[])
                    ); // Mahalobis distance
                     // Uncomment for real diagQDA classifier
                     //+.5f * (
-                    //      log(var_a) + log(var_b)
+                    //      std :: log(var_a) + std :: log(var_b)
                     //     )
                     //+ std :: accumulate(prior, prior + Nclass,
-                    //                    0.f, [](const float &res, const float &p)
+                    //                    0.f, [](const float & res, const float & p)
                     //                    {
-                    //                      return res + log(p);
+                    //                      return res + std :: log(p);
                     //                    });
           predict_lbl = (max_score < discr) ? cl.first : predict_lbl;
           max_score   = (max_score < discr) ? discr : max_score;
@@ -335,11 +335,11 @@ int main(int argc, char *argv[])
         var_a   = static_cast < float >(count) / ((means_sq[gene_a][cl.first] - tmp_a*tmp_a) - mean_a * mean_a * count) + epsilon;
         discr   = - (data[gene_a][i] - mean_a) * var_a * (data[gene_a][i] - mean_a)  ; // Mahalobis distance
                   // Uncomment for real diagQDA classifier
-                  //+ log(var_a)
+                  //+ std :: log(var_a)
                   //+ std :: accumulate(prior, prior + Nclass,
-                  //                    0.f, [](const float &res, const float &p)
+                  //                    0.f, [](const float & res, const float & p)
                   //                    {
-                  //                      return res + log(p);
+                  //                      return res + std :: log(p);
                   //                    });
         predict_lbl = (max_score < discr) ? cl.first : predict_lbl;
         max_score   = (max_score < discr) ? discr : max_score;
