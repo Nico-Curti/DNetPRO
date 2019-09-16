@@ -41,6 +41,8 @@ README_FILENAME = os.path.join(here, 'README.md')
 REQUIREMENTS_FILENAME = os.path.join(here, 'requirements.txt')
 VERSION_FILENAME = os.path.join(here, 'DNetPRO', '__version__.py')
 
+ENABLE_OMP = False
+
 current_python = sys.executable.split('/bin')[0]
 numpy_dir = current_python + '/lib/python{}.{}/site-packages/numpy/core/include'.format(sys.version_info.major, sys.version_info.minor)
 if os.path.isdir(numpy_dir):
@@ -90,17 +92,17 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
                   '-march=native'
                   ]
 
-  if 'GCC' in CPP_COMPILER and 'g++' in os.environ['CXX']:
+  if ENABLE_OMP:
     linker_args = ['-fopenmp']
-  else:
-    linker_args = []
 
   if 'Clang' in CPP_COMPILER and 'clang' in os.environ['CXX']:
     compile_args += ['-stdlib=libc++']
 
 elif 'MSC' in CPP_COMPILER:
   compile_args = ['/std:c++latest']
-  linker_args = ['/openmp']
+
+  if ENABLE_OMP:
+    linker_args = ['/openmp']
 
 else:
   raise ValueError('Unknown c++ compiler arg')
