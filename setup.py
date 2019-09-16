@@ -89,10 +89,12 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
                   '-Wpedantic',
                   '-march=native'
                   ]
-  if 'Clang' in CPP_COMPILER:
-    compile_args += ['-stdlib=libc++']
 
-  linker_args = [ '-fopenmp']
+  if 'GCC' in CPP_COMPILER and 'g++' in os.environ['CXX']:
+    linker_args = ['-fopenmp']
+
+  if 'Clang' in CPP_COMPILER and 'clang' in os.environ['CXX']:
+    compile_args += ['-stdlib=libc++']
 
 elif 'MSC' in CPP_COMPILER:
   compile_args = ['/std:c++latest']
