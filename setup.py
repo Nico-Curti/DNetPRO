@@ -76,23 +76,27 @@ define_args = [ '-DMAJOR={}'.format(Version[0]),
                 '-DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION'
               ]
 
+if 'GCC' in CPP_COMPILER or 'CLANG' in CPP_COMPILER:
+  compile_args = ['-std=c++17', '-g0',
+                  '-Wno-unused-function', # disable unused-function warnings
+                  '-Wno-narrowing', # disable narrowing conversion warnings
+                   # enable common warnings flags
+                  '-Wall',
+                  '-Wextra',
+                  '-Wno-unused-result',
+                  '-Wno-unknown-pragmas',
+                  '-Wfatal-errors',
+                  '-Wpedantic',
+                  '-march=native'
+                  ]
+  linker_args = [ '-fopenmp']
 
-linker_args = [ '-fopenmp' # openmp flags
-              ]
+elif 'MSC' in CPP_COMPILER:
+  compile_args = ['/std:c++17']
+  linker_args = ['/openmp']
 
-compile_args = [ '-std=c++17', # std
-                 '-g0', # disable debug mode
-                 '-Wno-unused-function', # disable unused-function warnings
-                 '-Wno-narrowing', # disable narrowing conversion warnings
-                  # enable common warnings flags
-                 '-Wall',
-                 '-Wextra',
-                 '-Wno-unused-result',
-                 '-Wno-unknown-pragmas',
-                 '-Wfatal-errors',
-                 '-Wpedantic',
-                 '-march=native'
-               ]
+else:
+  raise ValueError('Unknown c++ compiler arg')
 
 whole_compiler_args = [ *compile_args, *define_args, *linker_args ]
 

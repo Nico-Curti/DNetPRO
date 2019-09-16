@@ -56,7 +56,7 @@ if __name__ == '__main__':
   box = sns.boxplot(x='samples',
                     y='score',
                     hue='algorithm',
-                    data=db[(db.features == 20000)],
+                    data=db[(db.features == 40000)],
                     palette=palette,
                     ax=ax,
                     notch=False,
@@ -110,11 +110,11 @@ if __name__ == '__main__':
   box = sns.boxplot(x='features',
                     y='score',
                     hue='algorithm',
-                    data=db[(db.samples == 100) & (
+                    data=db[(db.samples  == 500) & (
                             (db.features == 10000) |
-                            (db.features == 20000) #|
-#                            (db.features == 3000) |
-#                            (db.features == 4000) |
+                            (db.features == 20000) |
+                            (db.features == 30000) |
+                            (db.features == 40000) #|
 #                            (db.features == 5000) |
 #                            (db.features == 6000) |
 #                            (db.features == 7000) |

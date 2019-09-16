@@ -61,8 +61,9 @@ build_script:
   - if [%MSVC_SETUP_ARG%]==[x86] cmake .. -G "Visual Studio 15 2017" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
   - cmake --build . --config Release
 
-  - cd ..
-  - "%PYTHON%\\python.exe -m pip install -U pip"
-  - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
-  - "%PYTHON%\\python.exe setup.py install"
+  # TODO: add appropriated flags in setup.py
+  #- cd ..
+  #- "%PYTHON%\\python.exe -m pip install -U pip"
+  #- "%PYTHON%\\python.exe -m pip install -r requirements.txt"
+  #- "%PYTHON%\\python.exe setup.py install"
 

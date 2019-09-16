@@ -4,8 +4,6 @@
 #include <iostream>      // std :: cout
 #include <vector>        // std :: vector
 #include <unordered_set> // std :: unordered_set
-#include <functional>    // std :: function
-#include <regex>         // std :: regex
 #include <algorithm>     // std :: copy_n
 #include <memory>        // std :: unique_ptr
 
@@ -15,8 +13,8 @@ void file_error (const std :: string & input);
 std :: unique_ptr < int[] > lbl2num (const std :: vector < std :: string > & lbl);
 
 
-template < class lambda = std :: function < std :: string (std :: string) > >
-auto split (const std :: string & txt, const std :: regex & rgx, lambda func = [](std :: string s) -> std :: string { return s; });
+std :: vector < std :: string > split (const std :: string & txt, const std :: string & del);
+
 
 #ifndef _MSC_VER
 #if (!defined __clang__ && __GNUC__ == 4 && __GNUC_MINOR__ < 9) || __cplusplus < 201400 // no std=c++14 support

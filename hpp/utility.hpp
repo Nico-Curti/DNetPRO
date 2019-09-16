@@ -3,26 +3,6 @@
 
 #include <utility.h>
 
-template < class lambda >
-auto split (const std :: string & txt, const std :: regex & rgx, lambda func)
-{
-  using type = typename std :: result_of < decltype(func)(std :: string) > :: type;
-
-  std :: sregex_token_iterator beg(txt.begin(), txt.end(), rgx, -1);
-  std :: sregex_token_iterator end;
-
-  std :: size_t ntoken = std :: distance(beg, end);
-
-  std :: vector<type> token(ntoken);
-  std :: generate(token.begin(), token.end(),
-                  [&] () mutable
-                  {
-                    return func(*(beg++));
-                  });
-
-  return token;
-}
-
 #ifndef _MSC_VER
 #if (!defined __clang__ && __GNUC__ == 4 && __GNUC_MINOR__ < 9) || __cplusplus < 201400 // no std=c++14 support
 

@@ -1,15 +1,14 @@
 #include <iostream>       // std :: cout
 #include <fstream>        // std :: ofstream
+#include <iterator>       // std :: istream_iterator
 #include <climits>        // std :: numeric_limits
 #include <chrono>         // std :: chrono
 #include <sstream>        // std :: stringstream
 #include <unordered_map>  // std :: unordered_map
-#include <regex>          // std :: regex
 #include <numeric>        // std :: accumulate
 
 constexpr float epsilon = std :: numeric_limits < float > :: min ();
 constexpr float inf     = std :: numeric_limits < float > :: infinity ();
-const std :: regex array_regex{R"(\t)"};
 
 #include <score.h>        // score object
 #include <utility.hpp>    // split function and file_error function
@@ -131,7 +130,7 @@ int main(int argc, char *argv[])
   buff.seekg(0, std :: ios :: beg);
   buff.setf(std :: ios_base :: skipws);
   std :: getline(buff, row);                  // read first row of labels
-  labels  = split(row, array_regex);
+  labels  = split(row, "\t");
   Nsample = static_cast < int >(labels.size());
   num_lbl = lbl2num(labels);                // convert string to number
   labels.clear();                           // useless variable

@@ -342,10 +342,6 @@ matrix:
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
   allow_failures:
-    - name: macOS - g++-7
-    - name: macOS - g++-7
-    - name: macOS - g++-8
-    - name: macOS - g++-8
     - name: macOS - native clang (llvm backend)
     - name: macOS - clang@7.0
     - name: ubuntu 14.04 - clang@3.6
