@@ -76,8 +76,8 @@ define_args = [ '-DMAJOR={}'.format(Version[0]),
                 '-DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION'
               ]
 
-if 'GCC' in CPP_COMPILER or 'CLANG' in CPP_COMPILER:
-  compile_args = ['-std=c++17', '-g0',
+if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
+  compile_args = ['-std=c++11', '-g0',
                   '-Wno-unused-function', # disable unused-function warnings
                   '-Wno-narrowing', # disable narrowing conversion warnings
                    # enable common warnings flags
@@ -89,10 +89,13 @@ if 'GCC' in CPP_COMPILER or 'CLANG' in CPP_COMPILER:
                   '-Wpedantic',
                   '-march=native'
                   ]
+  if 'Clang' in CPP_COMPILER:
+    compile_args += ['-stdlib=libc++']
+
   linker_args = [ '-fopenmp']
 
 elif 'MSC' in CPP_COMPILER:
-  compile_args = ['/std:c++17']
+  compile_args = ['/std:c++latest']
   linker_args = ['/openmp']
 
 else:

@@ -2,6 +2,7 @@
 #define __utility_h__
 
 #include <iostream>      // std :: cout
+#include <string>        // std :: string
 #include <vector>        // std :: vector
 #include <unordered_set> // std :: unordered_set
 #include <algorithm>     // std :: copy_n

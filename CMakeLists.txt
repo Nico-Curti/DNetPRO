@@ -16,23 +16,13 @@ add_definitions (-DMAJOR=${DNETPRO_MAJOR} -DMINOR=${DNETPRO_MINOR} -DREVISION=${
 #                         COMPILE OPTIONS                       #
 #################################################################
 
-include (ProcessorCount)
-ProcessorCount (MAX_NUM_TH)
-
 option (OMP     "Enable OpenMP                support" OFF )
-option (NUM_TH  "Enable number of threads            " OFF )
 
 #################################################################
 #                         SETTING VARIABLES                     #
 #################################################################
 
 set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
-
-if ( NOT ${NUM_TH} )
-  message (STATUS "Setting number of threads to MAX since not specified")
-  set ( NUM_TH ${MAX_NUM_TH} )
-endif ()
-message (STATUS "Number of threads: ${NUM_TH}")
 
 if ( NOT APPLE )
   set (CMAKE_SKIP_BUILD_RPATH             FALSE )
@@ -63,7 +53,7 @@ if ( CMAKE_COMPILER_IS_GNUCXX )
 endif ()
 
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-  add_compile_options (-Wno-deprecated -Wno-writable-strings -stdlib=libstdc++ -std=c++1z)
+  add_compile_options (-Wno-deprecated -Wno-writable-strings -stdlib=libc++ -stdlib=libstdc++ -std=c++1z)
   if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     string (REGEX REPLACE "-O0" "-Og" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
     set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG" )
@@ -176,9 +166,6 @@ foreach(FLAG ${linked_libs})
 endforeach(FLAG)
 message(STATUS ""                                                                          )
 message(STATUS "   OpenMP support : ${OMP}"                                                )
-message(STATUS ""                                                                          )
-message(STATUS "   Max Number of available threads   : ${MAX_NUM_TH}"                      )
-message(STATUS "   Number of threads used in DNetPRO : ${NUM_TH}"                          )
 message(STATUS ""                                                                          )
 
 #################################################################
