@@ -94,6 +94,8 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
 
   if ENABLE_OMP:
     linker_args = ['-fopenmp']
+  else:
+    linker_args = []
 
   if 'Clang' in CPP_COMPILER and 'clang' in os.environ['CXX']:
     compile_args += ['-stdlib=libc++']
