@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
   classifier = GaussianNB()
 
-  with open('DNetPRO_toy_test.dat', 'w') as fp:
+  with open('DNetPRO_toy.dat', 'w') as fp:
 
     row = 'samples,features,informative,dnet_score,dnet_informative,dnet_size,kbest_score,kbest_informative,common_features,time_dnet,time_kbest'
     fp.write(row + '\n')
@@ -66,14 +66,14 @@ if __name__ == '__main__':
 
       dnet = DNetPRO(estimator=classifier, scoring='accuracy', n_jobs=available_cores, verbose=False, max_chunk=4)
 
-      #Dnet_data = dnet.fit_transform(X_train, y_train)
-      Dnet_data, dnet_score = dnet.predict_transform(X_train, y_train, X_test, y_test)
+      Dnet_data = dnet.fit_transform(X_train, y_train)
+      #Dnet_data, dnet_score = dnet.predict_transform(X_train, y_train, X_test, y_test)
       new_sample, new_probe = Dnet_data.shape
 
       dnet_signature = dnet.selected_signature
 
       # DNetPRO parameters to save
-      #dnet_score = dnet.score(X_test, y_test)
+      dnet_score = dnet.score(X_test, y_test)
       dnet_informative = len([x for x in dnet_signature if x < Ninformative])
       dnet_size = len(dnet_signature)
 

@@ -36,7 +36,7 @@ void parse_args (const int & argc, char ** argv,
 
   argparse.add_argument < std :: string >("iArg", "f", "input",   "Input filename",                    true, "");
   argparse.add_argument < std :: string >("oArg", "o", "output",  "Output filename",                   true, "");
-  argparse.add_argument < float >(        "fArg", "s", "frac",    "Fraction of results to save",       false, 0.1f);
+  argparse.add_argument < float >(        "fArg", "s", "frac",    "Fraction of results to save",       false, 1.f);
   argparse.add_argument < bool >(         "bArg", "b", "bin",     "Enable Binary output",              false, true);
   argparse.add_argument < bool >(         "qArg", "q", "verbose", "Enable stream output",              false, false);
   argparse.add_argument < bool >(         "pArg", "p", "probeID", "ProbeID name to skip (true/false)", false, true);
@@ -265,22 +265,20 @@ int main(int argc, char *argv[])
           count   = (num_lbl[i] == cl.first) ? static_cast < int >(cl.second.size()) - 1 : static_cast < int >(cl.second.size());
           mean_a  = (means[gene_a][cl.first] - tmp_a) / count;
           mean_b  = (means[gene_b][cl.first] - tmp_b) / count;
-          var_a   = static_cast < float >(count) / ((means_sq[gene_a][cl.first] - tmp_a*tmp_a) - mean_a * mean_a * count) + epsilon;
-          var_b   = static_cast < float >(count) / ((means_sq[gene_b][cl.first] - tmp_b*tmp_b) - mean_b * mean_b * count) + epsilon;
-          discr   = -.5f * (  (data[gene_a][i] - mean_a) * var_a * (data[gene_a][i] - mean_a)  +
-                              (data[gene_b][i] - mean_b) * var_b * (data[gene_b][i] - mean_b)
-                   ); // Mahalobis distance
+          var_a   = static_cast < float >(count) / ((means_sq[gene_a][cl.first] - tmp_a * tmp_a) - mean_a * mean_a * count) + epsilon;
+          var_b   = static_cast < float >(count) / ((means_sq[gene_b][cl.first] - tmp_b * tmp_b) - mean_b * mean_b * count) + epsilon;
+          discr   = - (  (data[gene_a][i] - mean_a) * var_a * (data[gene_a][i] - mean_a)  +
+                         (data[gene_b][i] - mean_b) * var_b * (data[gene_b][i] - mean_b)
+                      ) // Mahalobis distance
                     // Uncomment for real diagQDA classifier
-                    //+.5f * (
-                    //      std :: log(var_a) + std :: log(var_b)
-                    //     )
-                    //+ std :: accumulate(prior, prior + Nclass,
-                    //                    0.f, [](const float & res, const float & p)
-                    //                    {
-                    //                      return res + std :: log(p);
-                    //                    });
+                    //*.5f
+                    //-.5f * (
+                    //         std :: log(var_a * var_b)
+                    //       )
+                    //+ std :: log(static_cast < float >(count) / static_cast < float >(cl.second.size()))
+                    ;
           predict_lbl = (max_score < discr) ? cl.first : predict_lbl;
-          max_score   = (max_score < discr) ? discr : max_score;
+          max_score   = (max_score < discr) ? discr    : max_score;
         }
         couples.class_score[predict_lbl][idx] += static_cast < int >(num_lbl[i] == predict_lbl);
       } // end sample loop
@@ -332,15 +330,12 @@ int main(int argc, char *argv[])
         tmp_a   = (num_lbl[i] == cl.first) ? data[gene_a][i] : 0.f;
         count   = (num_lbl[i] == cl.first) ? static_cast < int >(cl.second.size()) - 1 : static_cast < int >(cl.second.size());
         mean_a  = (means[gene_a][cl.first] - tmp_a) / count;
-        var_a   = static_cast < float >(count) / ((means_sq[gene_a][cl.first] - tmp_a*tmp_a) - mean_a * mean_a * count) + epsilon;
-        discr   = - (data[gene_a][i] - mean_a) * var_a * (data[gene_a][i] - mean_a)  ; // Mahalobis distance
+        var_a   = static_cast < float >(count) / ((means_sq[gene_a][cl.first] - tmp_a * tmp_a) - mean_a * mean_a * count) + epsilon;
+        discr   = - (data[gene_a][i] - mean_a) * var_a * (data[gene_a][i] - mean_a) // Mahalobis distance
                   // Uncomment for real diagQDA classifier
-                  //+ std :: log(var_a)
-                  //+ std :: accumulate(prior, prior + Nclass,
-                  //                    0.f, [](const float & res, const float & p)
-                  //                    {
-                  //                      return res + std :: log(p);
-                  //                    });
+                  //- std :: log(var_a)
+                  //+ std :: log(static_cast < float >(count) / static_cast < float >(cl.second.size()))
+                  ;
         predict_lbl = (max_score < discr) ? cl.first : predict_lbl;
         max_score   = (max_score < discr) ? discr : max_score;
       }
@@ -357,42 +352,6 @@ int main(int argc, char *argv[])
     single_gene.mcc[gene_a]   = score :: matthews_corrcoef(single_gene.class_score[0][gene_a], static_cast < int >(member_class[0].size()), single_gene.class_score[1][gene_a], static_cast < int >(member_class[1].size()));
 
   } // end first gene loop
-
-#ifdef _OPENMP
-#pragma omp single
-    {
-#endif
-    if (verbose)
-    {
-      std :: cout << "[done]" << std :: endl;
-      std :: cout << "Elapsed time for " << Nprobe << " genes : "
-                  << std :: chrono :: duration_cast < std :: chrono :: seconds >(std :: chrono :: high_resolution_clock :: now() - start_time).count()
-                  << " sec" << std :: endl;
-      std :: cout << "Sorting single gene..." << std :: flush;
-      start_time = std :: chrono :: high_resolution_clock :: now();
-    }
-#ifdef _OPENMP
-    }
-#endif
-
-
-#ifdef _OPENMP
-
-#pragma omp single
-  {
-    mergeargsort_parallel_omp(idx_sort_single.get(), single_gene.tot.get(), 0, size_single, nth, [&](const int &a1, const int &a2){return single_gene.tot[a1] > single_gene.tot[a2];});
-    if (diff_size_single)
-    {
-      std :: sort(idx_sort_single.get() + size_single, idx_sort_single.get() + Nprobe, [&](const int &a1, const int &a2){return single_gene.tot[a1] > single_gene.tot[a2];});
-      std :: inplace_merge(idx_sort_single.get(), idx_sort_single.get() + size_single, idx_sort_single.get() + Nprobe, [&](const int &a1, const int &a2){return single_gene.tot[a1] < single_gene.tot[a2];});
-    }
-  }
-
-#else
-
-  std :: sort(idx_sort_single.get(), idx_sort_single.get() + Nprobe, [&](const int &a1, const int &a2){return single_gene.tot[a1] < single_gene.tot[a2];});
-
-#endif
 
   // delete all ptr
 #ifdef _OPENMP
@@ -414,19 +373,19 @@ int main(int argc, char *argv[])
 
 #ifdef _OPENMP
 #pragma omp single
-  {
+    {
 #endif
     if (verbose)
     {
       std :: cout << "[done]" << std :: endl;
-      std :: cout << "Elapsed time "
+      std :: cout << "Elapsed time for " << Nprobe << " genes : "
                   << std :: chrono :: duration_cast < std :: chrono :: seconds >(std :: chrono :: high_resolution_clock :: now() - start_time).count()
-                  << " sec" << std::endl;
+                  << " sec" << std :: endl;
       std :: cout << "Sorting single gene..." << std :: flush;
       start_time = std :: chrono :: high_resolution_clock :: now();
     }
 #ifdef _OPENMP
-  }
+    }
 #endif
 
 #ifdef _OPENMP
@@ -443,7 +402,7 @@ int main(int argc, char *argv[])
 
 #else
 
-  std :: sort(idx_sort_single.get(), idx_sort_single.get() + Nprobe, [&](const int & a1, const int & a2){return single_gene.tot[a1] < single_gene.tot[a2];});
+  std :: sort(idx_sort_single.get(), idx_sort_single.get() + Nprobe, [&](const int & a1, const int & a2){return single_gene.tot[a1] > single_gene.tot[a2];});
 
 #endif
 
@@ -480,7 +439,7 @@ int main(int argc, char *argv[])
 
 #else
 
-  std :: sort(idx_sort_couples.get(), idx_sort_couples.get() + Ncomb, [&](const int & a1, const int & a2){return couples.tot[a1] < couples.tot[a2];});
+  std :: sort(idx_sort_couples.get(), idx_sort_couples.get() + Ncomb, [&](const int & a1, const int & a2){return couples.tot[a1] > couples.tot[a2];});
 
 #endif
 

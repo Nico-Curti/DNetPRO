@@ -153,20 +153,18 @@ score dnetpro_couples (float ** data,                   // matrix of data
             count   = (labels[i] == cl.first) ? static_cast < int >(cl.second.size()) - 1 : static_cast < int >(cl.second.size());
             mean_a  = (means[gene_a][cl.first] - tmp_a) / count;
             mean_b  = (means[gene_b][cl.first] - tmp_b) / count;
-            var_a   = static_cast < float >(count) / ((means_sq[gene_a][cl.first] - tmp_a*tmp_a) - mean_a * mean_a * count) + epsilon;
-            var_b   = static_cast < float >(count) / ((means_sq[gene_b][cl.first] - tmp_b*tmp_b) - mean_b * mean_b * count) + epsilon;
-            discr   = -.5f * (  (data[gene_a][i] - mean_a) * var_a * (data[gene_a][i] - mean_a)  +
-                      (data[gene_b][i] - mean_b) * var_b * (data[gene_b][i] - mean_b)
-                     ); // Mahalobis distance
+            var_a   = static_cast < float >(count) / ((means_sq[gene_a][cl.first] - tmp_a * tmp_a) - mean_a * mean_a * count) + epsilon;
+            var_b   = static_cast < float >(count) / ((means_sq[gene_b][cl.first] - tmp_b * tmp_b) - mean_b * mean_b * count) + epsilon;
+            discr   = -(  (data[gene_a][i] - mean_a) * var_a * (data[gene_a][i] - mean_a)  +
+                          (data[gene_b][i] - mean_b) * var_b * (data[gene_b][i] - mean_b)
+                       ) // Mahalobis distance
                       // Uncomment for real diagQDA classifier
-                      //+.5f * (
-                      //      std :: log(var_a) + std :: log(var_b)
-                      //     )
-                      //+ std :: accumulate(prior, prior + Nclass,
-                      //                    0.f, [](const float & res, const float & p)
-                      //                    {
-                      //                      return res + std :: log(p);
-                      //                    });
+                      //*.5f
+                      //-.5f * (
+                      //         std :: log(var_a) + std :: log(var_b)
+                      //       )
+                      //+ std :: log(static_cast < float >(count) / static_cast < float >(cl.second.size()))
+                      ;
             predict_lbl = (max_score < discr) ? cl.first : predict_lbl;
             max_score   = (max_score < discr) ? discr : max_score;
           }
@@ -201,15 +199,12 @@ score dnetpro_couples (float ** data,                   // matrix of data
           tmp_a   = (labels[i] == cl.first) ? data[gene_a][i] : 0.f;
           count   = (labels[i] == cl.first) ? static_cast < int >(cl.second.size()) - 1 : static_cast < int >(cl.second.size());
           mean_a  = (means[gene_a][cl.first] - tmp_a) / count;
-          var_a   = static_cast < float >(count) / ((means_sq[gene_a][cl.first] - tmp_a*tmp_a) - mean_a * mean_a * count) + epsilon;
-          discr   = - (data[gene_a][i] - mean_a) * var_a * (data[gene_a][i] - mean_a)  ; // Mahalobis distance
+          var_a   = static_cast < float >(count) / ((means_sq[gene_a][cl.first] - tmp_a * tmp_a) - mean_a * mean_a * count) + epsilon;
+          discr   = - (data[gene_a][i] - mean_a) * var_a * (data[gene_a][i] - mean_a) // Mahalobis distance
                     // Uncomment for real diagQDA classifier
-                    //+ std :: log(var_a)
-                    //+ std :: accumulate(prior, prior + Nclass,
-                    //                    0.f, [](const float & res, const float & p)
-                    //                    {
-                    //                      return res + std :: log(p);
-                    //                    });
+                    //- std :: log(var_a)
+                    //+ std :: log(static_cast < float >(count) / static_cast < float >(cl.second.size()))
+                    ;
           predict_lbl = (max_score < discr) ? cl.first : predict_lbl;
           max_score   = (max_score < discr) ? discr : max_score;
         }
@@ -253,13 +248,13 @@ score dnetpro_couples (float ** data,                   // matrix of data
       if (diff_size_single)
       {
         std :: sort(idx_sort_single.get() + size_single, idx_sort_single.get() + Nprobe, [&](const int &a1, const int &a2){return single_gene.tot[a1] > single_gene.tot[a2];});
-        std :: inplace_merge(idx_sort_single.get(), idx_sort_single.get() + size_single, idx_sort_single.get() + Nprobe, [&](const int &a1, const int &a2){return single_gene.tot[a1] < single_gene.tot[a2];});
+        std :: inplace_merge(idx_sort_single.get(), idx_sort_single.get() + size_single, idx_sort_single.get() + Nprobe, [&](const int &a1, const int &a2){return single_gene.tot[a1] > single_gene.tot[a2];});
       }
     }
 
 #else
 
-    std :: sort(idx_sort_single.get(), idx_sort_single.get() + Nprobe, [&](const int &a1, const int &a2){return single_gene.tot[a1] < single_gene.tot[a2];});
+    std :: sort(idx_sort_single.get(), idx_sort_single.get() + Nprobe, [&](const int &a1, const int &a2){return single_gene.tot[a1] > single_gene.tot[a2];});
 
 #endif
 */
@@ -290,12 +285,12 @@ score dnetpro_couples (float ** data,                   // matrix of data
       if (diff_size_couples)
       {
         std :: sort(idx_sort_couples.get() + size_couples, idx_sort_couples.get() + Ncomb, [&](const int &a1, const int &a2){return couples.tot[a1] > couples.tot[a2];});
-        std :: inplace_merge(idx_sort_couples.get(), idx_sort_couples.get() + size_couples, idx_sort_couples.get() + Ncomb, [&](const int &a1, const int &a2){return couples.tot[a1] < couples.tot[a2];});
+        std :: inplace_merge(idx_sort_couples.get(), idx_sort_couples.get() + size_couples, idx_sort_couples.get() + Ncomb, [&](const int &a1, const int &a2){return couples.tot[a1] > couples.tot[a2];});
       }
     }
 #else
 
-    std :: sort(idx_sort_couples.get(), idx_sort_couples.get() + Ncomb, [&](const int &a1, const int &a2){return couples.tot[a1] < couples.tot[a2];});
+    std :: sort(idx_sort_couples.get(), idx_sort_couples.get() + Ncomb, [&](const int &a1, const int &a2){return couples.tot[a1] > couples.tot[a2];});
 
 #endif
 

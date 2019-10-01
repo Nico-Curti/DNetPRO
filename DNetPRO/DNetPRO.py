@@ -4,9 +4,11 @@
 from __future__ import division
 from __future__ import print_function
 
+import itertools
 import numpy as np
 import pandas as pd
 import networkx as nx
+from functools import partial
 from operator import itemgetter
 
 from sklearn.utils import check_X_y
@@ -195,6 +197,31 @@ class DNetPRO (_score):
 
     return performances
 
+  def _couple_evaluation (self, couple, data, labels):
+    '''
+    Evaluate couples of features with a LOOCV
+    '''
+    f1, f2 = couple
+
+    samples = data[:, [f1, f2]]
+    score = cross_val_score(self.estimator, samples, labels,
+                            cv=LeaveOneOut(), n_jobs=1).mean()
+    return (f1, f2, score * 100.)
+
+  def _couple_pooling (self, data, labels):
+    '''
+    Compute the DNetPRO couples in pure Python
+    '''
+
+    Nsample, Nfeature = data.shape
+    couples = itertools.combinations(range(0, Nfeature), 2)
+
+    couple_eval = partial(self._couple_evaluation, data=data, labels=labels)
+
+    scores = list(map(couple_eval, couples))
+    scores = sorted(scores, key=lambda x : x[2], reverse=True)
+
+    return scores
 
   def fit (self, X, y=None, **fit_params):
     '''
@@ -311,6 +338,31 @@ class DNetPRO (_score):
 
   def predict_transform (self, X_train, y_train, X_test, y_test):
     '''
+    Fit the DNetPRO model meta-transformer and apply the data transformation,
+    i.e feature selection, and then compute the score on test set
+
+    Parameters
+    ----------
+      X : array-like of shape (n_samples, n_features)
+          The training input samples.
+
+      y : array-like, shape (n_samples,)
+          The target values (integers that correspond to classes in
+          classification, real numbers in regression).
+
+      **fit_params : Other estimator specific parameters
+
+    Returns
+    -------
+      Xnew : array-like of shape (n_sample, n_signature_features)
+             The data filtered according to the best features found by the model
+
+      score : float
+              Accuracy score over the test set (X_test)
+
+    Notes
+    -----
+    The signature is selected as the signature with highest score on test (X_test) data.
     '''
     self.fit(X_train, y_train)
 
@@ -321,12 +373,34 @@ class DNetPRO (_score):
     self.estimator_ = clone(self.estimator)
     Xnew = self.transform(self.X)
     self.estimator_.fit(Xnew, self.y)
-    return Xnew, scores[index]
-
+    return (Xnew, scores[index])
 
   def fit_transform (self, X, y):
     '''
+    Fit the DNetPRO model meta-transformer and apply the data transformation,
+    i.e feature selection
+
+    Parameters
+    ----------
+      X : array-like of shape (n_samples, n_features)
+          The training input samples.
+
+      y : array-like, shape (n_samples,)
+          The target values (integers that correspond to classes in
+          classification, real numbers in regression).
+
+      **fit_params : Other estimator specific parameters
+
+    Returns
+    -------
+      Xnew : array-like of shape (n_sample, n_signature_features)
+             The data filtered according to the best features found by the model
+
+    Notes
+    -----
+    The signature is selected as the signature with highest score on training (X) data.
     '''
+
     self.fit(X, y)
     self.set_signature(0)
     self.estimator_ = clone(self.estimator)
@@ -336,15 +410,24 @@ class DNetPRO (_score):
 
   def transform (self, X):
     '''
+    Apply the data reduction according to the features in the best
+    signature found.
+
+    Parameters
+    ----------
+    X : array of shape [n_samples, n_features]
+        The input samples.
     '''
+
     check_is_fitted(self, 'estimator_')
     X = X[:, self.selected_signature]
     return X
 
   @if_delegate_has_method(delegate='estimator')
   def score (self, X, y):
-    """Reduce X to the selected features and then return the score of the
-       underlying estimator.
+    '''
+    Reduce X to the selected features and then return the score of the
+    underlying estimator.
 
     Parameters
     ----------
@@ -353,7 +436,8 @@ class DNetPRO (_score):
 
     y : array of shape [n_samples]
         The target values.
-    """
+    '''
+
     check_is_fitted(self, 'estimator_')
     return self.estimator_.score(self.transform(X), y)
 

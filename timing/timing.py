@@ -44,6 +44,8 @@ def couple_pooling (data, labels, nth):
 
   scores = sorted(scores, key=lambda x : x[2], reverse=True)
 
+  return scores
+
 
 
 def python_version (Nsample, Nfeature, seed, nth):

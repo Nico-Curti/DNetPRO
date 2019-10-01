@@ -16,7 +16,7 @@ __email__   = ['nico.curti2@unibo.it']
 
 if __name__ == '__main__':
 
-  simulation = pd.read_csv('DNetPRO_toy_test.dat', sep=',', header=0)
+  simulation = pd.read_csv('DNetPRO_toy.dat', sep=',', header=0)
 
   if 0:
     fig, ax1 = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))
@@ -35,8 +35,6 @@ if __name__ == '__main__':
     ax1.set_ylabel('K-best score', fontsize=24)
 
 
-  #%%
-
   N = len(simulation)
   db = pd.concat([simulation, simulation])
   db['algorithm'] = 'kbest'
@@ -53,15 +51,17 @@ if __name__ == '__main__':
   fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(14, 8))
   fig.subplots_adjust(left=0.15, right=0.9, top=0.8,  bottom=0.2)
 
-  box = sns.swarmplot(x='samples',
+  box = sns.boxplot(x='samples',
                     y='score',
                     hue='algorithm',
-                    data=db,#[(db.features == 10000)],
+                    data=db[(db.features == 4000)],
                     palette=palette,
                     ax=ax,
-#                    notch=False,
-#                    saturation=.75,
-#                    linewidth=3,
+#                    dodge=True,
+#                    size=10
+                    notch=False,
+                    saturation=.75,
+                    linewidth=3,
                     # split=True
                     )
   for i,artist in enumerate(box.artists):
@@ -91,13 +91,13 @@ if __name__ == '__main__':
   ax.set_ylabel('Accuracy', fontsize=24)
   ax.set_xlabel('# of Samples', fontsize=24)
 
-  ax.set_ylim(.6, 1)
+  ax.set_ylim(.2, 1.01)
 
   sns.despine(ax=ax, offset=10, top=True, right=True, bottom=False, left=False)
 
   # fig.tight_layout()
 
-#  fig.savefig('./samples_toy.svg', bbox_inches='tight')
+  fig.savefig('./samples_toy.svg', bbox_inches='tight')
 
   #%%
 
@@ -111,11 +111,11 @@ if __name__ == '__main__':
                     y='score',
                     hue='algorithm',
                     data=db[(db.samples  == 500) & (
-                            (db.features == 10000) |
-                            (db.features == 20000) |
-                            (db.features == 30000) |
-                            (db.features == 40000) #|
-#                            (db.features == 5000) |
+                            (db.features == 1000) |
+                            (db.features == 2000) |
+                            (db.features == 3000) |
+                            (db.features == 4000) |
+                            (db.features == 5000) #|
 #                            (db.features == 6000) |
 #                            (db.features == 7000) |
 #                            (db.features == 8000) |
@@ -124,6 +124,8 @@ if __name__ == '__main__':
                             ],
                     palette=palette,
                     ax=ax,
+#                    dodge=True,
+#                    size=10
                     notch=False,
                     saturation=.75,
                     linewidth=3,
@@ -154,13 +156,13 @@ if __name__ == '__main__':
   ax.set_ylabel('Accuracy', fontsize=24)
   ax.set_xlabel('# of Features', fontsize=24)
 
-  ax.set_ylim(.6, 1)
+  ax.set_ylim(.2, 1.01)
 
   sns.despine(ax=ax, offset=10, top=True, right=True, bottom=False, left=False)
 
   # fig.tight_layout()
 
-#  fig.savefig('./features_toy.svg', bbox_inches='tight')
+  fig.savefig('./features_toy.svg', bbox_inches='tight')
 
   #%%
 

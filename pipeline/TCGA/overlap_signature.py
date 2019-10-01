@@ -171,7 +171,7 @@ if __name__ == '__main__':
             'KBest'   : sns.xkcd_rgb['pale red']
            }
 #%%
-  cum =0# -1
+  cum = -1
 
   fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 8))
   ax.hist(random_occ, bins=size_rng,

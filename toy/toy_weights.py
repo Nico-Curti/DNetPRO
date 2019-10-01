@@ -13,7 +13,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 import itertools
-#import numpy as np
+# import numpy as np
 import pandas as pd
 import multiprocessing
 from time import time as now
@@ -22,13 +22,6 @@ __package__ = 'DNetPRO toy model simulation'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
-##########################
-##########################
-#
-#      SEE BIO1 Version
-#
-##########################
-##########################
 
 if __name__ == '__main__':
 
@@ -68,46 +61,46 @@ if __name__ == '__main__':
 
       X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.33, random_state=42)
 
-#      dnet_tic = now()
+      # dnet_tic = now()
 
       # DNetPRO feature selection
 
       dnet = DNetPRO(estimator=classifier, scoring='accuracy', n_jobs=available_cores, verbose=False, max_chunk=10)
 
-#      Dnet_data = dnet.fit_transform(X_train, y_train)
-#      new_sample, new_probe = Dnet_data.shape
-#
-#      dnet_signature = dnet.selected_signature
-#
-#      # DNetPRO parameters to save
-#      dnet_score = dnet.score(X_test, y_test)
-#      dnet_informative = len([x for x in dnet_signature if x < Ninformative])
-#      dnet_size = len(dnet_signature)
+      # Dnet_data = dnet.fit_transform(X_train, y_train)
+      # new_sample, new_probe = Dnet_data.shape
 
-#      dnet_toc = now()
+      # dnet_signature = dnet.selected_signature
 
-#      kbest_tic = now()
+      # # DNetPRO parameters to save
+      # dnet_score = dnet.score(X_test, y_test)
+      # dnet_informative = len([x for x in dnet_signature if x < Ninformative])
+      # dnet_size = len(dnet_signature)
+
+      # dnet_toc = now()
+
+      # kbest_tic = now()
 
       # K-best feature selection
 
       single_perf = [accuracy_score(classifier.fit(X_train[:, i].reshape(-1, 1), y_train).predict(X_train[:, i].reshape(-1, 1)), y_train)
-                     for i in range(X_train.shape[0])]
-#      filter_kbest = SelectKBest(k=new_probe)
-#      Kbest_data = filter_kbest.fit_transform(X_train, y_train)
-#      Kbest_filtered = filter_kbest.inverse_transform(Kbest_data)
-#      Kbest_signature = set(np.nonzero(Kbest_filtered)[1])
+                     for i in range(X_train.shape[1])]
+      # filter_kbest = SelectKBest(k=new_probe)
+      # Kbest_data = filter_kbest.fit_transform(X_train, y_train)
+      # Kbest_filtered = filter_kbest.inverse_transform(Kbest_data)
+      # Kbest_signature = set(np.nonzero(Kbest_filtered)[1])
 
-#      assert (len(Kbest_signature) == len(dnet_signature))
+      # assert (len(Kbest_signature) == len(dnet_signature))
 
-      # K-best parameters to save
-#      kbest_score = classifier.fit(Kbest_data, y_train).score(filter_kbest.transform(X_test), y_test)
-#      kbest_informative = len([x for x in Kbest_signature if x < Ninformative])
-#
-#      kbest_toc = now()
+      ## K-best parameters to save
+      # kbest_score = classifier.fit(Kbest_data, y_train).score(filter_kbest.transform(X_test), y_test)
+      # kbest_informative = len([x for x in Kbest_signature if x < Ninformative])
 
-#      common_features = len(set(Kbest_signature) & set(dnet_signature))
+      # kbest_toc = now()
 
-#      single_perf = filter_kbest.scores_
+      # common_features = len(set(Kbest_signature) & set(dnet_signature))
+
+      # single_perf = filter_kbest.scores_
       single_perf = pd.DataFrame(data=single_perf, columns=['feature_1_ct'])
       single_perf['feature_1'] = single_perf.index
 
@@ -127,12 +120,12 @@ if __name__ == '__main__':
       dnet_perf['weights'] = (dnet_perf[['inv_ct_feature_1', 'inv_ct_feature_2']].min(axis=1) / dnet_perf.inv_ct_couples) * dnet_perf.ct
       dnet_perf.sort_values(by='weights', inplace=True, ascending=False)
 
-#      print('  took {:.3f} seconds'.format(kbest_toc - dnet_tic), flush=True)
+      # print('  took {:.3f} seconds'.format(kbest_toc - dnet_tic), flush=True)
 
-      #print(dnet_perf[['feature_1', 'feature_2', 'ct', 'feature_1_ct', 'feature_2_ct', 'weights']].head(n=20))
+      # print(dnet_perf[['feature_1', 'feature_2', 'ct', 'feature_1_ct', 'feature_2_ct', 'weights']].head(n=20))
 
       single_perf.sort_values(by='feature_2_ct', inplace=True, ascending=False)
-      #print(single_perf.head(n=20))
+      # print(single_perf.head(n=20))
 
 
 
@@ -157,7 +150,7 @@ if __name__ == '__main__':
       save = '{},{},{},{},{},{},{},{},{}'.format(Nsample, Nfeature, Ninformative,
                                                                dnet_score, dnet_informative, dnet_size,
                                                                kbest_score, kbest_informative, common_features)#,
-#                                                               dnet_toc - dnet_tic, kbest_toc - kbest_tic)
+                                                               # dnet_toc - dnet_tic, kbest_toc - kbest_tic)
 
       fp.write(save + '\n')
 
