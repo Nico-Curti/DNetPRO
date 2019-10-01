@@ -50,12 +50,16 @@ Thanks goes to all contributors of this project.
 If you have found `DNetPRO` helpful in your research, please consider citing the original paper
 
 ```tex
-@misc{Curti2019DNetPRO,
+@article {Curti2019DNetPRO,
   author = {Curti, Nico and Giampieri, Enrico and Levi, Giuseppe and Castellani, Gastone and Remondini, Daniel},
   title = {DNetPRO: A network approach for low-dimensional signatures from high-throughput data},
+  elocation-id = {773622},
   year = {2019},
-  publisher = {},
-  howpublished = {\url{}},
+  doi = {10.1101/773622},
+  publisher = {Cold Spring Harbor Laboratory},
+  URL = {\url{https://www.biorxiv.org/content/early/2019/09/19/773622}},
+  eprint = {\url{https://www.biorxiv.org/content/early/2019/09/19/773622.full.pdf}},
+  journal = {bioRxiv}
 }
 ```
 or just this repository
