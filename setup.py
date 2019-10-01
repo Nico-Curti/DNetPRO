@@ -41,7 +41,7 @@ README_FILENAME = os.path.join(here, 'README.md')
 REQUIREMENTS_FILENAME = os.path.join(here, 'requirements.txt')
 VERSION_FILENAME = os.path.join(here, 'DNetPRO', '__version__.py')
 
-ENABLE_OMP = True
+ENABLE_OMP = False
 
 current_python = sys.executable.split('/bin')[0]
 numpy_dir = current_python + '/lib/python{}.{}/site-packages/numpy/core/include'.format(sys.version_info.major, sys.version_info.minor)
