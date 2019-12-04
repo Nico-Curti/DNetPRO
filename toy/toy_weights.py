@@ -16,9 +16,8 @@ import itertools
 # import numpy as np
 import pandas as pd
 import multiprocessing
-from time import time as now
+# from time import time as now
 
-__package__ = 'DNetPRO toy model simulation'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -129,7 +128,7 @@ if __name__ == '__main__':
 
 
 
-      Dnet_data = dnet.fit_transform(dnet_perf, X_train, y_train)
+      Dnet_data = dnet.fit_transform(X_train, y_train)
       new_sample, new_probe = Dnet_data.shape
 
       dnet_signature = dnet.selected_signature

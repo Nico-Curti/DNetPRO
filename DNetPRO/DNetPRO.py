@@ -30,7 +30,6 @@ from sklearn.preprocessing import LabelEncoder
 from lib.DNetPRO.DNetPRO import _score
 from lib.DNetPRO.DNetPRO import _DNetPRO_couples
 
-__package__ = 'DNetPRO feature selection'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -181,7 +180,7 @@ class DNetPRO (_score):
           Dataframe of ordered results with columns (feature_1, feature_2, performances).
           The variable pairs are sorted in ascending order according to the performance values.
     '''
-    Nsample, Nprobe = np.shape(X)
+    Nsample, _ = np.shape(X)
 
     if not isinstance(y[0], int):
       y = self._label2numbers(y)
@@ -460,7 +459,6 @@ class DNetPRO (_score):
 
 if __name__ == '__main__':
 
-  import numpy as np
   from sklearn.naive_bayes import GaussianNB
   from sklearn.model_selection import train_test_split
 

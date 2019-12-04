@@ -14,7 +14,6 @@ import matplotlib.patches as mpatches # pretty labels
 
 sns.set_context('paper', font_scale=2)
 
-__package__ = 'DNetPRO signature overlap'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -210,3 +209,5 @@ if __name__ == '__main__':
   sns.despine(ax=ax, offset=10, top=True, right=True, bottom=False, left=False)
 
   fig.tight_layout()
+
+#  fig.savefig('DNetPRO_overlap.svg', bbox_inches='tight')

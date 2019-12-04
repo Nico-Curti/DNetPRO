@@ -9,7 +9,6 @@ import pylab as plt
 import seaborn as sns
 import matplotlib.patches as mpatches
 
-__package__ = 'DNetPRO toy analysis'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -42,7 +41,6 @@ if __name__ == '__main__':
   db['score'] = db.kbest_score
   db.score[:N] = db.dnet_score[:N]
 
-  #%%
 
   sns.set_context('paper', font_scale=2)
 
@@ -99,7 +97,6 @@ if __name__ == '__main__':
 
   fig.savefig('./samples_toy.svg', bbox_inches='tight')
 
-  #%%
 
   sns.set_context('paper', font_scale=2)
 
@@ -164,7 +161,6 @@ if __name__ == '__main__':
 
   fig.savefig('./features_toy.svg', bbox_inches='tight')
 
-  #%%
 
   if 0:
     fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(8, 6))

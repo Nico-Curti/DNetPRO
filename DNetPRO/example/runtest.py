@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from DNetPRO import DNetPRO
 import numpy as np
+from DNetPRO import DNetPRO
+from sklearn.naive_bayes import GaussianNB
 
 if __name__ == '__main__':
 
@@ -11,7 +12,7 @@ if __name__ == '__main__':
   X = np.arange(Nprobe * Nsample).reshape((Nprobe, Nsample))
   y = np.array(['A', 'A', 'B', 'B'])
 
-  dnet = DNetPRO()
+  dnet = DNetPRO(estimator=GaussianNB())
   dnet.fit(X, y)
 
   print(dnet.signatures)

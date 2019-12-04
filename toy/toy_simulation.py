@@ -17,7 +17,6 @@ import numpy as np
 import multiprocessing
 from time import time as now
 
-__package__ = 'DNetPRO toy model simulation'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -89,7 +88,8 @@ if __name__ == '__main__':
       Kbest_filtered = filter_kbest.inverse_transform(Kbest_data)
       Kbest_signature = set(np.nonzero(Kbest_filtered)[1])
 
-      assert (len(Kbest_signature) == len(dnet_signature))
+      if not (len(Kbest_signature) == len(dnet_signature)):
+        raise ValueError('Inconsistent length of features between the two methods')
 
       # K-best parameters to save
       kbest_informative = len([x for x in Kbest_signature if x < Ninformative])

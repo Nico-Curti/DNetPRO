@@ -1,23 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-
-__package__ = "build_DNetPRO"
-
-__author__  = ['Nico Curti',
-               'Enrico Giampieri',
-               'Daniel Remondini'
-               ]
-
-__email__ = ['nico.curit2@unibo.it',
-             'enrico.giampieri@unibo.it',
-             'daniel.remondini@unibo.it'
-             ]
-
 import multiprocessing
 from Cython.Distutils import build_ext
 from distutils.sysconfig import customize_compiler
+
+__author__  = ['Nico Curti', 'Enrico Giampieri', 'Daniel Remondini']
+__email__ = ['nico.curit2@unibo.it', 'enrico.giampieri@unibo.it', 'daniel.remondini@unibo.it']
 
 NTH = multiprocessing.cpu_count()
 

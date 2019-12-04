@@ -8,7 +8,6 @@ import pandas as pd
 import seaborn as sns
 import pylab as plt
 
-__package__ = 'DNetPRO Timing plots'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -23,8 +22,6 @@ if __name__ == '__main__':
   data.types[:N] = 'C++'
   data['times'] = data.py_min
   data.times[:N] = data.cpp_min[:N]
-
-  #%%
 
   fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, figsize=(16, 8))
   fig.subplots_adjust(left=0.1, right=0.95, top=0.9, bottom=0.15)
@@ -94,8 +91,6 @@ if __name__ == '__main__':
   ax2.set_ylim(1e-2, 0.1)
 
   fig.savefig('./nth_timing.svg', bbox_inches='tight')
-
-  #%%
 
   fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, figsize=(16, 8))
   fig.subplots_adjust(left=0.1, right=0.95, top=0.9, bottom=0.15)
@@ -168,8 +163,6 @@ if __name__ == '__main__':
 
   fig.savefig('./samples_timing.svg', bbox_inches='tight')
 
-
-  #%%
 
   fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, figsize=(16, 8))
   fig.subplots_adjust(left=0.1, right=0.95, top=0.9, bottom=0.15)

@@ -15,7 +15,6 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 
-__package__ = 'DNetPRO TCGA pipeline'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -300,7 +299,8 @@ def run_couples(cancer, local, train_dir, percent=.1, dtype='mRNA'):
 
   train_dir_couples = os.path.join(train_dir, 'couples_' + dtype)
   # read all the file in the directory
-  files = (f for f in os.listdir( os.path.join(train_dir, 'Trainset_' + dtype)) if os.path.isfile(os.path.join( os.path.join(train_dir, 'Trainset_' + dtype), f)))
+  files = (f for f in os.listdir( os.path.join(train_dir, 'Trainset_' + dtype))
+           if os.path.isfile(os.path.join( os.path.join(train_dir, 'Trainset_' + dtype), f)))
 
   # for each file run the couples evaluation with the maximum number of threads
   for f in files:
@@ -382,8 +382,12 @@ def feature_sel_train(cancer, local, train_dirs, train_couples, max_chunk=100, d
   columns = list(x[0] for x in data_type)
   results = []
 
-  couple_files = sorted((os.path.join(train_couples, f) for f in os.listdir( train_couples + os.sep ) if os.path.isfile(os.path.join( train_couples, f))) )
-  train_files  = sorted((os.path.join(train_dirs, 'Trainset_' + dtype, d) for d in os.listdir( os.path.join(train_dirs, 'Trainset_' + dtype) ) if os.path.isfile(os.path.join( train_dirs, 'Trainset_' + dtype, d))) )
+  couple_files = sorted((os.path.join(train_couples, f)
+                        for f in os.listdir( train_couples + os.sep )
+                        if os.path.isfile(os.path.join( train_couples, f))) )
+  train_files  = sorted((os.path.join(train_dirs, 'Trainset_' + dtype, d)
+                        for d in os.listdir( os.path.join(train_dirs, 'Trainset_' + dtype) )
+                        if os.path.isfile(os.path.join( train_dirs, 'Trainset_' + dtype, d))) )
 
   for f, t in zip(couple_files, train_files): # loop over file couples and training
     # extract iteration infos from filename

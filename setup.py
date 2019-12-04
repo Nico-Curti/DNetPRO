@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-
 import os
 import sys
 import platform
 import numpy as np
-import multiprocessing
 
 try:
   from setuptools import setup
@@ -53,7 +50,7 @@ if os.path.isdir(numpy_dir):
 try:
   LONG_DESCRIPTION = read_description(README_FILENAME)
 
-except FileNotFoundError:
+except IOError:
   LONG_DESCRIPTION = DESCRIPTION
 
 # Load the package's __version__.py module as a dictionary.
@@ -111,7 +108,7 @@ elif 'MSC' in CPP_COMPILER:
 else:
   raise ValueError('Unknown c++ compiler arg')
 
-whole_compiler_args = [ *compile_args, *define_args, *linker_args ]
+whole_compiler_args = sum([compile_args, define_args, linker_args], [])
 
 
 setup(

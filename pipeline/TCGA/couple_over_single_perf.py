@@ -7,7 +7,6 @@ from __future__ import print_function
 import numpy as np
 import pandas as pd
 
-__package__ = 'DNetPRO signature couples-perf over single'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -30,8 +29,6 @@ if __name__ == '__main__':
   singles.ct /= nsamples
   couples.ct /= nsamples
 
-  #%%
-
 
   merged = pd.merge(couples, singles[['genea', 'c0', 'c1', 'ct']], how='inner', on='genea')
   merged.columns = ['genea', 'geneb', 'c0_couple', 'c1_couple', 'ct_couple', 'c0_single1', 'c1_single1', 'ct_single1']
@@ -40,19 +37,15 @@ if __name__ == '__main__':
 
 #  merged.fillna(value=0.5*135, inplace=True)
 
-#%%
   merged['inv_ct_couples'] = 1. - merged.ct_couple
   merged['inv_ct_single1'] = 1. - merged.ct_single1
   merged['inv_ct_single2'] = 1. - merged.ct_single2
-
-#%%
 
   merged['weights'] = (merged[['inv_ct_single1', 'inv_ct_single2']].min(axis=1) / merged.inv_ct_couples
                       ) * merged.ct_couple#merged[['inv_ct_single1', 'inv_ct_single2']].max(axis=1)
   merged.sort_values(by='weights', inplace=True, ascending=False)
 
 
-#%%
 #
 #  import networkx as nx
 #  from operator import itemgetter

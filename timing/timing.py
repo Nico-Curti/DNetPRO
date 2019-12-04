@@ -15,7 +15,6 @@ from functools import partial
 import timeit
 from time import time as now
 
-__package__ = 'DNetPRO Timing Performances'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -33,7 +32,7 @@ def couple_evaluation (couple, data, labels):
 
 def couple_pooling (data, labels, nth):
 
-  Nsample, Nfeature = data.shape
+  _, Nfeature = data.shape
 
   couples = itertools.combinations(range(0, Nfeature), 2)
 

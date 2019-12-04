@@ -14,7 +14,6 @@ from sklearn.model_selection import train_test_split
 
 import numpy as np
 
-__package__ = 'DNetPRO toy model'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -72,7 +71,8 @@ if __name__ == '__main__':
   Kbest_signature = set(np.nonzero(Kbest_filtered)[1])
 
   # Just to be sure that everything goes right...
-  assert (len(Kbest_signature) == len(dnet_signature))
+  if not (len(Kbest_signature) == len(dnet_signature)):
+    raise ValueError('Inconsistent length of features between the two methods')
 
   # print some informations
   print('Signature Kbest: {}'.format(sorted(Kbest_signature)))

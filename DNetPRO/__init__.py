@@ -12,16 +12,6 @@ try:
 except ImportError:
   pass
 
-__all__ = ['DNetPRO']
 
-__package__ = 'DNetPRO-FeatureSelection'
-
-__author__  = ['Nico Curti',
-               'Enrico Giampieri',
-               'Daniel Remondini'
-               ]
-
-__email__ = ['nico.curit2@unibo.it',
-             'enrico.giampieri@unibo.it',
-             'daniel.remondini@unibo.it'
-             ]
+__author__  = ['Nico Curti', 'Enrico Giampieri', 'Daniel Remondini']
+__email__ = ['nico.curit2@unibo.it', 'enrico.giampieri@unibo.it', 'daniel.remondini@unibo.it']

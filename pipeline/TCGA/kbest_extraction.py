@@ -9,7 +9,6 @@ import numpy as np
 import pandas as pd
 import pickle
 
-__package__ = 'DNetPRO extract Kbest'
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
