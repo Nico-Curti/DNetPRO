@@ -262,7 +262,7 @@ matrix:
       name: macOS - g++-7
       env:
         - additional_defines="-DOMP=ON"
-        - MATRIX_EVAL="brew update && brew install gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="brew update && brew reinstall gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
         - COMPILER_ID="gcc"
         - CXXFLAGS="-mmacosx-version-min=10.8"
 
@@ -272,7 +272,7 @@ matrix:
       name: macOS - g++-7
       env:
         - additional_defines="-DOMP=ON"
-        - MATRIX_EVAL="brew update && brew install gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="brew update && brew reinstall gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
         - COMPILER_ID="gcc"
         - CXXFLAGS="-mmacosx-version-min=10.8"
 
@@ -282,7 +282,7 @@ matrix:
       name: macOS - g++-8
       env:
         - additional_defines="-DOMP=ON"
-        - MATRIX_EVAL="brew update && brew install gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="brew update && brew reinstall gcc@8 gcc && CC=gcc-8 && CXX=g++-8"
         - COMPILER_ID="gcc"
         - CXXFLAGS="-mmacosx-version-min=10.8"
 
@@ -292,7 +292,7 @@ matrix:
       name: macOS - g++-8
       env:
         - additional_defines="-DOMP=ON"
-        - MATRIX_EVAL="brew update && brew install gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="brew update && brew reinstall gcc@8 gcc && CC=gcc-8 && CXX=g++-8"
         - COMPILER_ID="gcc"
         - CXXFLAGS="-mmacosx-version-min=10.8"
 
