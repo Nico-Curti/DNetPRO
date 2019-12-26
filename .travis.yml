@@ -3,7 +3,6 @@ language: cpp
 matrix:
   fast_finish: true
   include:
-
 # linux + gcc
 
     - os: linux
@@ -15,10 +14,9 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=OFF"
-        - COMPILER_ID="gcc"
         - MATRIX_EVAL=""
 
     - os: linux
@@ -31,11 +29,25 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.8
-
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=OFF"
-        - COMPILER_ID="gcc"
         - MATRIX_EVAL="CC=gcc-4.8 && CXX=g++-4.8"
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu 14.04 - gcc@4.9
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+            - python3.5
+            - python3-pip
+      env:
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
 
     - os: linux
       compiler: gcc
@@ -47,10 +59,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
-
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=OFF"
-        - COMPILER_ID="gcc"
         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
     - os: linux
@@ -63,10 +74,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-6
-
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=ON"
-        - COMPILER_ID="gcc"
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
     - os: linux
@@ -79,10 +89,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
-
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=ON"
-        - COMPILER_ID="gcc"
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
     - os: linux
@@ -95,18 +104,16 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-8
-            - libopencv-dev
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=ON"
-        - COMPILER_ID="gcc"
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
-    # linux + clang
+# linux + clang
 
     - os: linux
       compiler: clang
       name: ubuntu 14.04 - clang@3.6
-      dist: trusty
       addons:
         apt:
           update: true
@@ -114,23 +121,20 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-3.8
           packages:
-            - g++-7
             - clang-3.6
-            - libstdc++-4.8-dev
-            - libclang-3.6-dev
-            - libc++-dev
-            - libc++abi-dev
-
+            - g++-4.8-aarch64-linux-gnu
+            - gcc-4.8-aarch64-linux-gnu
+            - g++-4.8-multilib
+            - gcc-4.8-multilib
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=OFF"
         - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
-        - COMPILER_ID="clang"
         - LINKER_FLAGS="-stdlib=libstdc++ -lc++abi"
 
     - os: linux
       compiler: clang
       name: ubuntu 14.04 - clang@3.8
-      dist: trusty
       addons:
         apt:
           update: true
@@ -142,17 +146,16 @@ matrix:
             - gcc-4.8-aarch64-linux-gnu
             - g++-4.8-multilib
             - gcc-4.8-multilib
-
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=OFF"
         - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
-        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
 
     - os: linux
       compiler: clang
       name: ubuntu 14.04 - clang@3.9
-      dist: trusty
       addons:
         apt:
           update: true
@@ -164,11 +167,11 @@ matrix:
             - gcc-4.8-aarch64-linux-gnu
             - g++-4.8-multilib
             - gcc-4.8-multilib
-
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=OFF"
         - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
-        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
     - os: linux
       compiler: clang
@@ -181,13 +184,14 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-4.0
           packages:
-            - g++-7
             - clang-4.0
-
+            - libstdc++-7-dev
+            - libclang-5.0-dev
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=OFF"
         - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
-        - COMPILER_ID="clang"
+        - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
     - os: linux
       compiler: clang
@@ -203,11 +207,11 @@ matrix:
             - clang-5.0
             - libstdc++-7-dev
             - libclang-5.0-dev
+            - python3.5
+            - python3-pip
 
       env:
-        - additional_defines="-DOMP=OFF"
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
-        - COMPILER_ID="clang"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
     - os: linux
@@ -225,11 +229,11 @@ matrix:
             - clang-6.0
             - libstdc++-7-dev
             - libclang-6.0-dev
+            - python3.5
+            - python3-pip
 
       env:
-        - additional_defines="-DOMP=OFF"
         - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
-        - COMPILER_ID="clang"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
     - os: linux
@@ -247,57 +251,40 @@ matrix:
             - clang-7
             - libstdc++-7-dev
             - libclang-7-dev
+            - python3.5
+            - python3-pip
 
       env:
-        - additional_defines="-DOMP=OFF"
         - MATRIX_EVAL="CC=clang-7 && CXX=clang++-7"
-        - COMPILER_ID="clang"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
-# osx + gcc + opencv2-3
+# osx + gcc
 
     - os: osx
       osx_image: xcode10.1
       compiler: gcc
       name: macOS - g++-7
+      addons:
+        apt:
+          packages:
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=ON"
         - MATRIX_EVAL="brew update && brew reinstall gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
-        - COMPILER_ID="gcc"
-        - CXXFLAGS="-mmacosx-version-min=10.8"
-
-    - os: osx
-      compiler: gcc
-      osx_image: xcode10.1
-      name: macOS - g++-7
-      env:
-        - additional_defines="-DOMP=ON"
-        - MATRIX_EVAL="brew update && brew reinstall gcc@7 gcc && CC=gcc-7 && CXX=g++-7"
-        - COMPILER_ID="gcc"
-        - CXXFLAGS="-mmacosx-version-min=10.8"
-
-    - os: osx
-      compiler: gcc
-      osx_image: xcode10.1
-      name: macOS - g++-8
-      env:
-        - additional_defines="-DOMP=ON"
-        - MATRIX_EVAL="brew update && brew reinstall gcc@8 gcc && CC=gcc-8 && CXX=g++-8"
-        - COMPILER_ID="gcc"
-        - CXXFLAGS="-mmacosx-version-min=10.8"
 
     - os: osx
       osx_image: xcode10.1
       compiler: gcc
       name: macOS - g++-8
+      addons:
+        apt:
+          packages:
+            - python3.5
+            - python3-pip
       env:
-        - additional_defines="-DOMP=ON"
         - MATRIX_EVAL="brew update && brew reinstall gcc@8 gcc && CC=gcc-8 && CXX=g++-8"
-        - COMPILER_ID="gcc"
-        - CXXFLAGS="-mmacosx-version-min=10.8"
 
 # osx + clang
-
     - os: osx
       osx_image: xcode10.1
       compiler: clang
@@ -309,10 +296,10 @@ matrix:
           packages:
             - libc++-dev
             - libc++abi-dev
+            - python3.5
+            - python3-pip
       env:
         - MATRIX_EVAL=""
-        - additional_defines="-DOMP=OFF"
-        - COMPILER_ID="clang"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
     - os: osx
@@ -326,17 +313,68 @@ matrix:
             - llvm-toolchain-trusty-7
           packages:
             - clang-7.0
-            - libc++-dev
-            - libc++abi-dev
-            - libclang-7-dev
-            - libstdc++-7-dev
+            - python3.5
+            - python3-pip
       env:
         - MATRIX_EVAL="brew update && brew install llvm && CC=clang-7.0 && CXX=clang++-7.0"
-        - additional_defines="-DOMP=OFF"
-        - COMPILER_ID="clang"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
+    - os: linux
+      compiler: gcc
+      python: 3.5
+      name: ubuntu 14.04 - gcc@8.0 & python@3.5
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - python3.5
+            - python3-pip
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - WITH_PYTHON=ON
+
+    - os: linux
+      compiler: gcc
+      python: 3.5
+      name: ubuntu 14.04 - gcc@8.0 & python@3.6
+      dist: trusty
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - python3.6
+            - python3-pip
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - WITH_PYTHON=ON
+
+    - os: linux
+      compiler: gcc
+      python: 3.5
+      name: ubuntu 14.04 - gcc@8.0 & python@3.7
+      dist: trusty
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - python3.7
+            - python3-pip
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - WITH_PYTHON=ON
+
   allow_failures:
+    - name: ubuntu 14.04 - gcc@8.0 & python@3.6
+    - name: ubuntu 14.04 - gcc@8.0 & python@3.7
     - name: ubuntu 14.04 - clang@3.6
     - name: ubuntu 14.04 - clang@3.8
     - name: ubuntu 14.04 - clang@3.9
@@ -346,58 +384,48 @@ matrix:
 
 before_install:
   - travis_retry eval "${MATRIX_EVAL}"
-  # Install Anaconda
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then
-        wget https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh -O miniconda.sh;
-      else
-        wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-      fi
-    else
-      if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then
-        wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh;
-      else
-        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-      fi
-    fi
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  # Useful for debugging any issues with conda
-  - conda info -a
+  - python3 -m pip install --upgrade pip --user
 
-  # Replace dep1 dep2 ... with your dependencies
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
-  - source activate test-environment
+  # install python packages
+  - python3 --version
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user numpy==1.14.3                                                         ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user cython==0.29                                                          ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user scikit-learn==0.20.3                                                  ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user networkx==2.2                                                         ;fi
+  # add always requests for data downloads
+  - python3 -m pip install --user requests
 
-  # Install dependencies
-  - pip install numpy
-  - pip install cython
-  - pip install pandas
-  - pip install matplotlib
-  - pip install networkx
-  - pip install scikit-learn
-  - pip install seaborn
+  # testing libraries
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pytest==3.0.7                                                         ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pytest-cov                                                            ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user codecov                                                               ;fi
 
 install:
   # CMake upgrade
 
-  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then wget --no-check-certificate https://cmake.org/files/v3.13/cmake-3.13.1-Darwin-x86_64.tar.gz        ;fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then tar -xzf cmake-3.13.1-Darwin-x86_64.tar.gz                                                         ;fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx"  ]]; then export PATH=$PWD/cmake-3.13.1-Darwin-x86_64/CMake.app/Contents/bin:$PATH                           ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx"   ]]; then wget --no-check-certificate https://cmake.org/files/v3.13/cmake-3.13.1-Darwin-x86_64.tar.gz   ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx"   ]]; then tar -xzf cmake-3.13.1-Darwin-x86_64.tar.gz                                                    ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx"   ]]; then export PATH=$PWD/cmake-3.13.1-Darwin-x86_64/CMake.app/Contents/bin:$PATH                      ;fi
 
   ###############################################################################################################################################
 
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget --no-check-certificate https://cmake.org/files/v3.13/cmake-3.13.1-Linux-x86_64.tar.gz         ;fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar -xzf cmake-3.13.1-Linux-x86_64.tar.gz                                                          ;fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH=$PWD/cmake-3.13.1-Linux-x86_64/bin:$PATH                                               ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget --no-check-certificate https://cmake.org/files/v3.13/cmake-3.13.1-Linux-x86_64.tar.gz    ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar -xzf cmake-3.13.1-Linux-x86_64.tar.gz                                                     ;fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH=$PWD/cmake-3.13.1-Linux-x86_64/bin:$PATH                                          ;fi
+
+  # python version
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 setup.py develop --user                                                                     ;fi
 
 script:
   - chmod 777 ./build.sh
-  # pay attention to omp for gcc old version
   - if [[ "$TRAVIS_COMPILER" == "clang" ]]; then bash ./build.sh "" OFF                                                                       ;fi
   - if [[ "$TRAVIS_COMPILER" == "gcc"   ]]; then bash ./build.sh "" OFF                                                                       ;fi
-  # DNetPRO install (requirements already satisfied)
-  - python setup.py develop --user
+
+  # c++ testing
+  - cd test && chmod 777 ./run_test.sh && cd ..
+
+  # python testing
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pytest --cov=ReplicatedFocusingBeliefPropagation --cov-config=.coveragerc                ;fi
+
+after_succes:
+  - codecov

@@ -54,4 +54,14 @@ pipeline/TCGA/binary*
 pipeline/TCGA/*.pickle
 pipeline/TCGA/*.best
 
+# coverage
+.coverage
+.coverage.*
+coverage.*
+html*
 
+# test
+.hypothesis
+.pytest_cache
+
+*.dat

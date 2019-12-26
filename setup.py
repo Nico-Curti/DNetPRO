@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 import os
 import sys
 import platform
 import numpy as np
+import multiprocessing
 
 try:
   from setuptools import setup
@@ -16,10 +19,56 @@ except ImportError:
   from distutils.core import Extension
   from distutils.core import find_packages
 
-from DNetPRO.build import get_requires
-from DNetPRO.build import dnetpro_build_ext
-from DNetPRO.build import read_description
-from DNetPRO.build import NTH
+from Cython.Distutils import build_ext
+from distutils.sysconfig import customize_compiler
+
+def get_requires (requirements_filename):
+  '''
+  What packages are required for this module to be executed?
+  '''
+  with open(requirements_filename, 'r') as fp:
+    requirements = fp.read()
+
+  return list(filter(lambda x: x != '', requirements.split()))
+
+
+
+class dnetpro_build_ext (build_ext):
+  '''
+  Custom build type
+  '''
+
+  def build_extensions (self):
+
+    customize_compiler(self.compiler)
+
+    try:
+      self.compiler.compiler_so.remove('-Wstrict-prototypes')
+
+    except (AttributeError, ValueError):
+      pass
+
+    build_ext.build_extensions(self)
+
+
+def read_description (readme_filename):
+  '''
+  Description package from filename
+  '''
+
+  try:
+
+    with open(readme_filename, 'r') as fp:
+      description = '\n'
+      description += fp.read()
+
+  except Exception:
+    return ''
+
+
+
+
+NTH = multiprocessing.cpu_count()
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -71,12 +120,12 @@ define_args = [ '-DMAJOR={}'.format(Version[0]),
                 '-DMINOR={}'.format(Version[1]),
                 '-DREVISION={}'.format(Version[2]),
                 '-DNUM_AVAILABLE_THREADS={}'.format(NTH),
-                '-D__dnet__', # enable graphics viewer
+                '-D__dnet__', # enable misc utilities
                 '-DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION'
               ]
 
 if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
-  compile_args = ['-std=c++11', '-g0',
+  compile_args = ['-std=c++14', '-g0',
                   '-Wno-unused-function', # disable unused-function warnings
                   '-Wno-narrowing', # disable narrowing conversion warnings
                    # enable common warnings flags
@@ -89,16 +138,26 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
                   '-march=native'
                   ]
 
+  try:
+
+    compiler, compiler_version = CPP_COMPILER.split()
+
+  except ValueError:
+
+    compiler, compiler_version = (CPP_COMPILER, '0')
+
+  if compiler == 'Clang':
+    ENABLE_OMP = False
+
   if ENABLE_OMP:
     linker_args = ['-fopenmp']
+
   else:
     linker_args = []
 
-  if 'Clang' in CPP_COMPILER and 'clang' in os.environ['CXX']:
-    compile_args += ['-stdlib=libc++']
-
 elif 'MSC' in CPP_COMPILER:
-  compile_args = ['/std:c++latest']
+  cpp_compiler_args = ['/std:c++latest']
+  BUILD_SCORER = True
 
   if ENABLE_OMP:
     linker_args = ['/openmp']
@@ -126,7 +185,7 @@ setup(
   url                           = URL,
   download_url                  = URL,
   keywords                      = KEYWORDS,
-  packages                      = find_packages(include=['DNetPRO', 'DNetPOR.*'], exclude=('test', 'testing')),
+  packages                      = find_packages(include=['DNetPRO', 'DNetPOR.*'], exclude=('test', 'testing', 'example')),
   #include_package_data          = True, # no absolute paths are allowed
   platforms                     = 'any',
   classifiers                   =[

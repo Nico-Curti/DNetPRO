@@ -9,10 +9,10 @@ if __name__ == '__main__':
 
   Nprobe, Nsample = (5, 4)
 
-  X = np.arange(Nprobe * Nsample).reshape((Nprobe, Nsample))
+  X = np.random.uniform(low=0., high=1., size=(Nsample, Nprobe))
   y = np.array(['A', 'A', 'B', 'B'])
 
-  dnet = DNetPRO(estimator=GaussianNB())
+  dnet = DNetPRO(estimator=GaussianNB(), max_chunk=4)
   dnet.fit(X, y)
 
   print(dnet.signatures)

@@ -3,15 +3,11 @@
 
 # import utilities
 
-from .build import NTH
+import multiprocessing
+from .DNetPRO import DNetPRO
+from .__version__ import __version__
 
-try:
-
-  from .DNetPRO import DNetPRO
-
-except ImportError:
-  pass
-
+NTH = multiprocessing.cpu_count()
 
 __author__  = ['Nico Curti', 'Enrico Giampieri', 'Daniel Remondini']
 __email__ = ['nico.curit2@unibo.it', 'enrico.giampieri@unibo.it', 'daniel.remondini@unibo.it']

@@ -8,15 +8,28 @@
 #include <string>   // std :: stod
 #include <iomanip>  // std :: setw
 #include <type_traits> // std :: is_same_v
+#include <stdexcept>
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) && defined(__clang_major__) > 4
 
-#include <cxxabi.h>
+  #include <cxxabi.h>
 
 #endif
 
-namespace parser
-{
+#ifdef _MSC_VER
+
+  #ifndef __unused
+    #define __unused
+  #endif
+
+#else
+
+  #ifndef __unused
+    #define __unused __attribute__((__unused__))
+  #endif
+
+#endif
+
 
 class argument
 {
@@ -86,7 +99,7 @@ public:
   // Template methods
 
   template < typename data_t >
-  void add_argument (std :: string && name, std :: string && short_flag, std :: string && long_flag, std :: string && help, const bool & req, data_t && default_value);
+  void add_argument (std :: string && name, std :: string && short_flag, std :: string && long_flag, std :: string && help, const bool & req, data_t default_value);
 
   template < typename data_t >
   void get (const std :: string & name, data_t & values);
@@ -105,11 +118,9 @@ private:
   void error_parsing_bool (const std :: string & name, const std :: string & value);
   void error_parsing_char (const std :: string & name, const std :: string & value);
 
-  template < typename data_t > std :: string type_name ();
+  template < typename data_t >
+  std :: string type_name ();
 
 };
-
-
-} // end namespace parser
 
 #endif // __parse_args_h__

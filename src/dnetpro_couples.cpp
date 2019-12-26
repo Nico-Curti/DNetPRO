@@ -56,7 +56,7 @@ score dnetpro_couples (float ** data,                   // matrix of data
     std :: cout << "Found " << Nprobe << " probes and " << Nsample << " samples." << std :: endl;
     std :: cout << "Samples per class:" << std :: endl;
     for (const auto & it : member_class) std :: cout << it.first << " : " << it.second.size() << " samples" << std :: endl;
-    std :: cout << "Total number of combination to process " << Ncomb << std :: endl;
+    std :: cout << "Total number of combinations to process " << Ncomb << std :: endl;
     std :: cout << "Computing Dataset statistics..." << std :: flush;
   }
 
@@ -123,7 +123,7 @@ score dnetpro_couples (float ** data,                   // matrix of data
         std::cout << "Elapsed time "
                   << std :: chrono :: duration_cast < std :: chrono :: seconds >(std :: chrono :: high_resolution_clock :: now() - start_time).count()
                   << " sec" << std::endl;
-        std :: cout << "Starting with the combination..." << std :: flush;
+        std :: cout << "Starting with combinations..." << std :: flush;
       }
       start_time = std :: chrono :: high_resolution_clock :: now();
 
@@ -165,9 +165,11 @@ score dnetpro_couples (float ** data,                   // matrix of data
                       //       )
                       //+ std :: log(static_cast < float >(count) / static_cast < float >(cl.second.size()))
                       ;
+            discr       = std :: isnan(discr) ? -inf : discr;
             predict_lbl = (max_score < discr) ? cl.first : predict_lbl;
             max_score   = (max_score < discr) ? discr : max_score;
           }
+          predict_lbl = predict_lbl < 0 ? 0 : predict_lbl;
           couples.class_score[predict_lbl][idx] += static_cast < int >(labels[i] == predict_lbl);
         } // end sample loop
 
@@ -205,9 +207,11 @@ score dnetpro_couples (float ** data,                   // matrix of data
                     //- std :: log(var_a)
                     //+ std :: log(static_cast < float >(count) / static_cast < float >(cl.second.size()))
                     ;
+          discr       = std :: isnan(discr) ? -inf : discr;
           predict_lbl = (max_score < discr) ? cl.first : predict_lbl;
           max_score   = (max_score < discr) ? discr : max_score;
         }
+        predict_lbl = predict_lbl < 0 ? 0 : predict_lbl;
         single_gene.class_score[predict_lbl][gene_a] += static_cast < int >(labels[i] == predict_lbl);
       } // end sample loop
       // update total and gene number

@@ -16,7 +16,7 @@ if ($null -eq (Get-Command "cl.exe" -ErrorAction SilentlyContinue)) {
       $vstype = "Community"
     }
   }
-  Write-Verbose "Found VS 2017 ${vstype}"
+  Write-Host "Found VS 2017 ${vstype}" -ForegroundColor Yellow
   Push-Location "C:\Program Files (x86)\Microsoft Visual Studio\2017\${vstype}\Common7\Tools"
   cmd /c "VsDevCmd.bat -arch=x64 & set" |
     ForEach-Object {
@@ -25,10 +25,10 @@ if ($null -eq (Get-Command "cl.exe" -ErrorAction SilentlyContinue)) {
     }
   }
   Pop-Location
-  Write-Verbose "Visual Studio 2017 ${vstype} Command Prompt variables set.`n" -ForegroundColor Yellow
+  Write-Host "Visual Studio 2017 ${vstype} Command Prompt variables set.`n" -ForegroundColor Yellow
 }
 else {
-  Write-Verbose "No Compiler found"
+  Write-Host "No Compiler found" -ForegroundColor Red
 }
 
 

@@ -1,7 +1,7 @@
 #ifndef __dnetpro_couples_h__
 #define __dnetpro_couples_h__
 
-#include <memory>
+#include <memory>         // std :: unique_ptr
 
 #include <iostream>       // std :: cout
 #include <unordered_map>  // std :: unordered_map

@@ -22,18 +22,22 @@ from sklearn.model_selection import cross_val_score
 
 from sklearn.base import is_classifier
 from sklearn.base import clone
+from sklearn.base import BaseEstimator
+from sklearn.base import ClassifierMixin
 
 from sklearn.metrics.scorer import check_scoring
 
 from sklearn.preprocessing import LabelEncoder
 
-from lib.DNetPRO.DNetPRO import _score
+from sklearn.naive_bayes import GaussianNB
+
+#from lib.DNetPRO.DNetPRO import _score
 from lib.DNetPRO.DNetPRO import _DNetPRO_couples
 
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
-class DNetPRO (_score):
+class DNetPRO (BaseEstimator, ClassifierMixin):
   '''
   DNetPRO feature selection algorithm
 
@@ -86,34 +90,55 @@ class DNetPRO (_score):
   TODO
   '''
 
-  def __init__ (self, estimator, cv=LeaveOneOut(), scoring=None, max_chunk=100, percentage=.1, verbose=False, n_jobs=1):
+  def __init__ (self, estimator=GaussianNB(), cv=LeaveOneOut(), scoring=None, max_chunk=100, percentage=.1, verbose=False, n_jobs=1):
+
+    if not (0. < percentage <= 1.):
+      raise ValueError('percentage must be > 0 and <= 1. Given {}'.format(percentage))
+
+    if not (0. < n_jobs):
+      raise ValueError('n_jobs must be a positive integer. Given {}'.format(percentage))
+
+    if not (max_chunk >= 0):
+      raise ValueError('max_chunk must be >= 0. Given: {}'.format(max_chunk))
+
+    if not is_classifier(estimator):
+      raise ValueError('Estimator must be a sklearn-like classifier. Given {}'.format(estimator))
+
+    scoring = check_scoring(estimator, scoring=scoring)
+
     self.estimator = estimator
     self.cv = cv
     self.scoring = scoring
 
-    self._max_chunk = max_chunk
-    self._percentage = percentage
-    self._verbose = verbose
-    self._nth = n_jobs
+    self.max_chunk = max_chunk
+    self.percentage = percentage
+    self.verbose = verbose
+    self.n_jobs = n_jobs
 
-    self._scorers = None
 
-  def _pendrem (self, graph):
+  @staticmethod
+  def pendrem (graph, max_iters=100):
     '''
     Remove pendant node iterativelly
     '''
     deg = graph.degree()
+
     while min(map(itemgetter(1), deg)) < 2:
+      G = graph.copy()
+
       graph.remove_nodes_from( [n for n, d in deg if d < 2] )
       deg = graph.degree()
-      if len(deg) == 0: break
+
+      if len(deg) == 0:
+        return G
+
     return graph
 
   @property
   def _estimator_type (self):
     return self.estimator._estimator_type
 
-  def _check_params (self, X, y):
+  def _check_chunk (self, X):
     '''
     Check input parameters
 
@@ -122,22 +147,14 @@ class DNetPRO (_score):
     X : array of shape [n_samples, n_features]
         The input samples.
 
-    y : array of shape [n_samples]
-        The target values.
     '''
     Nsample, Nprobe = np.shape(X)
     Ncomb = Nprobe * (Nprobe - 1) >> 1
-    if not (self._max_chunk <= Ncomb or self._max_chunk > 0):
-      raise ValueError('max_chunk must be >= 0 and <= possible features combinations. Given: {}'.format(self._max_chunk))
+    if not (self.max_chunk <= Ncomb):
+      raise ValueError('max_chunk must be <= possible features combinations. Given: {}'.format(self.max_chunk))
 
-    if not (0. < self._percentage <= 1.):
-      raise ValueError('percentage must be > 0 and <= 1. Given {}'.format(self._percentage))
-
-    if not (0. < self._nth):
-      raise ValueError('n_jobs must be a positive integer. Given {}'.format(self._percentage))
-
-
-  def _label2numbers (self, arr):
+  @staticmethod
+  def label2numbers (arr):
     '''
     Convert labels to numerical values
 
@@ -156,10 +173,10 @@ class DNetPRO (_score):
       The C++ function allows only numerical (integer) values as labels in input.
       For more general support refers to the C++ example.
     '''
-    self.le = LabelEncoder()
-    self.le.fit(arr)
-    numeric_labels = self.le.transform(arr)
-    return numeric_labels
+    le = LabelEncoder()
+    le.fit(arr)
+    numeric_labels = le.transform(arr)
+    return numeric_labels.astype(int)
 
 
   def _evaluate_couples (self, X, y):
@@ -183,7 +200,7 @@ class DNetPRO (_score):
     Nsample, _ = np.shape(X)
 
     if not isinstance(y[0], int):
-      y = self._label2numbers(y)
+      y = DNetPRO.label2numbers(y)
 
     self.X = check_array(X)
     # set contiguous order memory for c++ compatibility
@@ -191,36 +208,42 @@ class DNetPRO (_score):
     X = np.ascontiguousarray(self.X.T)
 
     # pay attention to the transposition
-    score = _DNetPRO_couples(X, y, self._percentage, self._verbose, self._nth)
+    score = _DNetPRO_couples(X, y, self.percentage, self.verbose, self.n_jobs)
     performances = score.score
 
     return performances
 
-  def _couple_evaluation (self, couple, data, labels):
+  # def _couple_evaluation (self, couple, data, labels):
+  #   '''
+  #   Evaluate couples of features with a LOOCV
+  #   '''
+  #   f1, f2 = couple
+  #
+  #   samples = data[:, [f1, f2]]
+  #   score = cross_val_score(self.estimator, samples, labels,
+  #                           cv=LeaveOneOut(), n_jobs=1).mean()
+  #   return (f1, f2, score * 100.)
+
+  # def _couple_pooling (self, data, labels):
+  #   '''
+  #   Compute the DNetPRO couples in pure Python
+  #   '''
+  #   Nsample, Nfeature = data.shape
+  #   couples = itertools.combinations(range(0, Nfeature), 2)
+  #
+  #   couple_eval = partial(self._couple_evaluation, data=data, labels=labels)
+  #
+  #   scores = list(map(couple_eval, couples))
+  #   scores = sorted(scores, key=lambda x : x[2], reverse=True)
+  #   return scores
+
+  def connected_component_subgraphs (G):
     '''
-    Evaluate couples of features with a LOOCV
+    Generator of connected components compatible
+    with old and new networkx versions
     '''
-    f1, f2 = couple
-
-    samples = data[:, [f1, f2]]
-    score = cross_val_score(self.estimator, samples, labels,
-                            cv=LeaveOneOut(), n_jobs=1).mean()
-    return (f1, f2, score * 100.)
-
-  def _couple_pooling (self, data, labels):
-    '''
-    Compute the DNetPRO couples in pure Python
-    '''
-
-    Nsample, Nfeature = data.shape
-    couples = itertools.combinations(range(0, Nfeature), 2)
-
-    couple_eval = partial(self._couple_evaluation, data=data, labels=labels)
-
-    scores = list(map(couple_eval, couples))
-    scores = sorted(scores, key=lambda x : x[2], reverse=True)
-
-    return scores
+    for c in nx.connected_components(G):
+      yield G.subgraph(c)
 
   def fit (self, X, y=None, **fit_params):
     '''
@@ -244,7 +267,7 @@ class DNetPRO (_score):
     '''
 
     X, y = check_X_y(X, y)
-    self._check_params(X, y)
+    self._check_chunk(X)
 
     # Initialization
     cv = check_cv(self.cv, y, is_classifier(self.estimator))
@@ -267,15 +290,15 @@ class DNetPRO (_score):
 
     for perf, chunk in chunks:
 
-      if len(chunk) >= self._max_chunk and perf != max_perf:
+      if len(chunk) >= self.max_chunk and perf != max_perf:
         break
 
       graph.add_weighted_edges_from(chunk.values)
-      sub_graphs = iter(nx.connected_component_subgraphs(graph))
+      sub_graphs = iter(DNetPRO.connected_component_subgraphs(graph))
 
       for comp in sub_graphs:
 
-        g = self._pendrem(comp.copy())
+        g = DNetPRO.pendrem(comp.copy())
         if len(g.nodes) != 0:
           comp = g
         sub_data = X[:, comp.nodes]
@@ -291,12 +314,15 @@ class DNetPRO (_score):
                                  'score'              : score
                                })
 
+    self.estimator_ = clone(self.estimator)
+    self.estimator_.fit(self.transform(self.X), self.y)
     return self
 
   def get_signature (self):
     '''
     Return the computed signature in ascending order (training score value)
     '''
+    check_is_fitted(self, 'estimator_')
     return sorted(self.signatures, key=lambda x : x['score'], reverse=True)
 
   def set_signature (self, index):
@@ -308,12 +334,12 @@ class DNetPRO (_score):
       index : int
         Index of the signatures array
     '''
+    check_is_fitted(self, 'estimator_')
+
     if not 0 <= index < len(self.signatures):
       raise ValueError('Signature index out of range')
 
     self.selected_signature = self.get_signature()[index]['features']
-    self.estimator_ = clone(self.estimator)
-    self.estimator_.fit(self.transform(self.X), self.y)
 
 
   @if_delegate_has_method(delegate='estimator')
@@ -333,46 +359,44 @@ class DNetPRO (_score):
         The predicted target values.
     '''
     check_is_fitted(self, 'estimator_')
-    return self.estimator.predict(self.transform(X))
+    return self.estimator_.predict(self.transform(X))
 
-  def predict_transform (self, X_train, y_train, X_test, y_test):
-    '''
-    Fit the DNetPRO model meta-transformer and apply the data transformation,
-    i.e feature selection, and then compute the score on test set
+  # def predict_transform (self, X_train, y_train, X_test, y_test):
+  #   '''
+  #   Fit the DNetPRO model meta-transformer and apply the data transformation,
+  #   i.e feature selection, and then compute the score on test set
 
-    Parameters
-    ----------
-      X : array-like of shape (n_samples, n_features)
-          The training input samples.
+  #   Parameters
+  #   ----------
+  #     X : array-like of shape (n_samples, n_features)
+  #         The training input samples.
 
-      y : array-like, shape (n_samples,)
-          The target values (integers that correspond to classes in
-          classification, real numbers in regression).
+  #     y : array-like, shape (n_samples,)
+  #         The target values (integers that correspond to classes in
+  #         classification, real numbers in regression).
 
-      **fit_params : Other estimator specific parameters
+  #     **fit_params : Other estimator specific parameters
 
-    Returns
-    -------
-      Xnew : array-like of shape (n_sample, n_signature_features)
-             The data filtered according to the best features found by the model
+  #   Returns
+  #   -------
+  #     Xnew : array-like of shape (n_sample, n_signature_features)
+  #            The data filtered according to the best features found by the model
 
-      score : float
-              Accuracy score over the test set (X_test)
+  #     score : float
+  #             Accuracy score over the test set (X_test)
 
-    Notes
-    -----
-    The signature is selected as the signature with highest score on test (X_test) data.
-    '''
-    self.fit(X_train, y_train)
+  #   Notes
+  #   -----
+  #   The signature is selected as the signature with highest score on test (X_test) data.
+  #   '''
+  #   self.fit(X_train, y_train)
 
-    scores = [self.estimator.fit(X_train[:, sign['features']], y_train).score(X_test[:, sign['features']], y_test)
-              for sign in self.signatures]
-    index = np.argmax(scores)
-    self.set_signature(index)
-    self.estimator_ = clone(self.estimator)
-    Xnew = self.transform(self.X)
-    self.estimator_.fit(Xnew, self.y)
-    return (Xnew, scores[index])
+  #   scores = [self.estimator.fit(X_train[:, sign['features']], y_train).score(X_test[:, sign['features']], y_test)
+  #             for sign in self.signatures]
+  #   index = np.argmax(scores)
+  #   self.set_signature(index)
+  #   self.estimator_.fit(self.transform(self.X), self.y)
+  #   return (Xnew, scores[index])
 
   def fit_transform (self, X, y):
     '''
@@ -401,8 +425,6 @@ class DNetPRO (_score):
     '''
 
     self.fit(X, y)
-    self.set_signature(0)
-    self.estimator_ = clone(self.estimator)
     Xnew = self.transform(self.X)
     self.estimator_.fit(Xnew, self.y)
     return Xnew
@@ -419,6 +441,7 @@ class DNetPRO (_score):
     '''
 
     check_is_fitted(self, 'estimator_')
+    self.set_signature(0)
     X = X[:, self.selected_signature]
     return X
 
@@ -436,8 +459,6 @@ class DNetPRO (_score):
     y : array of shape [n_samples]
         The target values.
     '''
-
-    check_is_fitted(self, 'estimator_')
     return self.estimator_.score(self.transform(X), y)
 
   @if_delegate_has_method(delegate='estimator')
@@ -455,6 +476,14 @@ class DNetPRO (_score):
     check_is_fitted(self, 'estimator_')
     return self.estimator_.predict_log_proba(self.transform(X))
 
+  def __repr__ (self):
+    class_name = self.__class__.__qualname__
+
+    params = self.__init__.__code__.co_varnames
+    params = set(params) - {'self'}
+    args = ', '.join(['{}={}'.format(k, str(getattr(self, k))) for k in params])
+
+    return '{}({})'.format(class_name, args)
 
 
 if __name__ == '__main__':
