@@ -373,6 +373,7 @@ matrix:
         - WITH_PYTHON=ON
 
   allow_failures:
+    - name: ubuntu 14.04 - gcc@8.0 & python@3.5
     - name: ubuntu 14.04 - gcc@8.0 & python@3.6
     - name: ubuntu 14.04 - gcc@8.0 & python@3.7
     - name: ubuntu 14.04 - clang@3.8
@@ -383,14 +384,13 @@ matrix:
 before_install:
   - travis_retry eval "${MATRIX_EVAL}"
   - python3 -m pip install --upgrade pip --user
-  - python3 -m pip install python3-setuptools
 
   # install python packages
   - python3 --version
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user numpy==1.14.3                                                         ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user cython==0.29                                                          ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user scikit-learn==0.20.3                                                  ;fi
-  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user networkx==2.2                                                         ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user networkx                                                              ;fi
   # add always requests for data downloads
   - python3 -m pip install --user requests
 
