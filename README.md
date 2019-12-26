@@ -482,7 +482,7 @@ See [here](https://github.com/Nico-Curti/DNetPRO/blob/master/CONTRIBUTING.md) fo
 
 <blockquote>3- Y. Yuan, E. M Van Allen, L. Omberg, N. Wagle, A. Amin-Mansour, A. Sokolov, L. A Byers, Y. Xu, K. R Hess, L. Diao, L. Han, X. Huang, M. S Lawrence, J. N Weinstein, J. M Stuart, G. B Mills, L. A Garraway, A. A Margolin, G. Getz, H. Liang. "Assessing the clinical utility of cancer genomic and proteomic data across tumor types", Nature Biotechnology, 2014. </blockquote>
 
-<blockquote>4- C. Mizzi, A. Fabbri, S. Rambaldi, F. Bertini, N. Curti, S. Sinigardi, R. Luzi, G. Venturi, M. Davide, G. Muratore, A. Vannelli, A. Bazzani. "", EPJ Data Science, 2018</blockquote>
+<blockquote>4- C. Mizzi, A. Fabbri, S. Rambaldi, F. Bertini, N. Curti, S. Sinigardi, R. Luzi, G. Venturi, M. Davide, G. Muratore, A. Vannelli, A. Bazzani. "Unraveling pedestrian mobility on a road network using ICTs data during great tourist events", EPJ Data Science, 2018</blockquote>
 
 <blockquote>5- V. Boccardi, L. Paolacci, D. Remondini, E. Giampieri, N. Curti, A. Villa, G. Poli, R. Cecchetti, S. Brancorsini, P. Mecocci. '"Cytokinome signature" in cognitive impairment: from early stages to Alzheimer’s disease', Journal of Alzheimer Disease, 2019</blockquote>
 

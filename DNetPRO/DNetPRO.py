@@ -4,11 +4,11 @@
 from __future__ import division
 from __future__ import print_function
 
-import itertools
+# import itertools
 import numpy as np
 import pandas as pd
 import networkx as nx
-from functools import partial
+# from functools import partial
 from operator import itemgetter
 
 from sklearn.utils import check_X_y
@@ -31,7 +31,6 @@ from sklearn.preprocessing import LabelEncoder
 
 from sklearn.naive_bayes import GaussianNB
 
-#from lib.DNetPRO.DNetPRO import _score
 from lib.DNetPRO.DNetPRO import _DNetPRO_couples
 
 __author__  = ['Nico Curti']
@@ -148,7 +147,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
         The input samples.
 
     '''
-    Nsample, Nprobe = np.shape(X)
+    _, Nprobe = np.shape(X)
     Ncomb = Nprobe * (Nprobe - 1) >> 1
     if not (self.max_chunk <= Ncomb):
       raise ValueError('max_chunk must be <= possible features combinations. Given: {}'.format(self.max_chunk))
@@ -197,7 +196,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
           Dataframe of ordered results with columns (feature_1, feature_2, performances).
           The variable pairs are sorted in ascending order according to the performance values.
     '''
-    Nsample, _ = np.shape(X)
+    # Nsample, _ = np.shape(X)
 
     if not isinstance(y[0], int):
       y = DNetPRO.label2numbers(y)
@@ -488,10 +487,9 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
 if __name__ == '__main__':
 
-  from sklearn.naive_bayes import GaussianNB
   from sklearn.model_selection import train_test_split
 
-  X = pd.read_csv('../bin/data.txt', sep='\t', index_col=0, header=0)
+  X = pd.read_csv('../example/data.txt', sep='\t', index_col=0, header=0)
   y = np.asarray(X.columns.astype(float).astype(int))
   X = X.transpose()
 

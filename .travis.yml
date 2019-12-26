@@ -340,7 +340,7 @@ matrix:
       compiler: gcc
       python: 3.5
       name: ubuntu 14.04 - gcc@8.0 & python@3.6
-      dist: trusty
+      dist: xenial
       addons:
         apt:
           update: true
@@ -358,7 +358,7 @@ matrix:
       compiler: gcc
       python: 3.5
       name: ubuntu 14.04 - gcc@8.0 & python@3.7
-      dist: trusty
+      dist: xenial
       addons:
         apt:
           update: true
@@ -398,6 +398,8 @@ before_install:
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pytest==3.0.7                                                         ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pytest-cov                                                            ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user codecov                                                               ;fi
+
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then export CFLAGS=-I/usr/lib/python3.5/site-packages/numpy/core/include/                                ;fi
 
 install:
   # CMake upgrade
