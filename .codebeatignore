@@ -1,2 +1,5 @@
 *.md
 *.bib
+pipeline/*
+toy/*
+timing/*

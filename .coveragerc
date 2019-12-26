@@ -6,6 +6,7 @@ omit =
     */DNetPRO/test/*
     */toy/*
     */timing/*
+    */pipeline/*
 [report]
 # Regexes for lines to exclude from consideration
 exclude_lines =

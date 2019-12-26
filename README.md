@@ -85,7 +85,7 @@ Often is difficult to discriminate between noise and significant variables and e
 In this project we propose a new method of features selection - DNetPRO, *Discriminant Analysis with Network PROcessing* - developed to outperform the mentioned above problems.
 The method is particularly designed to gene-expression data analysis and it was tested against the most common feature selection techniques.
 The method was already applied on gene-expression datasets but my work focused on the benchmark of it and on its optimization for Big Data applications.
-The pipeline algorithm is made by many different steps and only a part of it was designed to biological application: this allow me to apply (part of) the same techniques also in different kind of problems with good results (see [Mizzi2018](https://doi.org/10.1140/epjds/s13688-018-0168-2)).
+The pipeline algorithm is made by many different steps and only a part of it was designed to biological application: this allow me to apply (part of) the same techniques also in different kind of problems with good results (see [[Mizzi2018](https://doi.org/10.1140/epjds/s13688-018-0168-2)]).
 
 ## Theory
 
@@ -146,7 +146,7 @@ C++ supported compilers:
 
 ![gcc version](https://img.shields.io/badge/gcc-4.8.5%20|%204.9.*%20|%205.*%20|%206.*%20|%207.*%20|%208.*%20|%209.*-yellow.svg)
 
-![clang version](https://img.shields.io/badge/clang-5.*%20|%206.*%20|%207.*%20|-red.svg)
+![clang version](https://img.shields.io/badge/clang-3.*%20|5.*%20|%206.*%20|%207.*%20|-red.svg)
 
 ![msvc version](https://img.shields.io/badge/msvc-vs2017%20x86%20|%20vs2017%20x64-blue.svg)
 

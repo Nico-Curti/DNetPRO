@@ -375,9 +375,7 @@ matrix:
   allow_failures:
     - name: ubuntu 14.04 - gcc@8.0 & python@3.6
     - name: ubuntu 14.04 - gcc@8.0 & python@3.7
-    - name: ubuntu 14.04 - clang@3.6
     - name: ubuntu 14.04 - clang@3.8
-    - name: ubuntu 14.04 - clang@3.9
     - name: ubuntu 14.04 - clang@4.0
     - name: macOS - clang@7.0
 
@@ -385,6 +383,7 @@ matrix:
 before_install:
   - travis_retry eval "${MATRIX_EVAL}"
   - python3 -m pip install --upgrade pip --user
+  - python3 -m pip install python3-setuptools
 
   # install python packages
   - python3 --version
