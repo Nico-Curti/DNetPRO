@@ -421,11 +421,8 @@ script:
   - if [[ "$TRAVIS_COMPILER" == "clang" ]]; then bash ./build.sh "" OFF                                                                       ;fi
   - if [[ "$TRAVIS_COMPILER" == "gcc"   ]]; then bash ./build.sh "" OFF                                                                       ;fi
 
-  # c++ testing
-  - cd test && chmod 777 ./run_test.sh && cd ..
-
   # python testing
-  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pytest --cov=ReplicatedFocusingBeliefPropagation --cov-config=.coveragerc                ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pytest --cov=DNetPRO --cov-config=.coveragerc                                            ;fi
 
 after_succes:
   - codecov
