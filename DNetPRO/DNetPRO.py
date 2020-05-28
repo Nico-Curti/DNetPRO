@@ -116,7 +116,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
 
   @staticmethod
-  def pendrem (graph, max_iters=100):
+  def pendrem (graph):
     '''
     Remove pendant node iterativelly
     '''
