@@ -105,8 +105,6 @@ matrix:
             - clang-3.6
             - libstdc++-4.8-dev
             - libclang-3.6-dev
-            - libc++-dev
-            - libc++abi-dev
       env:
         - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
         - LINKER_FLAGS="-stdlib=libstdc++ -lc++abi"
@@ -125,8 +123,6 @@ matrix:
             - clang-3.8
             - libstdc++-4.8-dev
             - libclang-3.8-dev
-            - libc++-dev
-            - libc++abi-dev
       env:
         - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
@@ -146,8 +142,6 @@ matrix:
             - clang-3.9
             - libstdc++-4.8-dev
             - libclang-3.9-dev
-            - libc++-dev
-            - libc++abi-dev
       env:
         - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
@@ -167,8 +161,6 @@ matrix:
             - libstdc++-4.8-dev
             - libclang-4.0-dev
             - llvm-4.0-dev
-            - libc++-dev
-            - libc++abi-dev
 
       env:
         - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
@@ -294,6 +286,7 @@ matrix:
           packages:
             - g++-8
             - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - WITH_PYTHON=ON
@@ -311,13 +304,13 @@ matrix:
             - g++-8
             - python3.5
             - python3-pip
+            - python3-setuptools
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - WITH_PYTHON=ON
 
   allow_failures:
     - name: ubuntu 14.04 - clang@3.8
-    - name: ubuntu 14.04 - gcc@4.8.5
     - name: macOS - clang@7.0
 
 

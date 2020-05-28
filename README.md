@@ -146,7 +146,7 @@ C++ supported compilers:
 
 ![gcc version](https://img.shields.io/badge/gcc-4.8.5%20|%204.9.*%20|%205.*%20|%206.*%20|%207.*%20|%208.*%20|%209.*-yellow.svg)
 
-![clang version](https://img.shields.io/badge/clang-3.*%20|5.*%20|%206.*%20|%207.*%20|-red.svg)
+![clang version](https://img.shields.io/badge/clang-3.*%20|%204.*%20|%205.*%20|%206.*%20|%207.*%20|-red.svg)
 
 ![msvc version](https://img.shields.io/badge/msvc-vs2017%20x86%20|%20vs2017%20x64-blue.svg)
 
