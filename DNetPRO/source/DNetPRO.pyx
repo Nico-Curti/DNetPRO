@@ -5,23 +5,17 @@ from cython.operator cimport dereference as deref
 from libcpp.memory cimport unique_ptr
 cimport numpy as np
 
-from DNet_couples cimport score
-from DNet_couples cimport dnetpro_couples
-from DNet_couples cimport move
+from DNetPRO cimport score
+from DNetPRO cimport _score
+from DNetPRO cimport dnetpro_couples
+from DNetPRO cimport move
 
 from misc cimport unique_pointer_to_pointer
-from misc cimport pointer_to_unique_pointer
 from misc cimport two_dimension_pointer_for_cython
 
 import numpy as np
 
 cdef class _score:
-
-  cdef unique_ptr[score] thisptr
-
-  cdef public:
-    int N;
-    int n_class;
 
   def __init__ (self, other=None):
 
@@ -34,10 +28,6 @@ cdef class _score:
 
       self.N, self.n_class = (0, 0)
       self.thisptr.reset(new score())
-
-  cdef _move (self, score src):
-    self.N, self.n_class = src.N, src.n_class
-    self.thisptr.reset(new score(src))
 
   def __str__ (self):
     return '<Score: N={} n_class={}>'.format(deref(self.thisptr).N, deref(self.thisptr).n_class)
@@ -67,7 +57,7 @@ cdef class _score:
 
 
 
-def _DNetPRO_couples (X, y, percentage=.1, verbose=False, nth=1):
+def _DNetPRO_couples (X, y, float percentage=.1, int verbose=0, int nth=1):
 
   cdef np.ndarray[float, ndim=2, mode='c'] data = X.astype('float32')
   cdef np.ndarray[int, ndim=1, mode='c'] label = y.astype('int32')
@@ -84,5 +74,3 @@ def _DNetPRO_couples (X, y, percentage=.1, verbose=False, nth=1):
   py_sc = _score()
   py_sc._move(sc)
   return py_sc
-
-

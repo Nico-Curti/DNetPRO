@@ -31,7 +31,7 @@ from sklearn.preprocessing import LabelEncoder
 
 from sklearn.naive_bayes import GaussianNB
 
-from lib.DNetPRO.DNetPRO import _DNetPRO_couples
+from DNetPRO.lib.DNetPRO import _DNetPRO_couples
 
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']

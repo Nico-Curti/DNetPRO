@@ -198,13 +198,14 @@ setup(
                                  ],
   license                       = 'MIT',
   cmdclass                      = {'build_ext': dnetpro_build_ext},
-  ext_modules                   = [Extension( name='.'.join(['lib', 'DNetPRO', 'DNetPRO']),
-                                              sources=['./DNetPRO/source/DNet_couples.pyx',
+  ext_modules                   = [Extension( name='.'.join(['DNetPRO', 'lib', 'DNetPRO']),
+                                              sources=['./DNetPRO/source/DNetPRO.pyx',
                                                        './src/dnetpro_couples.cpp',
+                                                       './src/misc.cpp',
                                                        './src/score.cpp',
                                                        './src/utility.cpp'
                                                        ],
-                                              include_dirs=[ './DNetPRO/include','./hpp/', './include/', np.get_include()],
+                                              include_dirs=[ './DNetPRO/lib','./hpp/', './include/', np.get_include()],
                                               libraries=[],
                                               library_dirs=[
                                                             os.path.join(here, 'lib'),

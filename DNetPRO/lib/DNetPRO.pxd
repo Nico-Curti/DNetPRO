@@ -39,3 +39,14 @@ cdef extern from "<utility>" namespace "std" nogil:
   cdef unique_ptr[score] move(unique_ptr[score])
 
 
+cdef class _score:
+
+  cdef unique_ptr[score] thisptr
+
+  cdef public:
+    int N;
+    int n_class;
+
+  cdef inline _move (self, score src):
+    self.N, self.n_class = src.N, src.n_class
+    self.thisptr.reset(new score(src))

@@ -7,7 +7,7 @@ set (DNETPRO_REVISION 0)
 set (DNETPRO_VERSION ${DNETPRO_MAJOR}.${DNETPRO_MINOR}.${DNETPRO_REVISION})
 
 project (DnetPRO LANGUAGES CXX VERSION ${DNETPRO_VERSION} DESCRIPTION "Discriminant Network Processing - Feature Selection")
-set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD 14)
 #set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_definitions (-DMAJOR=${DNETPRO_MAJOR} -DMINOR=${DNETPRO_MINOR} -DREVISION=${DNETPRO_REVISION})
@@ -17,6 +17,7 @@ add_definitions (-DMAJOR=${DNETPRO_MAJOR} -DMINOR=${DNETPRO_MINOR} -DREVISION=${
 #################################################################
 
 option (OMP     "Enable OpenMP                support" OFF )
+option (PYDNet  "Enable Cython                support" OFF )
 
 
 set (CMAKE_VERBOSE_MAKEFILE "FALSE" CACHE BOOL "Create verbose makefile")
@@ -142,8 +143,8 @@ file (GLOB EXE    "${EXAMPLE}/*.cpp")
 include_directories (${INC_DIR})
 include_directories (${HPP_DIR})
 
-if (DNET)
-  add_subdirectory (${PYC_DIR}/source)
+if (PYDNet)
+  include( UseCython )
 endif ()
 
 
@@ -183,6 +184,8 @@ endforeach(FLAG)
 message(STATUS ""                                                                          )
 message(STATUS "   OpenMP support : ${OMP}"                                                )
 message(STATUS ""                                                                          )
+message(STATUS "   Pythonic support : ${PYDNet}"                                           )
+message(STATUS ""                                                                          )
 
 #################################################################
 #                         MAIN RULES                            #
@@ -191,6 +194,11 @@ message(STATUS ""                                                               
 add_library(${dnetprolib} SHARED ${SRC} ${HEADER})
 set_property(TARGET ${dnetprolib} PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(${dnetprolib} ${linked_libs})
+
+
+if (PYDNet)
+  add_subdirectory (${PYC_DIR}/source)
+endif ()
 
 add_custom_target(couples)
 add_executable(DNetPRO_couples ${EXAMPLE}/DNetPRO_couples.cpp)
