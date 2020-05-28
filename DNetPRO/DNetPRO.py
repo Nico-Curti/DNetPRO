@@ -198,7 +198,9 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     '''
     # Nsample, _ = np.shape(X)
 
-    if not isinstance(y[0], int):
+    y = np.asarray(y)
+
+    if y.dtype is not int:
       y = DNetPRO.label2numbers(y)
 
     self.X = check_array(X)

@@ -204,7 +204,7 @@ setup(
                                                        './src/score.cpp',
                                                        './src/utility.cpp'
                                                        ],
-                                              include_dirs=[ './DNetPRO/include','./hpp/', './include/'],
+                                              include_dirs=[ './DNetPRO/include','./hpp/', './include/', np.get_include()],
                                               libraries=[],
                                               library_dirs=[
                                                             os.path.join(here, 'lib'),
