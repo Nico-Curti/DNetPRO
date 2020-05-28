@@ -174,6 +174,3 @@ void ArgumentParser :: error_parsing_char (const std :: string & name, const std
 
   this->print_help(ArgumentParser :: ERROR_PARSER_CHAR);
 }
-
-#endif
-
