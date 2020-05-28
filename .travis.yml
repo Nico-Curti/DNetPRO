@@ -323,7 +323,8 @@ before_install:
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user numpy==1.14.3                                                         ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user cython==0.29                                                          ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user scikit-learn==0.20.3                                                  ;fi
-  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user networkx===2.2                                                        ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user networkx==2.2                                                         ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pandas==0.24.2                                                        ;fi
   # add always requests for data downloads
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user requests                                                              ;fi
 

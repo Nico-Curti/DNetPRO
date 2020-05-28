@@ -18,11 +18,27 @@ add_definitions (-DMAJOR=${DNETPRO_MAJOR} -DMINOR=${DNETPRO_MINOR} -DREVISION=${
 
 option (OMP     "Enable OpenMP                support" OFF )
 
+
+set (CMAKE_VERBOSE_MAKEFILE "FALSE" CACHE BOOL "Create verbose makefile")
+set (BUILD_SHARED_LIBS "TRUE" CACHE BOOL "Create dnetprolib as a shared library")
+
+if (DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set (CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+  message (STATUS "VCPKG found: $ENV{VCPKG_ROOT}")
+  message (STATUS "Using VCPKG integration")
+endif ()
+
+if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set (USE_INTEGRATED_LIBS "TRUE" CACHE BOOL "Use libs distributed with this repo")
+else ()
+  set (USE_INTEGRATED_LIBS "FALSE" CACHE BOOL "Use libs distributed with this repo")
+endif ()
+
 #################################################################
 #                         SETTING VARIABLES                     #
 #################################################################
 
-set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
+set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/" ${CMAKE_MODULE_PATH})
 
 if ( NOT APPLE )
   set (CMAKE_SKIP_BUILD_RPATH             FALSE )

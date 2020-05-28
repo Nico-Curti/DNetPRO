@@ -2,4 +2,4 @@ numpy>=1.14.3
 networkx>=2.2
 cython>=0.29
 scikit-learn>=0.19.1
-pandas
+pandas>=0.24.2
