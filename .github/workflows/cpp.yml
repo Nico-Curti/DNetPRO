@@ -1,4 +1,4 @@
-name: Byron CI
+name: C++ version CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  ubuntu-cmake-opencv:
+  ubuntu-cmake:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -36,7 +36,36 @@ jobs:
         cmake --build . --target install -- -j8
         cd ..
 
-  osx-cmake-opencv:
+  ubuntu-cmake-omp:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: 'Update apt'
+      run: sudo apt update
+    - name: 'Install CMake'
+      run: sudo apt install cmake
+
+    - name: 'Configure build'
+      run: |
+        mkdir buildDirectory_debug
+        cd buildDirectory_debug
+        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -DOMP=ON
+        cd ..
+        mkdir buildDirectory_release
+        cd buildDirectory_release
+        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -DOMP=ON
+        cd ..
+    - name: 'Build'
+      run: |
+        cd buildDirectory_debug
+        cmake --build . --target install -- -j8
+        cd ..
+        cd buildDirectory_release
+        cmake --build . --target install -- -j8
+        cd ..
+
+  osx-cmake:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
