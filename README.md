@@ -494,10 +494,10 @@ See [here](https://github.com/Nico-Curti/DNetPRO/blob/master/CONTRIBUTING.md) fo
 
 ## Authors
 
-* **Nico Curti** [git](https://github.com/Nico-Curti), [unibo](https://www.unibo.it/sitoweb/nico.curti2)
-* **Enrico Giampieri** [git](https://github.com/EnricoGiampieri), [unibo](https://www.unibo.it/sitoweb/enrico.giampieri)
+* <img src="https://avatars0.githubusercontent.com/u/24650975?s=400&v=4" width="25px"> **Nico Curti** [git](https://github.com/Nico-Curti), [unibo](https://www.unibo.it/sitoweb/nico.curti2)
+* <img src="https://avatars2.githubusercontent.com/u/1419337?s=400&v=4" width="25px;"/> **Enrico Giampieri** [git](https://github.com/EnricoGiampieri), [unibo](https://www.unibo.it/sitoweb/enrico.giampieri)
 * **Gastone Castellani** [unibo](https://www.unibo.it/sitoweb/gastone.castellani)
-* **Daniel Remondini** [git](https://github.com/dremondini), [unibo](https://www.unibo.it/sitoweb/daniel.remondini)
+* <img src="https://avatars2.githubusercontent.com/u/25343321?s=400&v=4" width="25px"> **Daniel Remondini** [git](https://github.com/dremondini), [unibo](https://www.unibo.it/sitoweb/daniel.remondini)
 
 See also the list of [contributors](https://github.com/Nico-Curti/DNetPRO/contributors) [![GitHub contributors](https://img.shields.io/github/contributors/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/graphs/contributors/) who participated in this project.
 
@@ -513,7 +513,7 @@ Thanks goes to all contributors of this project.
 
 If you have found `DNetPRO` helpful in your research, please consider citing the original paper
 
-```tex
+```BibTex
 @article {Curti2019DNetPRO,
   author = {Curti, Nico and Giampieri, Enrico and Levi, Giuseppe and Castellani, Gastone and Remondini, Daniel},
   title = {DNetPRO: A network approach for low-dimensional signatures from high-throughput data},
@@ -528,7 +528,7 @@ If you have found `DNetPRO` helpful in your research, please consider citing the
 ```
 or just this repository
 
-```tex
+```BibTex
 @misc{DNetPRO,
   author = {Curti, Nico},
   title = {{DNetPRO pipeline}: Implementation of the DNetPRO pipeline for TCGA datasets},
