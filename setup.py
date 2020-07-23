@@ -126,6 +126,7 @@ define_args = [ '-DMAJOR={}'.format(Version[0]),
 
 if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
   compile_args = ['-std=c++14', '-g0',
+                  '-O3',
                   '-Wno-unused-function', # disable unused-function warnings
                   '-Wno-narrowing', # disable narrowing conversion warnings
                    # enable common warnings flags
@@ -135,7 +136,7 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
                   '-Wno-unknown-pragmas',
                   '-Wfatal-errors',
                   '-Wpedantic',
-                  '-march=native'
+                  '-march=native',
                   ]
 
   try:
@@ -156,7 +157,7 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
     linker_args = []
 
 elif 'MSC' in CPP_COMPILER:
-  cpp_compiler_args = ['/std:c++latest']
+  compile_args = ['/std:c++14', '/Ox', '/Wall', '/W3']
   BUILD_SCORER = True
 
   if ENABLE_OMP:
