@@ -11,7 +11,7 @@ constexpr float epsilon = std :: numeric_limits < float > :: min ();
 constexpr float inf     = std :: numeric_limits < float > :: infinity ();
 
 #include <score.h>        // score object
-#include <utility.hpp>    // split function and file_error function
+#include <utils.hpp>      // split function and file_error function
 #include <parse_args.hpp> // ArgumentParser object
 
 #ifdef _OPENMP

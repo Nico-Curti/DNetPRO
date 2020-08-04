@@ -5,7 +5,7 @@
 #include <utility> // std :: move
 #include <cmath>   // std :: sqrt
 
-#include <utility.hpp> // old gcc compatibility
+#include <utils.hpp> // old gcc compatibility
 
 struct score
 {

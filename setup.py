@@ -45,7 +45,7 @@ def get_ext_filename_without_platform_suffix (filename):
     if idx == -1:
       return filename
     else:
-      return name[:idx] + ext 
+      return name[:idx] + ext
 
 class dnetpro_build_ext (build_ext):
   '''
@@ -231,7 +231,7 @@ setup(
                                                        './src/dnetpro_couples.cpp',
                                                        './src/misc.cpp',
                                                        './src/score.cpp',
-                                                       './src/utility.cpp'
+                                                       './src/utils.cpp'
                                                        ],
                                               include_dirs=[ './DNetPRO/lib','./hpp/', './include/', np.get_include()],
                                               libraries=[],

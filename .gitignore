@@ -53,6 +53,7 @@ __pycache__/
 pipeline/TCGA/binary*
 pipeline/TCGA/*.pickle
 pipeline/TCGA/*.best
+*.pc
 
 # coverage
 .coverage

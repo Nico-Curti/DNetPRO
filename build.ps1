@@ -34,7 +34,7 @@ else {
 Remove-Item .\build_win_debug -Force -Recurse -ErrorAction SilentlyContinue
 New-Item -Path .\build_win_debug -ItemType directory -Force
 Set-Location build_win_debug
-cmake -G "Visual Studio 16 2019" -T "host=x64" -A "x64" "-DOMP=OFF" "-DPYDNet=OFF" ..
+cmake -G "Visual Studio 16 2019" -T "host=x64" -A "x64" "-DOMP=OFF" "-DPYWRAP=OFF" ..
 cmake --build . --config Debug --parallel ${number_of_build_workers} --target install
 Set-Location ..
 

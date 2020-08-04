@@ -25,7 +25,7 @@ from sklearn.base import clone
 from sklearn.base import BaseEstimator
 from sklearn.base import ClassifierMixin
 
-from sklearn.metrics.scorer import check_scoring
+from sklearn.metrics import check_scoring
 
 from sklearn.preprocessing import LabelEncoder
 

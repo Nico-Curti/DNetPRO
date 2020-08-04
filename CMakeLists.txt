@@ -1,12 +1,12 @@
 cmake_minimum_required (VERSION 3.9.0)
 
 # DNetPRO Version
-set (DNETPRO_MAJOR    2)
+set (DNETPRO_MAJOR    1)
 set (DNETPRO_MINOR    0)
 set (DNETPRO_REVISION 0)
 set (DNETPRO_VERSION ${DNETPRO_MAJOR}.${DNETPRO_MINOR}.${DNETPRO_REVISION})
 
-project (DnetPRO LANGUAGES CXX VERSION ${DNETPRO_VERSION} DESCRIPTION "Discriminant Network Processing - Feature Selection")
+project (DNetPRO LANGUAGES CXX VERSION ${DNETPRO_VERSION} DESCRIPTION "Discriminant Network Processing - Feature Selection")
 set (CMAKE_CXX_STANDARD 14)
 #set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -17,7 +17,7 @@ add_definitions (-DMAJOR=${DNETPRO_MAJOR} -DMINOR=${DNETPRO_MINOR} -DREVISION=${
 #################################################################
 
 option (OMP     "Enable OpenMP                support" OFF )
-option (PYDNet  "Enable Cython                support" OFF )
+option (PYWRAP  "Enable Cython                support" OFF )
 
 
 set (CMAKE_VERBOSE_MAKEFILE "FALSE" CACHE BOOL "Create verbose makefile")
@@ -97,6 +97,10 @@ if (COMPILER_SUPPORTS_MARCH_NATIVE AND NOT MSVC)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -march=native -mtune=native")
 endif ()
 
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}" CACHE PATH "Install prefix" FORCE)
+endif()
+
 #################################################################
 #                         PARSE OPTIONS                         #
 #################################################################
@@ -131,8 +135,12 @@ set (HPP_DIR      ${CMAKE_SOURCE_DIR}/hpp             CACHE PATH "Path where fin
 set (EXAMPLE      ${CMAKE_SOURCE_DIR}/example         CACHE PATH "Path where find examples files"                   )
 set (OUT_DIR      ${CMAKE_SOURCE_DIR}/bin             CACHE PATH "Path where outputs will be installed"        FORCE)
 set (LIB_DIR      ${CMAKE_SOURCE_DIR}/lib             CACHE PATH "Path where lib will be installed"            FORCE)
-set (INST_DIR     ${CMAKE_SOURCE_DIR}/share/DNetPRO   CACHE PATH "Path where cmake configs will be installed"  FORCE)
 set (PYC_DIR      ${CMAKE_SOURCE_DIR}/DNetPRO         CACHE PATH "Path where find pythonize version of DNetPRO"     )
+
+set(INSTALL_INCLUDE_DIR  "${CMAKE_CURRENT_LIST_DIR}/share/include/DNetPRO"  CACHE PATH "Path where headers will be installed")
+set(INSTALL_CMAKE_DIR    "${CMAKE_CURRENT_LIST_DIR}/share/DNetPRO"          CACHE PATH "Path where cmake configs will be installed")
+
+set(CMAKE_DEBUG_POSTFIX d)
 
 set (dnetprolib dnetpro)
 
@@ -143,13 +151,18 @@ file (GLOB EXE    "${EXAMPLE}/*.cpp")
 include_directories (${INC_DIR})
 include_directories (${HPP_DIR})
 
-if (PYDNet)
+if (PYWRAP)
   include( UseCython )
+  find_package (Python COMPONENTS Interpreter NumPy)
 endif ()
 
 
 #string (REPLACE " " ";" CMAKE_CXX_FLAGS_LIST ${CMAKE_CXX_FLAGS})
 
+set(DNetPRO_INSTALL_INCLUDE_DIR ${INSTALL_INCLUDE_DIR})
+
+configure_file(${CMAKE_SOURCE_DIR}/DNetPRO.pc.in ${CMAKE_SOURCE_DIR}/DNetPRO.pc @ONLY)
+message(STATUS "Pkg-config generated")
 
 #################################################################
 #                          SUMMARY                              #
@@ -183,8 +196,7 @@ foreach(FLAG ${linked_libs})
 endforeach(FLAG)
 message(STATUS ""                                                                          )
 message(STATUS "   OpenMP support : ${OMP}"                                                )
-message(STATUS ""                                                                          )
-message(STATUS "   Pythonic support : ${PYDNet}"                                           )
+message(STATUS "   Pythonic support : ${PYWRAP}"                                           )
 message(STATUS ""                                                                          )
 
 #################################################################
@@ -193,10 +205,14 @@ message(STATUS ""                                                               
 
 add_library(${dnetprolib} SHARED ${SRC} ${HEADER})
 set_property(TARGET ${dnetprolib} PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_include_directories(${dnetprolib} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include> $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/hpp> $<INSTALL_INTERFACE:${DNetPRO_INSTALL_INCLUDE_DIR}>)
 target_link_libraries(${dnetprolib} ${linked_libs})
 
+list (APPEND ALL_HEADER ${HEADER})
+list (APPEND ALL_HEADER ${HPP})
+set_target_properties(${dnetprolib} PROPERTIES PUBLIC_HEADER "${ALL_HEADER}")
 
-if (PYDNet)
+if (PYWRAP)
   add_subdirectory (${PYC_DIR}/source)
 endif ()
 
@@ -212,7 +228,7 @@ install(TARGETS ${dnetprolib}       EXPORT DNetPROTargets
                                     RUNTIME DESTINATION ${OUT_DIR}
                                     LIBRARY DESTINATION ${LIB_DIR}
                                     ARCHIVE DESTINATION ${LIB_DIR}
-                                    PUBLIC_HEADER DESTINATION ${LIB_DIR}/include
+                                    PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDE_DIR}
                                     COMPONENT dev
                                     )
 
@@ -225,7 +241,7 @@ install(TARGETS DNetPRO_couples     DESTINATION ${OUT_DIR})
 install (EXPORT DNetPROTargets
          FILE DNetPROTargets.cmake
          NAMESPACE DNetPRO::
-         DESTINATION "${INST_DIR}"
+         DESTINATION "${INSTALL_CMAKE_DIR}"
         )
 
 # Export the package for use from the build-tree (this registers the build-tree with a global CMake-registry)
@@ -233,7 +249,7 @@ export (PACKAGE DNetPRO)
 
 # Create the DNetPROConfig.cmake
 # First of all we compute the relative path between the cmake config file and the include path
-file (RELATIVE_PATH REL_INCLUDE_DIR "${INST_DIR}" "${LIB_DIR}/include")
+file (RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_INCLUDE_DIR}")
 set (CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
 configure_file (DNetPROConfig.cmake.in "${PROJECT_BINARY_DIR}/DNetPROConfig.cmake" @ONLY)
 set (CONF_INCLUDE_DIRS "\${DNetPRO_CMAKE_DIR}/${REL_INCLUDE_DIR}")
@@ -248,6 +264,6 @@ write_basic_package_version_file ("${PROJECT_BINARY_DIR}/DNetPROConfigVersion.cm
 install (FILES
          "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/DNetPROConfig.cmake"
          "${PROJECT_BINARY_DIR}/DNetPROConfigVersion.cmake"
-         DESTINATION "${INST_DIR}"
+         DESTINATION "${INSTALL_CMAKE_DIR}"
          )
 

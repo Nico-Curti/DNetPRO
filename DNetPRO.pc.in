@@ -1,0 +1,11 @@
+prefix=@CMAKE_SOURCE_DIR@
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: DNetPRO
+Description: The DNetPRO library
+
+Version: @DNetPRO_VERSION@
+Cflags: -I${includedir}/
+Libs: -L${libdir} -l@CMAKE_STATIC_LIBRARY_PREFIX@@dnetprolib@
