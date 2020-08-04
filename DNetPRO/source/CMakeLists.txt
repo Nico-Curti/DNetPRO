@@ -17,7 +17,7 @@ cython_add_module( DNetPRO DNetPRO.pyx
                   ${SRC_DIR}/misc.cpp ${INC_DIR}/misc.h
                   )
 target_include_directories(DNetPRO PRIVATE ${Python_NumPy_INCLUDE_DIRS})
-target_compile_definitions(DNetPRO PRIVATE -D__dnet__ -DNPY_NO_DEPRECATED_API NPY_1_7_API_VERSION)
+target_compile_definitions(DNetPRO PRIVATE -D__dnet__ -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION)
 target_link_libraries(DNetPRO ${linked_libs})
 
 # Installation of targets
