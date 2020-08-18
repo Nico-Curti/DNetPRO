@@ -1,5 +1,5 @@
 | **Authors**  | **Project** | **Build Status** | **Code Quality** | **Coverage** |
-|:------------:|:-----------:|:-----------------:|:----------------:|:----------------:|
+|:------------:|:-----------:|:----------------:|:----------------:|:------------:|
 | [**N. Curti**](https://github.com/Nico-Curti) |  **DNetPRO**<br/>[![arxiv.org](http://img.shields.io/badge/bioRxiv-0.1101/773622-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/773622v1)  | **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/DNetPRO.svg?branch=master)](https://travis-ci.com/Nico-Curti/DNetPRO) <br/> **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/tbjbqnr3am9xms1a?svg=true)](https://ci.appveyor.com/project/Nico-Curti/dnetpro) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/f3ff6cf583d4474e988d33923137e184)](https://www.codacy.com/manual/Nico-Curti/DNetPRO?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/DNetPRO&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![Codebeat](https://codebeat.co/badges/0c5129c1-4537-4545-a8e2-07807c6303f5)](https://codebeat.co/projects/github-com-nico-curti-dnetpro-master) | [![codecov](https://codecov.io/gh/Nico-Curti/DNetPRO/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/DNetPRO) |
 
 ![C++ version CI](https://github.com/Nico-Curti/DNetPRO/workflows/C++%20version%20CI/badge.svg)
@@ -13,9 +13,9 @@
 [![GitHub watchers](https://img.shields.io/github/watchers/Nico-Curti/DNetPRO.svg?label=Watch&style=social)](https://github.com/Nico-Curti/DNetPRO/watchers)
 
 <a href="https://github.com/UniboDIFABiophysics">
-<div class="image">
-<img src="https://cdn.rawgit.com/physycom/templates/697b327d/logo_unibo.png" width="90" height="90">
-</div>
+  <div class="image">
+    <img src="https://cdn.rawgit.com/physycom/templates/697b327d/logo_unibo.png" width="90" height="90">
+  </div>
 </a>
 
 # DNetPRO
@@ -30,6 +30,8 @@ Official implementation of the DNetPRO algorithm published on [BioRXiv](https://
 * [Installation](#installation)
 * [Efficiency](#efficiency)
 * [Usage](#usage)
+* [Testing](#testing)
+* [Table of contents](#table-of-contents)
 * [Contribution](#contribution)
 * [References](#references)
 * [Authors](#authors)
@@ -39,38 +41,7 @@ Official implementation of the DNetPRO algorithm published on [BioRXiv](https://
 
 ## Overview
 
-After the end of the Human Genome Project (HGP, 2003) [[McKinney2012](https://doi.org/10.1108/09504121211211415)] there has been growing interest on biological data and their analysis.
-At the same time, the availability of this type of data increased exponentially with the technological improvement of data extractors (High-Throughput technologies) [[Reuter2015](https://doi.org/10.1016/j.molcel.2015.05.004)] and with lower production costs.
-Lower costs and efficiency in time extraction are the main factors that allow us to go into the new scientific era of Big Data.
-Biological Big Data works with very large and complex datasets which are typically impossible to store, handle and analyze using standard computer and techniques [[Kumari2014](https://pdfs.semanticscholar.org/6cb1/5f5dc5605559230617828dc1dadad5775e85.pdf)].
-Just think that we need around 140 Gb for the storage of the DNA of a single person and an Array
-Express, a compendium of public gene expression data, contains more than 1.3 million of genomes which have been collected in more than 45000 experiments [[Greene2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5604462/)].
-Since the number of available data is getting greater, we need to design several storage databases to organize, classify and moreover to extract information from them.
-The Bioinformatics European Institute (EBI) at Hinxton (UK), which is part of the European Laboratory of Biological Molecular and one of the biggest repositories of biological data, stores 20 petabytes of data and genomics and proteomics back-ups.
-The amount of the genomics data is only 2 petabytes, and it doubles every year: it is not worth to remark that these quantities represent about a tenth of data stored by CERN of Ginevra [[Marx2013](https://doi.org/10.1038/498255a)].
-On the other hand, the ability of processing data and the computational techniques of analysis do not grow the same way.
-Therefore the gap between the great growth of the number of available data and our ability to work with them is getting bigger.
-
-From a computational point of view, the Bioinformatics new-science is looking for new methods to analyze these large amount of data.
-The common Machine Learning methods, i.e computational algorithms able to identify significant patterns into large quantities of data, needs to be optimized and modified to increase their computational and statistical performances.
-To optimize the computational times we need to extend existing methods and algorithms and to develop new dimensionality reduction techniques.
-In Machine Learning, in fact, as the dimensionality of the data increases, the amount of data required to
-perform a reliable analysis grows exponentially.
-The dimensionality reduction techniques are methods able to identify the more significant variables of a given problem or a combination of them, where means that this smaller number of variables (or features) preserves the information about the problem as much as possible.
-So this huge amount of high-dimensional omics data (e.g. transcriptomics through microarray or
-NGS, epigenomics, SNP profiling, proteomics and metabolomics, but also metagenomics of gut microbiota) poses enormous challenges as how to extract useful information from them.
-One of the prominent problems is to extract low-dimensional sets of variables - signatures - for
-classification and diagnostic purposes, for example to better stratify patients for personalized intervention strategies based on their molecular profile [[Scotlandi2009](https://doi.org/10.1200/JCO.2008.19.2542), [Chan2011](https://doi.org/10.1146/annurev-genom-082410-101446), [Johnson2017](https://accpjournals.onlinelibrary.wiley.com/doi/abs/10.1002/phar.1975), [Beckmann2016ReconcilingEM](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5165712/)].
-
-![An example in which single-parameter classification fails in predicting higher-dimension classification performance. Both parameters (*feature1* and *feature2*) badly classify in 1-D, but have a very good performance in 2D. Moreover, classification can be easily interpreted in terms of relative higher/lower expression of both probes.](https://github.com/Nico-Curti/DNetPRO/blob/master/img/distributions.svg)
-
-![Activity of a biological feature (e.g. a gene) as a function of its expression level: top) monotonically increasing, often also discretized to an on/off state; center, bottom) "windowed" behavior, in which there are two or more activity states that do not depend monotonically on expression level. X axis: expression level, Y axis, biological state (arbitrary scales).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/expression.svg)
-
-Many approaches are used for these classification purposes [[Guyon2002](https://link.springer.com/article/10.1023/A:1012487302797)], such as Elastic Net [[Hughey2015](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4499117/)],
-Support Vector Machine, K-nearest Neighbor, Neural networks and Random Forest [[Pang2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3495190/)].
-Some methods select signature variables by means of single-variable scoring methods [[Eckhard2012](https://www.scirp.org/journal/PaperInformation.aspx?PaperID=18585), [Hocking1976](http://www.jstor.org/stable/2529336)]  (e.g. Student's t test for a
-two-class comparison), while others search for projections in variable space, and then perform a dimensionality reduction by thresholding the projection weights, but these approaches could fail even in simple
-two-dimensional situations (Fig. [1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/distributions.svg)).
+![(a) An example in which single-parameter classification fails in predicting higher-dimension classification performance. Both parameters (*feature1* and *feature2*) badly classify in 1-D, but have a very good performance in 2D. Moreover, classification can be easily interpreted in terms of relative higher/lower expression of both probes. (b)Activity of a biological feature (e.g. a gene) as a function of its expression level: top) monotonically increasing, often also discretized to an on/off state; center, bottom) "windowed" behavior, in which there are two or more activity states that do not depend monotonically on expression level. X axis: expression level, Y axis, biological state (arbitrary scales).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.svg)
 
 Methods that select variables for multi-dimensional signatures based on single-variable performance can have limits in predicting
 higher-dimensional signature performance.
@@ -156,9 +127,22 @@ C++ supported compilers:
 
 The `DNetPRO` project is written in `C++` and it supports also older standard versions (std=c++1+).
 The package installation can be performed via [`CMake`](https://github.com/Nico-Curti/DNetPRO/blob/master/CMakeLists.txt).
+The `CMake` installer provides also a `DNetPRO.pc`, useful if you want link to the `DNetPRO` using `pkg-config`.
 
+You can also use the `DNetPRO` package in `Python` using the `Cython` wrap provided inside this project.
+The only requirements are the following:
+
+* numpy >= 1.14.3
+* networkx >= 2.2
+* cython >= 0.29
+* scikit -learn >= 0.19.1
+* pandas >= 0.24.2
+
+The `Cython` version can be built and installed via `CMake` enabling the `-DPYWRAP` variable.
 You can use also the `DNetPRO` package in `Python` using the `Cython` wrap provided inside this project.
-The `Python` wrap guarantees also a good integration with the other common Machine Learning tools provided by `scikit-learn` `Python` package; in this way we can use the `DNetPRO` algorithm as equivalent alternative also in other pipelines.
+The `Python` wrap guarantees also a good integration with the other common Machine Learning tools provided by `scikit-learn` `Python` package; in this way you can use the `DNetPRO` algorithm as an equivalent alternative also in other pipelines.
+Like other Machine Learning algorithm also the `DNetPRO` one depends on many parameters, i.e its hyper-parameters, which has to be tuned according to the given problem.
+The `Python` wrap of the library was written according to `scikit-optimize` `Python` package to allow an easy hyper-parameters optimization using the already implemented classical methods.
 
 ## Installation
 
@@ -362,6 +346,8 @@ if you are working on a Windows machine the right script to call is the [`build.
 
 **NOTE 1:** if you want enable the OpenMP support compile the library with `-DOMP=ON`.
 
+**NOTE 2:** if you want enable the Cython support compile the library with `-DPYWRAP=ON`. The Cython packages will be compiled and correctly positioned in the `DNetPRO` Python package **BUT** you need to run also the setup before use it.
+
 ### Python installation
 
 Python version supported : ![Python version](https://img.shields.io/badge/python-3.5|3.6|3.7-blue.svg)
@@ -472,6 +458,43 @@ print('Best Signature: {}'.format(dnet.get_signature()[0]))
 print('Score: {:.3f}'.format(dnet.score(X_test, y_test)))
 ```
 
+## Testing
+
+The Python version of the package is tested using [`pytest`](https://docs.pytest.org/en/latest/).
+To install the package in development mode you need to add also this requirement:
+
+* pytest == 3.0.7
+
+The full list of python test scripts can be found [here](https://github.com/Nico-Curti/DNetPRO/blob/master/DNetPRO/test).
+
+## Table of contents
+
+Description of the folders related to the `C++` version.
+
+| **Directory**  |  **Description** |
+|:--------------:|:-----------------|
+| [example](https://github.com/Nico-Curti/DNetPRO/blob/master/example) | Example script for the `C++` version of the code. Use the command line helper for a full description of the required parameters. |
+| [hpp](https://github.com/Nico-Curti/DNetPRO/blob/master/hpp)         | Implementation of the `C++` template functions and objects used in the `DNetPRO` algorithm.                                       |
+| [include](https://github.com/Nico-Curti/DNetPRO/blob/master/include) | Definition of the `C++` function and objects used in the `DNetPRO` algorithm.                                                    |
+| [src](https://github.com/Nico-Curti/DNetPRO/blob/master/src)         | Implementation of the `C++` functions and objects used in the `DNetPRO` algorithm.                                               |
+
+Description of the folders related to the `Python` version (base directory `DNetPRO`).
+
+| **Directory**  |  **Description** |
+|:--------------:|:-----------------|
+| [example](https://github.com/Nico-Curti/DNetPRO/blob/master/DNetPRO/example) | `Python` version of the `C++` example.      |
+| [lib](https://github.com/Nico-Curti/DNetPRO/blob/master/DNetPRO/lib)         | List of `Cython` definition files.          |
+| [source](https://github.com/Nico-Curti/DNetPRO/blob/master/DNetPRO/source)   | List of `Cython` implementation objects.    |
+| [test](https://github.com/Nico-Curti/DNetPRO/blob/master/DNetPRO/test)       | List of test scripts for the `Python` wraps.|
+
+Description of the folders containing the scripts used for the paper simulations.
+
+| **Directory**  |  **Description** |
+|:--------------:|:-----------------|
+| [toy](https://github.com/Nico-Curti/DNetPRO/blob/master/toy)           | Implementation of the `Python` scripts used for the simulations on synthetic datasets. |
+| [pipeline/TCGA](https://github.com/Nico-Curti/DNetPRO/blob/master/toy) | Implementation of the `Python` scripts used for the simulations on the TCGA datasets.  |
+| [timing](https://github.com/Nico-Curti/DNetPRO/blob/master/timing)     | Implementation of the `Python` scripts for the performances evaluation.           |
+
 ## Contribution
 
 Any contribution is more than welcome :heart:. Just fill an [issue](https://github.com/Nico-Curti/DNetPRO/blob/master/ISSUE_TEMPLATE.md) or a [pull request](https://github.com/Nico-Curti/DNetPRO/blob/master/PULL_REQUEST_TEMPLATE.md) and we will check ASAP!
@@ -496,7 +519,7 @@ See [here](https://github.com/Nico-Curti/DNetPRO/blob/master/CONTRIBUTING.md) fo
 
 * <img src="https://avatars0.githubusercontent.com/u/24650975?s=400&v=4" width="25px"> **Nico Curti** [git](https://github.com/Nico-Curti), [unibo](https://www.unibo.it/sitoweb/nico.curti2)
 * <img src="https://avatars2.githubusercontent.com/u/1419337?s=400&v=4" width="25px;"/> **Enrico Giampieri** [git](https://github.com/EnricoGiampieri), [unibo](https://www.unibo.it/sitoweb/enrico.giampieri)
-* **Gastone Castellani** [unibo](https://www.unibo.it/sitoweb/gastone.castellani)
+* <img src="https://www.unibo.it/uniboweb/utils/UserImage.aspx?IdAnagrafica=236217&IdFoto=bf094429" width="25px"> **Gastone Castellani** [unibo](https://www.unibo.it/sitoweb/gastone.castellani)
 * <img src="https://avatars2.githubusercontent.com/u/25343321?s=400&v=4" width="25px"> **Daniel Remondini** [git](https://github.com/dremondini), [unibo](https://www.unibo.it/sitoweb/daniel.remondini)
 
 See also the list of [contributors](https://github.com/Nico-Curti/DNetPRO/contributors) [![GitHub contributors](https://img.shields.io/github/contributors/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/graphs/contributors/) who participated in this project.
