@@ -2,9 +2,9 @@
 |:------------:|:-----------:|:----------------:|:----------------:|:------------:|
 | [**N. Curti**](https://github.com/Nico-Curti) |  **DNetPRO**<br/>[![arxiv.org](http://img.shields.io/badge/bioRxiv-0.1101/773622-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/773622v1)  | **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/DNetPRO.svg?branch=master)](https://travis-ci.com/Nico-Curti/DNetPRO) <br/> **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/tbjbqnr3am9xms1a?svg=true)](https://ci.appveyor.com/project/Nico-Curti/dnetpro) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/f3ff6cf583d4474e988d33923137e184)](https://www.codacy.com/manual/Nico-Curti/DNetPRO?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/DNetPRO&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![Codebeat](https://codebeat.co/badges/0c5129c1-4537-4545-a8e2-07807c6303f5)](https://codebeat.co/projects/github-com-nico-curti-dnetpro-master) | [![codecov](https://codecov.io/gh/Nico-Curti/DNetPRO/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/DNetPRO) |
 
-![C++ version CI](https://github.com/Nico-Curti/DNetPRO/workflows/C++%20version%20CI/badge.svg)
+[![C++ version CI](https://github.com/Nico-Curti/DNetPRO/workflows/C++%20version%20CI/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions?query=workflow%3A%22C%2B%2B+version+CI%22)
 
-![Python version CI](https://github.com/Nico-Curti/DNetPRO/workflows/Python%20version%20CI/badge.svg)
+[![Python version CI](https://github.com/Nico-Curti/DNetPRO/workflows/Python%20version%20CI/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions?query=workflow%3A%22Python+version+CI%22)
 
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/issues)
@@ -123,7 +123,7 @@ C++ supported compilers:
 
 ![clang version](https://img.shields.io/badge/clang-3.*%20|%204.*%20|%205.*%20|%206.*%20|%207.*%20|-red.svg)
 
-![msvc version](https://img.shields.io/badge/msvc-vs2017%20x86%20|%20vs2017%20x64-blue.svg)
+![msvc version](https://img.shields.io/badge/msvc-vs2017%20x86%20|%20vs2017%20x64|%20vs2019%20x86%20|%20vs2019%20x64-blue.svg)
 
 The `DNetPRO` project is written in `C++` and it supports also older standard versions (std=c++1+).
 The package installation can be performed via [`CMake`](https://github.com/Nico-Curti/DNetPRO/blob/master/CMakeLists.txt).
@@ -350,7 +350,7 @@ if you are working on a Windows machine the right script to call is the [`build.
 
 ### Python installation
 
-Python version supported : ![Python version](https://img.shields.io/badge/python-3.5|3.6|3.7-blue.svg)
+Python version supported : ![Python version](https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg)
 
 The `Python` installation can be performed with or without the `C++` installation.
 The `Python` installation is always executed using [`setup.py`](https://github.com/Nico-Curti/blob/master/setup.py) script.
