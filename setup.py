@@ -78,6 +78,11 @@ class dnetpro_build_ext (build_ext):
     build_ext.build_extensions(self)
 
 
+class sdist(_sdist):
+  def run(self):
+    self.run_command("build_ext")
+    _sdist.run(self)
+
 def read_description (readme_filename):
   '''
   Description package from filename
@@ -103,8 +108,8 @@ here = os.path.abspath(os.path.dirname(__file__))
 NAME = 'DNetPRO'
 DESCRIPTION = 'Discriminant Network Processing'
 URL = 'https://github.com/Nico-Curti/DNetPRO'
-EMAIL = ['nico.curit2@unibo.it', 'enrico.giampieri@unibo.it', 'daniel.remondini@unibo.it']
-AUTHOR = ['Nico Curti', 'Enrico Giampieri', 'Daniel Remondini']
+EMAIL = 'nico.curit2@unibo.it, enrico.giampieri@unibo.it, daniel.remondini@unibo.it'
+AUTHOR = 'Nico Curti, Enrico Giampieri, Daniel Remondini'
 REQUIRES_PYTHON = '>=3.4'
 VERSION = None
 KEYWORDS = 'feature-selection machine-learning-algorithm classification-algorithm genomics rna mirna'
@@ -174,18 +179,14 @@ if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
 
     compiler, compiler_version = (CPP_COMPILER, '0')
 
-  if compiler == 'Clang':
-    ENABLE_OMP = False
-
-  if ENABLE_OMP:
+  if ENABLE_OMP and compiler == 'GCC':
     linker_args = ['-fopenmp']
-
   else:
+    print('OpenMP support disabled. It can be used only with gcc compiler.')
     linker_args = []
 
 elif 'MSC' in CPP_COMPILER:
   compile_args = ['/std:c++14', '/Ox', '/Wall', '/W3']
-  BUILD_SCORER = True
 
   if ENABLE_OMP:
     linker_args = ['/openmp']
@@ -197,6 +198,8 @@ else:
 
 whole_compiler_args = sum([compile_args, define_args, linker_args], [])
 
+cmdclass = {'build_ext': rfbp_build_ext,
+            'sdist': sdist}
 
 setup(
   name                          = NAME,
@@ -215,6 +218,10 @@ setup(
   keywords                      = KEYWORDS,
   packages                      = find_packages(include=['DNetPRO', 'DNetPOR.*'], exclude=('test', 'testing', 'example')),
   #include_package_data          = True, # no absolute paths are allowed
+  setup_requires                = [# Setuptools 18.0 properly handles Cython extensions.
+                                   'setuptools>=18.0',
+                                   'cython',
+                                   'numpy'],
   platforms                     = 'any',
   classifiers                   =[
                                    #'License :: OSI Approved :: GPL License',
@@ -225,7 +232,7 @@ setup(
                                    'Programming Language :: Python :: Implementation :: PyPy'
                                  ],
   license                       = 'MIT',
-  cmdclass                      = {'build_ext': dnetpro_build_ext},
+  cmdclass                      = cmdclass,
   ext_modules                   = [Extension( name='.'.join(['DNetPRO', 'lib', 'DNetPRO']),
                                               sources=['./DNetPRO/source/DNetPRO.pyx',
                                                        './src/dnetpro_couples.cpp',
