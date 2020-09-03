@@ -62,6 +62,13 @@ environment:
     MSVC_SETUP_ARG: x64
 
 
+matrix:
+  exclude:
+    - image: Visual Studio 2017
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    - image: Visual Studio 2019
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+
 install:
   - if [%COMPILER%]==[vs] cinst ninja
   - if [%COMPILER%]==[vs] SET "PATH=C:\Program Files\CMake\bin;%PATH%"
@@ -89,7 +96,7 @@ build_script:
   - if [%MSVC_SETUP_ARG%]==[x64] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" cmake .. -G "Visual Studio 15 2017 Win64" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
   - if [%MSVC_SETUP_ARG%]==[x86] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" cmake .. -G "Visual Studio 15 2017" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
 
-  - if [%MSVC_SETUP_ARG%]==[x64] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" cmake .. -G "Visual Studio 16 2019" -A Win64 "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
+  - if [%MSVC_SETUP_ARG%]==[x64] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" cmake .. -G "Visual Studio 16 2019" -T "host=x64" -A "x64" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
   - if [%MSVC_SETUP_ARG%]==[x86] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" cmake .. -G "Visual Studio 16 2019" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
 
   - cmake --build . --config Release
