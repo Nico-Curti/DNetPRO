@@ -22,6 +22,7 @@ except ImportError:
 from distutils import sysconfig
 from Cython.Distutils import build_ext
 from distutils.sysconfig import customize_compiler
+from distutils.command.sdist import sdist as _sdist
 
 def get_requires (requirements_filename):
   '''
