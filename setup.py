@@ -199,7 +199,7 @@ else:
 
 whole_compiler_args = sum([compile_args, define_args, linker_args], [])
 
-cmdclass = {'build_ext': rfbp_build_ext,
+cmdclass = {'build_ext': dnetpro_build_ext,
             'sdist': sdist}
 
 setup(
