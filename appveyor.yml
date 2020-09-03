@@ -1,6 +1,10 @@
 clone_folder: c:\projects\DNetPRO
 configuration: Debug
 
+image:
+  - Visual Studio 2017
+  - Visual Studio 2019
+
 environment:
 
   WORKSPACE: C:\projects
@@ -67,7 +71,7 @@ install:
   ############################################################################
   # Install a recent CMake
   ############################################################################
-  - set CMAKE_URL="https://cmake.org/files/v3.12/cmake-3.12.1-win64-x64.zip"
+  - set CMAKE_URL="https://cmake.org/files/v3.14/cmake-3.14.1-win64-x64.zip"
   - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
   - 7z x cmake.zip -oC:\projects\deps > nul
   - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
@@ -75,10 +79,6 @@ install:
   - cmake --version
 
   - git submodule -q update --init --recursive
-  - cd C:\projects\
-  - mkdir cygwin-downloads
-  - ps: if($env:COMPILER -eq "cygwin") { Invoke-WebRequest https://cygwin.com/setup-x86_64.exe -OutFile C:\projects\cygwin-setup.exe }
-  - if [%COMPILER%]==[cygwin] C:\projects\cygwin-setup.exe --quiet-mode --no-shortcuts --no-startmenu --no-desktop --upgrade-also --root C:\cygwin64 --local-package-dir C:\projects\cygwin-downloads --packages gcc-g++,cmake,libopencv-dev
 
 before_build:
   - cd %WORKSPACE%\DNetPRO

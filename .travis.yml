@@ -259,10 +259,9 @@ matrix:
         - LINKER_FLAGS="-stdlib=libc++ -lc++abi"
 
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       compiler: clang
       name: macOS - clang@7.0
-      dist: xenial
       addons:
         apt:
           sources:
