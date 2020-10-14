@@ -6,6 +6,9 @@
 
 [![Python version CI](https://github.com/Nico-Curti/DNetPRO/workflows/Python%20version%20CI/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions?query=workflow%3A%22Python+version+CI%22)
 
+[![Docs CI](https://github.com/Nico-Curti/DNetPRO/workflows/DNetPRO%20Docs%20CI/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions?query=workflow%3A%22rFBP+Docs+CI%22)
+
+[![docs](https://readthedocs.org/projects/dnetpro/badge/?version=latest)](https://dnetpro.readthedocs.io/en/latest/?badge=latest)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/issues)
 
@@ -67,7 +70,7 @@ The pipeline algorithm is made by many different steps and only a part of it was
 The `DNetPRO` algorithm produces multivariate signatures starting from all the couples of variables analyzed by a Discriminant Analysis.
 For this reason, it can be classified as a combinatorial method and the computational time for the exploration of variable space is proportional to the square of the number of underlying variables (ranging from `10^3` to `10^5` in a typical high-throughput omics study).
 This behavior allows to overcome some of the limits of single-feature selection methods and it provides a hard-thresholding approach compared to projection-based variable selection methods.
-The combinatorial evaluation is the most time-expensive step of the algorithm and it needs an accurate algorithmic implementation for Big Data applications (see the next section for further information about the algorithm implementation strategy).
+The combinatorial evaluation is the most time-expensive step of the algorithm and it needs an accurate algorithmic implementation for Big Data applications.
 A summary of the algorithm is shown in the following pseudo-code.
 
 ```
@@ -401,7 +404,7 @@ While the code performances scale quite well with the number of features (Fig. [
 This behavior highlights the results of the optimizations performed on the `Cython` version which allows the application of the `DNetPRO` algorithm also to larger datasets without loosing performances.
 An opposite behavior is found monitoring the number of threads (ref Fig. [3](https://github.com/Nico-Curti/DNetPRO/blob/master/img/nth_timing.svg)): the `Python` version scales quite well with the number of threads, while `Cython` trend is more unstable.
 This behavior is probably due to a non-optimal schedule in the parallel section: the work is not equally distributed along the available threads and it penalizes the code efficiency, creating a bottleneck related to the slowest thread.
-The above results are computed considering a number of features equal to 90 and, thus, the parallel section distributes the 180 (`N x N`) iterations along the available threads: when the number of iterations is proportional to the number of threads used (12, 20 and 30 in our case), we have a maximization of the time performances.
+The above results are computed considering a number of features equal to 90 and, thus, the parallel section distributes the 8100 (`N x N`) iterations along the available threads: when the number of iterations is proportional to the number of threads used (12, 20 and 30 in our case), we have a maximization of the time performances.
 Despite of this, the computational efficiency of the `Cython` implementation is so much better than the `Python` one that its usage is indisputable.
 
 ## Usage
@@ -497,9 +500,9 @@ Description of the folders containing the scripts used for the paper simulations
 
 ## Contribution
 
-Any contribution is more than welcome :heart:. Just fill an [issue](https://github.com/Nico-Curti/DNetPRO/blob/master/ISSUE_TEMPLATE.md) or a [pull request](https://github.com/Nico-Curti/DNetPRO/blob/master/PULL_REQUEST_TEMPLATE.md) and we will check ASAP!
+Any contribution is more than welcome :heart:. Just fill an [issue](https://github.com/Nico-Curti/DNetPRO/blob/master/.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md) or a [pull request](https://github.com/Nico-Curti/DNetPRO/blob/master/.github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE.md) and we will check ASAP!
 
-See [here](https://github.com/Nico-Curti/DNetPRO/blob/master/CONTRIBUTING.md) for further informations about how to contribute with this project.
+See [here](https://github.com/Nico-Curti/DNetPRO/blob/master/.github/CONTRIBUTING.md) for further informations about how to contribute with this project.
 
 ## References
 
@@ -526,7 +529,7 @@ See also the list of [contributors](https://github.com/Nico-Curti/DNetPRO/contri
 
 ## License
 
-The `DNetPRO` package is licensed under the MIT "Expat" License. [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/DNetPRO/blob/master/LICENSE.md)
+The `DNetPRO` package is licensed under the MIT "Expat" License. [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/DNetPRO/blob/master/LICENSE)
 
 ### Acknowledgment
 

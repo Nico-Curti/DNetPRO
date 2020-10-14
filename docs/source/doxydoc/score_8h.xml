@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="score_8h" kind="file" language="C++">
+    <compoundname>score.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">utils.hpp</includes>
+    <includedby refid="dnetpro__couples_8h" local="no">/home/nico/Code/DNetPRO/include/dnetpro_couples.h</includedby>
+    <incdepgraph>
+      <node id="4">
+        <label>cmath</label>
+      </node>
+      <node id="1">
+        <label>/home/nico/Code/DNetPRO/include/score.h</label>
+        <link refid="score_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>utils.hpp</label>
+      </node>
+      <node id="3">
+        <label>utility</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>/home/nico/Code/DNetPRO/include/score.h</label>
+        <link refid="score_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/nico/Code/DNetPRO/include/dnetpro_couples.h</label>
+        <link refid="dnetpro__couples_8h"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structscore" prot="public">score</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__score_h__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__score_h__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>unique_ptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>sqrt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utils.hpp&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>old<sp/>gcc<sp/>compatibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="structscore" refkind="compound"><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structscore" kindref="compound">score</ref></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structscore_1a6d85849796e668e848d0c3e59992211c" refkind="member"><highlight class="normal"><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>float[]<sp/>&gt;<sp/><ref refid="structscore_1a6d85849796e668e848d0c3e59992211c" kindref="member">mcc</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="structscore_1a1f6c9fd9b568c232489b05537fe56803" refkind="member"><highlight class="normal"><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>int[]<sp/>&gt;<sp/><ref refid="structscore_1a1f6c9fd9b568c232489b05537fe56803" kindref="member">gene_a</ref>;<sp/></highlight></codeline>
+<codeline lineno="29" refid="structscore_1acc1f20b7efd60f8f83e7f74037119d8a" refkind="member"><highlight class="normal"><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>int[]<sp/>&gt;<sp/><ref refid="structscore_1acc1f20b7efd60f8f83e7f74037119d8a" kindref="member">gene_b</ref>;<sp/></highlight></codeline>
+<codeline lineno="30" refid="structscore_1a6b04d76d2d914e524d2d0ffc2db9870d" refkind="member"><highlight class="normal"><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>int[]<sp/>&gt;<sp/><ref refid="structscore_1a6b04d76d2d914e524d2d0ffc2db9870d" kindref="member">tot</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structscore_1a54ff440176513e9f09a11785aa543533" refkind="member"><highlight class="normal"><sp/><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>int[]<sp/>&gt;[]<sp/>&gt;<sp/><ref refid="structscore_1a54ff440176513e9f09a11785aa543533" kindref="member">class_score</ref>;<sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structscore_1a807772c4efc6cb05b2956c5feeae03e4" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structscore_1a807772c4efc6cb05b2956c5feeae03e4" kindref="member">N</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structscore_1afac731e78b98e348f6cc67a48be1ff41" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structscore_1afac731e78b98e348f6cc67a48be1ff41" kindref="member">n_class</ref>;<sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Constructors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><ref refid="structscore_1aab535d75f5f5bbef95b33f00ce5aa2e4" kindref="member">score</ref><sp/>();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><ref refid="structscore_1aab535d75f5f5bbef95b33f00ce5aa2e4" kindref="member">score</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/><ref refid="structscore_1a807772c4efc6cb05b2956c5feeae03e4" kindref="member">N</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/><ref refid="structscore_1afac731e78b98e348f6cc67a48be1ff41" kindref="member">n_class</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Copy<sp/>constructors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><ref refid="structscore_1aab535d75f5f5bbef95b33f00ce5aa2e4" kindref="member">score</ref><sp/>(<ref refid="structscore" kindref="compound">score</ref><sp/>&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><ref refid="structscore" kindref="compound">score</ref><sp/>&amp;<sp/><ref refid="structscore_1a25dd1e8f41d2890915080a95ef5874dd" kindref="member">operator = </ref>(<ref refid="structscore" kindref="compound">score</ref><sp/>&amp;&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Destructors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><ref refid="structscore_1a984dd35bcd451da07c3a45e805bc0722" kindref="member">~score</ref><sp/>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Static<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structscore_1adbb8ab2964458233b990ad13b61c6488" kindref="member">matthews_corrcoef</ref><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>&amp;<sp/>s0,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>m0,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>&amp;<sp/>s1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>m1);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>__score_h__</highlight></codeline>
+    </programlisting>
+    <location file="/home/nico/Code/DNetPRO/include/score.h"/>
+  </compounddef>
+</doxygen>

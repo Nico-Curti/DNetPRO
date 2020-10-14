@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.17">
+  <compound refid="classargument" kind="class"><name>argument</name>
+    <member refid="classargument_1afbc3cd48436744dc80d58ba611538478" kind="variable"><name>values</name></member>
+    <member refid="classargument_1a7f2a70552c49a3c4bdecd885cdd0d0e3" kind="variable"><name>name</name></member>
+    <member refid="classargument_1a612b05f0e319bd9696bab714f87d5c7f" kind="variable"><name>short_flag</name></member>
+    <member refid="classargument_1a5b0a5e2450e4b48ee79d77d441d20b84" kind="variable"><name>long_flag</name></member>
+    <member refid="classargument_1adb20cf230c08f5421e4157e33c9bdc2a" kind="variable"><name>help</name></member>
+    <member refid="classargument_1a10c93d0e8a5773fe0b1bd2e8f752a597" kind="variable"><name>defualt_value</name></member>
+    <member refid="classargument_1ab54c9020806111579763dc4fe2190486" kind="variable"><name>data_type</name></member>
+    <member refid="classargument_1ab67fbfd00b57dcb7bed24cc8579e1be2" kind="variable"><name>required</name></member>
+    <member refid="classargument_1ae5738480f8396d4698b6f0900d207a1b" kind="function"><name>argument</name></member>
+    <member refid="classargument_1a255911ce0550dfd9052b9220e347a064" kind="function"><name>~argument</name></member>
+  </compound>
+  <compound refid="classArgumentParser" kind="class"><name>ArgumentParser</name>
+    <member refid="classArgumentParser_1a8f088bcfbbaa5185845dc75437e1278e" kind="variable"><name>PRINT_HELP</name></member>
+    <member refid="classArgumentParser_1a0724c88ffa81a52ef89af689dfdc0d0a" kind="variable"><name>ERROR_PARSER</name></member>
+    <member refid="classArgumentParser_1ae78ab72b32c8368221bf7668d29165be" kind="variable"><name>ERROR_PARSER_INPUTS</name></member>
+    <member refid="classArgumentParser_1a6a9cdcc90de365687bde279554690d96" kind="variable"><name>ERROR_PARSER_REQUIRED</name></member>
+    <member refid="classArgumentParser_1a8398a6ab14e87980b2dd61b5abbdf239" kind="variable"><name>ERROR_PARSER_UNKNOWN</name></member>
+    <member refid="classArgumentParser_1a9a89b8bad07b991c5f88040a47500da0" kind="variable"><name>ERROR_PARSER_INVARG</name></member>
+    <member refid="classArgumentParser_1a6a9d61215bb8f9d2f23883da6f2a5f9a" kind="variable"><name>ERROR_PARSER_OUTRANGE</name></member>
+    <member refid="classArgumentParser_1acf3aa1ebe0d880a685d17f424f0ae364" kind="variable"><name>ERROR_PARSER_BOOL</name></member>
+    <member refid="classArgumentParser_1a31a0cb0ca7f0bd1e3c993bcceee476e7" kind="variable"><name>ERROR_PARSER_CHAR</name></member>
+    <member refid="classArgumentParser_1a3549bd8522aa85e535845cd6a1e016b6" kind="variable"><name>args</name></member>
+    <member refid="classArgumentParser_1ab15c907c5553b9c8c593c808a757077b" kind="variable"><name>description</name></member>
+    <member refid="classArgumentParser_1a1fd89aefe1fb9d491cb3bdd355f0e471" kind="variable"><name>program</name></member>
+    <member refid="classArgumentParser_1ae911b882ff00b4afdecb535f5ac473e2" kind="function"><name>ArgumentParser</name></member>
+    <member refid="classArgumentParser_1a04c152105d2dec809a860758da2834ab" kind="function"><name>~ArgumentParser</name></member>
+    <member refid="classArgumentParser_1a2d98a1ed1cbc706c4c9c0d1d3d95f923" kind="function"><name>parse_args</name></member>
+    <member refid="classArgumentParser_1a7af2bcf124fcc4335f98b2054052e9b1" kind="function"><name>add_argument</name></member>
+    <member refid="classArgumentParser_1a97a3f36e5710ac6e5a6a96e6d4da318e" kind="function"><name>get</name></member>
+    <member refid="classArgumentParser_1ac3fb933b518fc2f4c80a68a000b581aa" kind="function"><name>print_help</name></member>
+    <member refid="classArgumentParser_1a9abec20f434784291d839d8ea42f2d46" kind="function"><name>error_parsing_type</name></member>
+    <member refid="classArgumentParser_1af5508fcad2da24edbb0c824a47314ee5" kind="function"><name>error_parsing_inputs_arg</name></member>
+    <member refid="classArgumentParser_1ab350056f39d83694bc27fc4c5e27a9d9" kind="function"><name>error_parsing_required_arg</name></member>
+    <member refid="classArgumentParser_1abbb73d7eec695fcc5d4a082b60f0580a" kind="function"><name>error_parsing_unknown_arg</name></member>
+    <member refid="classArgumentParser_1ac8dd36f34bfbb0c0339f70e0f6950273" kind="function"><name>error_parsing_invalid_arg</name></member>
+    <member refid="classArgumentParser_1ae3a35a9c39e6900f1f52b6ee76f925b3" kind="function"><name>error_parsing_out_of_range_arg</name></member>
+    <member refid="classArgumentParser_1aa1129deeac83d53521369bd837520492" kind="function"><name>error_parsing_bool</name></member>
+    <member refid="classArgumentParser_1ac4a60a26a52fce4581fad40e7a807692" kind="function"><name>error_parsing_char</name></member>
+    <member refid="classArgumentParser_1ab3434e185c7cf7cc240bccea1ce69471" kind="function"><name>type_name</name></member>
+  </compound>
+  <compound refid="structscore" kind="class"><name>score</name>
+    <member refid="structscore_1a6d85849796e668e848d0c3e59992211c" kind="variable"><name>mcc</name></member>
+    <member refid="structscore_1a1f6c9fd9b568c232489b05537fe56803" kind="variable"><name>gene_a</name></member>
+    <member refid="structscore_1acc1f20b7efd60f8f83e7f74037119d8a" kind="variable"><name>gene_b</name></member>
+    <member refid="structscore_1a6b04d76d2d914e524d2d0ffc2db9870d" kind="variable"><name>tot</name></member>
+    <member refid="structscore_1a54ff440176513e9f09a11785aa543533" kind="variable"><name>class_score</name></member>
+    <member refid="structscore_1a807772c4efc6cb05b2956c5feeae03e4" kind="variable"><name>N</name></member>
+    <member refid="structscore_1afac731e78b98e348f6cc67a48be1ff41" kind="variable"><name>n_class</name></member>
+    <member refid="structscore_1aab535d75f5f5bbef95b33f00ce5aa2e4" kind="function"><name>score</name></member>
+    <member refid="structscore_1a50373ab9f1becaa89fd6839ec0f441db" kind="function"><name>score</name></member>
+    <member refid="structscore_1a08137bcd9872d3eb605290e494ea4be3" kind="function"><name>score</name></member>
+    <member refid="structscore_1a25dd1e8f41d2890915080a95ef5874dd" kind="function"><name>operator=</name></member>
+    <member refid="structscore_1a984dd35bcd451da07c3a45e805bc0722" kind="function"><name>~score</name></member>
+    <member refid="structscore_1adbb8ab2964458233b990ad13b61c6488" kind="function"><name>matthews_corrcoef</name></member>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+    <member refid="utils_8h_1ae406f1e075eb08bbd6d1adadf4c4b8f5" kind="function"><name>make_unique</name></member>
+  </compound>
+  <compound refid="dnetpro__couples_8h" kind="file"><name>dnetpro_couples.h</name>
+    <member refid="dnetpro__couples_8h_1a552dc3787d7ea1675f3e4e8993501d58" kind="variable"><name>epsilon</name></member>
+    <member refid="dnetpro__couples_8h_1ae41c1164a383c656477098ab08e554aa" kind="variable"><name>inf</name></member>
+    <member refid="dnetpro__couples_8h_1aa5db8e466bcb2a2ab0fb8c76e6d8b9e5" kind="function"><name>dnetpro_couples</name></member>
+  </compound>
+  <compound refid="misc_8h" kind="file"><name>misc.h</name>
+  </compound>
+  <compound refid="parse__args_8h" kind="file"><name>parse_args.h</name>
+    <member refid="parse__args_8h_1a2e3484535ee610c8e19e9859563abe48" kind="define"><name>__unused</name></member>
+  </compound>
+  <compound refid="score_8h" kind="file"><name>score.h</name>
+  </compound>
+  <compound refid="sort_8h" kind="file"><name>sort.h</name>
+    <member refid="sort_8h_1adb4c8ff5e303eab95fe57c3c34345ead" kind="function"><name>mergeargsort_serial</name></member>
+    <member refid="sort_8h_1a9a7fc87f1ba9640bb7d4e271c4947325" kind="function"><name>mergeargsort_parallel_omp</name></member>
+  </compound>
+  <compound refid="utils_8h" kind="file"><name>utils.h</name>
+    <member refid="utils_8h_1ac9b3a02b2ca0dff80fc79100dabaf37b" kind="variable"><name>error_file</name></member>
+    <member refid="utils_8h_1adcbd34bba3f01f3c38aec099a2dc8b67" kind="function"><name>file_error</name></member>
+    <member refid="utils_8h_1a9465562f0a1b94de70f98f23c183075d" kind="function"><name>lbl2num</name></member>
+    <member refid="utils_8h_1a2647dab65a22b1df13c43e602e15a0cf" kind="function"><name>split</name></member>
+  </compound>
+  <compound refid="dir_911b18c25225ad5cb4ae7480cb868c47" kind="dir"><name>/home/nico/Code</name>
+  </compound>
+  <compound refid="dir_a8aa2f9109e44913c10ccb96c2d639dd" kind="dir"><name>/home/nico/Code/DNetPRO</name>
+  </compound>
+  <compound refid="dir_43e0a1f539e00dcfa1a6bc4d4fee4fc2" kind="dir"><name>/home</name>
+  </compound>
+  <compound refid="dir_95f427da3e9bcb1081de3237478622aa" kind="dir"><name>/home/nico/Code/DNetPRO/include</name>
+  </compound>
+  <compound refid="dir_286188036a6f69a2571aeb75726499cb" kind="dir"><name>/home/nico</name>
+  </compound>
+</doxygenindex>

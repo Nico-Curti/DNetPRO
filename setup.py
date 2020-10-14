@@ -6,7 +6,6 @@ from __future__ import print_function
 import os
 import sys
 import platform
-import numpy as np
 import multiprocessing
 
 try:
@@ -14,11 +13,25 @@ try:
   from setuptools import Extension
   from setuptools import find_packages
 
+  import setuptools
+
+  setuptools_version = setuptools.__version__.split('.')
+  if int(setuptools_version[0]) >= 50:
+    warnings.warn('The setuptools version found is >= 50.* '
+                  'This version could lead to ModuleNotFoundError of basic packages '
+                  '(ref. https://github.com/Nico-Curti/rFBP/issues/5). '
+                  'We suggest to temporary downgrade the setuptools version to 49.3.0 to workaround this setuptools issue.', ImportWarning)
+
+  from setuptools import dist
+
+  dist.Distribution().fetch_build_eggs(['numpy>=1.15', 'Cython>=0.29'])
+
 except ImportError:
   from distutils.core import setup
   from distutils.core import Extension
   from distutils.core import find_packages
 
+import numpy as np
 from distutils import sysconfig
 from Cython.Distutils import build_ext
 from distutils.sysconfig import customize_compiler
@@ -27,6 +40,16 @@ from distutils.command.sdist import sdist as _sdist
 def get_requires (requirements_filename):
   '''
   What packages are required for this module to be executed?
+
+  Parameters
+  ----------
+    requirements_filename : str
+      filename of requirements (e.g requirements.txt)
+
+  Returns
+  -------
+    requirements : list
+      list of required packages
   '''
   with open(requirements_filename, 'r') as fp:
     requirements = fp.read()
@@ -81,12 +104,22 @@ class dnetpro_build_ext (build_ext):
 
 class sdist(_sdist):
   def run(self):
-    self.run_command("build_ext")
+    self.run_command('build_ext')
     _sdist.run(self)
 
 def read_description (readme_filename):
   '''
   Description package from filename
+
+  Parameters
+  ----------
+    readme_filename : str
+      filename with readme information (e.g README.md)
+
+  Returns
+  -------
+    description : str
+      str with description
   '''
 
   try:
@@ -218,11 +251,12 @@ setup(
   download_url                  = URL,
   keywords                      = KEYWORDS,
   packages                      = find_packages(include=['DNetPRO', 'DNetPOR.*'], exclude=('test', 'testing', 'example')),
-  #include_package_data          = True, # no absolute paths are allowed
+  include_package_data          = True, # no absolute paths are allowed
+  data_files                    = [('', ['CMakeLists.txt', 'README.md', 'LICENSE'])],
   setup_requires                = [# Setuptools 18.0 properly handles Cython extensions.
                                    'setuptools>=18.0',
-                                   'cython',
-                                   'numpy'],
+                                   'numpy>=1.14.3'
+                                   'Cython>=0.29'],
   platforms                     = 'any',
   classifiers                   =[
                                    #'License :: OSI Approved :: GPL License',

@@ -1,0 +1,9 @@
+References
+----------
+
+- K. Scotlandi, D. Remondini, G. Castellani, M. C. Manara, F. Nardi, L. Cantiani, M. Francesconi, M. Mercuri, A. M. Caccuri, M. Serra, S. Knuutila, P. Picci. "Overcoming Resistance to Conventional Drugs in Ewing Sarcoma and Identification of Molecular Predictors of Outcome", Journal of Clinical Oncology, 2009.
+- C. Mizzi, A. Fabbri, S. Rambaldi, F. Bertini, N. Curti, S. Sinigardi, R. Luzi, G. Venturi, M. Davide, G. Muratore, A. Vannelli, A. Bazzani. "Unraveling pedestrian mobility on a road network using ICTs data during great tourist events", EPJ Data Science, 2018
+- V. Boccardi, L. Paolacci, D. Remondini, E. Giampieri, N. Curti, A. Villa, G. Poli, R. Cecchetti, S. Brancorsini, P. Mecocci. '"Cytokinome signature" in cognitive impairment: from early stages to Alzheimer’s disease', Journal of Alzheimer Disease, 2019
+- C. Terragna, D. Remondini, M. Martello, E. Zamagni, L. Pantani, F. Patriarca, A. Pezzi, G. Levi, M. Offidani, I. Proserpio, G. De Sabbata, P. Tacchetti, C. Cangialosi, F. Ciambelli, C. Virginia Viganò, F. Angela Dico, B. Santacroce, E. Borsi, A. Brioli, G. Marzocchi, G. Castellani, G. Martinelli, A. Palumbo, M. Cavo. "The genetic and genomic background of multiple myeloma patients achieving complete response after induction therapy with bortezomib, thalidomide and dexamethasone", Oncotarget, 2016
+- M. Malvisi & N. Curti, D. Remondini, F. Palazzo, J. L. Williams, G. Pagnacco, G. Minozzi, "Combinatorial Discriminant Analysis applied to RNAseq data reveals a set of 10 transcripts as signatures of infection of cattle with Mycobacterium avium subsp. paratuberculosis", Animals, 2019
+- N. Curti, E. Giampieri, G. Levi, G. Castellani, D. Remondini, "DNetPRO: A network approach for low-dimensional signatures from high-throughput data", BioRxiv, 2019, 10.1101/773622

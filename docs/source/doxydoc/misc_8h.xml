@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="misc_8h" kind="file" language="C++">
+    <compoundname>misc.h</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__dnetpro_misc__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__dnetpro_misc__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__dnet__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>unique_ptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>copy_n</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>type<sp/>&gt;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">type<sp/>*<sp/>unique_pointer_to_pointer<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>type[]<sp/>&gt;<sp/>&amp;<sp/>src,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std<sp/>::<sp/>size_t<sp/>&amp;<sp/>size);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>type<sp/>&gt;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">std<sp/>::<sp/>unique_ptr<sp/>&lt;<sp/>type[]<sp/>&gt;<sp/>pointer_to_unique_pointer<sp/>(type<sp/>*<sp/>src,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std<sp/>::<sp/>size_t<sp/>&amp;<sp/>size);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>type_in,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>type_out<sp/>&gt;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">type_out<sp/>**<sp/>two_dimension_pointer_for_cython<sp/>(type_in<sp/>*<sp/>input,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>n_row,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>n_cols);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>dnet</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>__dnetpro_misc__</highlight></codeline>
+    </programlisting>
+    <location file="/home/nico/Code/DNetPRO/include/misc.h"/>
+  </compounddef>
+</doxygen>

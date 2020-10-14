@@ -10,6 +10,16 @@ __email__ = ['nico.curit2@unibo.it', 'enrico.giampieri@unibo.it', 'daniel.remond
 def read_version (CMakeLists):
   '''
   Read version from variables set in CMake file
+
+  Parameters
+  ----------
+    CMakeLists : string
+      Main CMakefile filename or path
+
+  Returns
+  -------
+    version : tuple
+      Version as (major, minor, revision) of strings
   '''
   major = re.compile(r'set\s+\(DNETPRO_MAJOR\s+(\d+)\)')
   minor = re.compile(r'set\s+\(DNETPRO_MINOR\s+(\d+)\)')

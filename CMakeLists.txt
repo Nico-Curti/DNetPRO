@@ -16,8 +16,9 @@ add_definitions (-DMAJOR=${DNETPRO_MAJOR} -DMINOR=${DNETPRO_MINOR} -DREVISION=${
 #                         COMPILE OPTIONS                       #
 #################################################################
 
-option (OMP     "Enable OpenMP                support" OFF )
-option (PYWRAP  "Enable Cython                support" OFF )
+option (OMP         "Enable OpenMP              support" OFF )
+option (PYWRAP      "Enable Cython              support" OFF )
+option (BUILD_DOCS  "Enable Documentaion builid support" OFF )
 
 #################################################################
 #                         SETTING VARIABLES                     #
@@ -140,6 +141,9 @@ if (PYWRAP)
   find_package (Python COMPONENTS Interpreter NumPy)
 endif ()
 
+if (BUILD_DOCS)
+  add_subdirectory(${CMAKE_SOURCE_DIR}/docs/)
+endif ()
 
 #string (REPLACE " " ";" CMAKE_CXX_FLAGS_LIST ${CMAKE_CXX_FLAGS})
 
@@ -181,6 +185,7 @@ endforeach(FLAG)
 message(STATUS ""                                                                          )
 message(STATUS "   OpenMP support : ${OMP}"                                                )
 message(STATUS "   Pythonic support : ${PYWRAP}"                                           )
+message(STATUS "   Documentation support : ${BUILD_DOCS}"                                  )
 message(STATUS ""                                                                          )
 
 #################################################################
@@ -200,7 +205,6 @@ if (PYWRAP)
   add_subdirectory (${PYC_DIR}/source)
 endif ()
 
-add_custom_target(couples)
 add_executable(DNetPRO_couples ${EXAMPLE}/DNetPRO_couples.cpp)
 target_link_libraries(DNetPRO_couples ${linked_libs} ${dnetprolib})
 

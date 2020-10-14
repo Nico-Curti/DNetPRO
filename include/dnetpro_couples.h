@@ -20,10 +20,22 @@
 
 #endif
 
-constexpr float epsilon = std :: numeric_limits < float > :: min();
-constexpr float inf = std :: numeric_limits < float > :: infinity();
+constexpr float epsilon = std :: numeric_limits < float > :: min();  ///< float minimum
+constexpr float inf = std :: numeric_limits < float > :: infinity(); ///< float infinity
 
-
+/**
+* @brief Core function for the couple evaluation.
+*
+* @param data Input matrix of data
+* @param Nprobe Number of rows in data (aka number of probes)
+* @param Nsample Number of columns in data (aka number of samples)
+* @param labels Array of numeric labels
+* @param verbose Enable(1)/Disable(0) cout log
+* @param percentage Percentage of results to save
+* @param nth Number of threads to use in parallel section
+*
+*
+*/
 score dnetpro_couples (float ** data,                   // matrix of data
                        const int & Nprobe,              // number of rows in db
                        const int & Nsample,             // number of columns in db

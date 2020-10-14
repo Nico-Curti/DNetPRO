@@ -67,3 +67,7 @@ html*
 
 *.dat
 *.pyd
+
+# documentation
+docs/source/doxydoc/*.xsd
+docs/source/doxydoc/*.xslt

@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dnetpro__couples_8h" kind="file" language="C++">
+    <compoundname>dnetpro_couples.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">climits</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">algorithm</includes>
+    <includes refid="score_8h" local="no">score.h</includes>
+    <includes local="no">omp.h</includes>
+    <includes local="no">sort.hpp</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>cmath</label>
+      </node>
+      <node id="8">
+        <label>numeric</label>
+      </node>
+      <node id="10">
+        <label>score.h</label>
+        <link refid="score_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>omp.h</label>
+      </node>
+      <node id="13">
+        <label>utils.hpp</label>
+      </node>
+      <node id="15">
+        <label>sort.hpp</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+      <node id="1">
+        <label>/home/nico/Code/DNetPRO/include/dnetpro_couples.h</label>
+        <link refid="dnetpro__couples_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>utility</label>
+      </node>
+      <node id="3">
+        <label>iostream</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>climits</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="dnetpro__couples_8h_1a552dc3787d7ea1675f3e4e8993501d58" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr float</type>
+        <definition>constexpr float epsilon</definition>
+        <argsstring></argsstring>
+        <name>epsilon</name>
+        <initializer>= std :: numeric_limits &lt; float &gt; :: min()</initializer>
+        <briefdescription>
+<para>float minimum </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/dnetpro_couples.h" line="23" column="17" bodyfile="/home/nico/Code/DNetPRO/include/dnetpro_couples.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="dnetpro__couples_8h_1ae41c1164a383c656477098ab08e554aa" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>constexpr float</type>
+        <definition>constexpr float inf</definition>
+        <argsstring></argsstring>
+        <name>inf</name>
+        <initializer>= std :: numeric_limits &lt; float &gt; :: infinity()</initializer>
+        <briefdescription>
+<para>float infinity </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/dnetpro_couples.h" line="24" column="17" bodyfile="/home/nico/Code/DNetPRO/include/dnetpro_couples.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="dnetpro__couples_8h_1aa5db8e466bcb2a2ab0fb8c76e6d8b9e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structscore" kindref="compound">score</ref></type>
+        <definition>score dnetpro_couples</definition>
+        <argsstring>(float **data, const int &amp;Nprobe, const int &amp;Nsample, int *labels, const bool &amp;verbose, float percentage=.1f, int nth=-1)</argsstring>
+        <name>dnetpro_couples</name>
+        <param>
+          <type>float **</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>Nprobe</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>Nsample</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>verbose</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>percentage</declname>
+          <defval>.1f</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nth</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+<para>Core function for the couple evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input matrix of data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nprobe</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of rows in data (aka number of probes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nsample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of columns in data (aka number of samples) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of numeric labels </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbose</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enable(1)/Disable(0) cout log </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>percentage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Percentage of results to save </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of threads to use in parallel section </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/dnetpro_couples.h" line="39" column="7" declfile="/home/nico/Code/DNetPRO/include/dnetpro_couples.h" declline="39" declcolumn="7"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__dnetpro_couples_h__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__dnetpro_couples_h__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>unique_ptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>cout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>unordered_map</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>chrono</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;climits&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>numeric_limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>accumulate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std<sp/>::<sp/>sort</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="score_8h" kindref="compound">score.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_OPENMP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/>#include<sp/>&lt;omp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/>#include<sp/>&lt;sort.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="dnetpro__couples_8h_1a552dc3787d7ea1675f3e4e8993501d58" refkind="member"><highlight class="normal">constexpr<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="dnetpro__couples_8h_1a552dc3787d7ea1675f3e4e8993501d58" kindref="member">epsilon</ref><sp/>=<sp/>std<sp/>::<sp/>numeric_limits<sp/>&lt;<sp/>float<sp/>&gt;<sp/>::<sp/>min();<sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="dnetpro__couples_8h_1ae41c1164a383c656477098ab08e554aa" refkind="member"><highlight class="normal">constexpr<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="dnetpro__couples_8h_1ae41c1164a383c656477098ab08e554aa" kindref="member">inf</ref><sp/>=<sp/>std<sp/>::<sp/>numeric_limits<sp/>&lt;<sp/>float<sp/>&gt;<sp/>::<sp/>infinity();<sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="structscore" kindref="compound">score</ref><sp/><ref refid="dnetpro__couples_8h_1aa5db8e466bcb2a2ab0fb8c76e6d8b9e5" kindref="member">dnetpro_couples</ref><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>**<sp/>data,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>matrix<sp/>of<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nprobe,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>number<sp/>of<sp/>rows<sp/>in<sp/>db</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;<sp/>Nsample,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>number<sp/>of<sp/>columns<sp/>in<sp/>db</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*<sp/>labels,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>numeric<sp/>labels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>&amp;<sp/>verbose,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>enable(ON)/disable(OFF)<sp/>cout<sp/>log</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//const<sp/>bool<sp/>&amp;<sp/>return_couples,<sp/><sp/><sp/>//<sp/>enable(ON)/disable(oFF)<sp/>return<sp/>couples(ON)/single(OFF)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>percentage<sp/>=<sp/>.1f,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>percentage<sp/>of<sp/>results<sp/>to<sp/>save</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nth<sp/>=<sp/>-1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>number<sp/>of<sp/>threads<sp/>to<sp/>use<sp/>in<sp/>parallel<sp/>section</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>__dnetpro_couples_h__</highlight></codeline>
+    </programlisting>
+    <location file="/home/nico/Code/DNetPRO/include/dnetpro_couples.h"/>
+  </compounddef>
+</doxygen>

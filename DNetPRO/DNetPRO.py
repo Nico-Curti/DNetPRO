@@ -31,8 +31,6 @@ from sklearn.preprocessing import LabelEncoder
 
 from sklearn.naive_bayes import GaussianNB
 
-from DNetPRO.lib.DNetPRO import _DNetPRO_couples
-
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -42,51 +40,76 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
   Parameters
   ----------
-  estimator : object
-      A supervised learning estimator with a ``fit`` method that provides
-      information about feature importance either through a ``coef_``
-      attribute or through a ``feature_importances_`` attribute.
+    estimator : object
+        A supervised learning estimator with a ``fit`` method that provides
+        information about feature importance either through a ``coef_``
+        attribute or through a ``feature_importances_`` attribute.
 
-  cv : int, cross-validation generator or an iterable, optional
-      Determines the cross-validation splitting strategy.
-      Possible inputs for cv are:
+    cv : int, cross-validation generator or an iterable, optional
+        Determines the cross-validation splitting strategy.
+        Possible inputs for cv are:
 
-      - None, to use the default 3-fold cross-validation,
-      - integer, to specify the number of folds.
-      - An object to be used as a cross-validation generator.
-      - An iterable yielding train/test splits.
+        - None, to use the default 3-fold cross-validation,
+        - integer, to specify the number of folds.
+        - An object to be used as a cross-validation generator.
+        - An iterable yielding train/test splits.
 
-      For integer/None inputs, if ``y`` is binary or multiclass,
-      :class:`sklearn.model_selection.StratifiedKFold` is used. If the
-      estimator is a classifier or if ``y`` is neither binary nor multiclass,
-      :class:`sklearn.model_selection.KFold` is used.
+        For integer/None inputs, if ``y`` is binary or multiclass,
+        :class:`sklearn.model_selection.StratifiedKFold` is used. If the
+        estimator is a classifier or if ``y`` is neither binary nor multiclass,
+        :class:`sklearn.model_selection.KFold` is used.
 
-      Refer :ref:`User Guide <cross_validation>` for the various
-      cross-validation strategies that can be used here.
+        Refer to scikit-learn cross_validation for the various
+        cross-validation strategies that can be used here.
 
-  scoring : string, callable or None, optional, default: None
-      A string (see model evaluation documentation) or
-      a scorer callable object / function with signature
-      ``scorer(estimator, X, y)``.
+    scoring : string, callable or None, optional, default: None
+        A string (see model evaluation documentation) or
+        a scorer callable object / function with signature
+        ``scorer(estimator, X, y)``.
 
-  max_chunk : int, default=100
-      Max number of features allowed in performances-chunk. If the size of chunk is greater than max_chunk
-      and it is not the first one, features selection iteration is stopped.
+    max_chunk : int, default=100
+        Max number of features allowed in performances-chunk. If the size of chunk is greater than max_chunk
+        and it is not the first one, features selection iteration is stopped.
 
-  percentage : float, default=0.1
-      Percentage of couples to save after sorting
+    percentage : float, default=0.1
+        Percentage of couples to save after sorting
 
-  verbose : int, default=0
-      Controls verbosity of couples evaluation.
+    verbose : int, default=0
+        Controls verbosity of couples evaluation.
 
-  n_jobs : int, default 1
-      Number of cores to run in parallel while fitting across folds.
-      Defaults to 1 core. If `n_jobs=-1`, then number of jobs is set
-      to number of cores.
+    n_jobs : int, default 1
+        Number of cores to run in parallel while fitting across folds.
+        Defaults to 1 core. If `n_jobs=-1`, then number of jobs is set
+        to number of cores.
+
+  Example
+  -------
+  >>> import numpy as np
+  >>> from DNetPRO import DNetPRO
+  >>> from sklearn.naive_bayes import GaussianNB
+  >>>
+  >>> Nprobe, Nsample = (5, 4)
+  >>>
+  >>> X = np.random.uniform(low=0., high=1., size=(Nsample, Nprobe))
+  >>> y = np.array(['A', 'A', 'B', 'B'])
+  >>>
+  >>> dnet = DNetPRO(estimator=GaussianNB(), max_chunk=4)
+  >>> dnet.fit(X, y)
+  >>>
+  >>> print(dnet.signatures)
 
   Notes
   -----
-  TODO
+  .. note::
+    The full computation of couples is performed via C++ multithreading thus set an appropriated number of threads
+    to speed up the execution.
+
+  References
+  ----------
+  - Nico Curti, Enrico Giampieri, Giuseppe Levi, Gastone Castellani, Daniel Remondini; DNetPRO: A network approach for low-dimensional signatures from high-throughput data; bioRxiv 773622; doi: https://doi.org/10.1101/773622
+  - Mizzi, C., Fabbri, A., Rambaldi, S. et al. Unraveling pedestrian mobility on a road network using ICTs data during great tourist events. EPJ Data Sci. 7, 44 (2018). https://doi.org/10.1140/epjds/s13688-018-0168-2
+  - Boccardi V, Paolacci L, Remondini D, Giampieri E, Poli G, Curti N, Cecchetti R, Villa A, Ruggiero C, Brancorsini S, Mecocci P. Cognitive Decline and Alzheimer's Disease in Old Age: A Sex-Specific Cytokinome Signature. J Alzheimers Dis. 2019;72(3):911-918. doi: 10.3233/JAD-190480. PMID: 31658056.
+  - Malvisi M, Curti N, Remondini D, De Iorio MG, Palazzo F, Gandini G, Vitali S, Polli M, Williams JL, Minozzi G. Combinatorial Discriminant Analysis Applied to RNAseq Data Reveals a Set of 10 Transcripts as Signatures of Exposure of Cattle to Mycobacterium avium subsp. paratuberculosis. Animals (Basel). 2020 Feb 5;10(2):253. doi: 10.3390/ani10020253. PMID: 32033399; PMCID: PMC7070263.
   '''
 
   def __init__ (self, estimator=GaussianNB(), cv=LeaveOneOut(), scoring=None, max_chunk=100, percentage=.1, verbose=False, n_jobs=1):
@@ -119,6 +142,26 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
   def pendrem (graph):
     '''
     Remove pendant node iterativelly
+
+    Parameters
+    ----------
+      graph: graph
+        A NetworkX graph
+
+    Returns
+    -------
+      pruned: graph
+        The same graph without pendant nodes
+
+    Example
+    -------
+    >>> import networkx as nx
+    >>> G = nx.star_graph(n=10)
+    >>> print(G.nodes)
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    >>> pruned = penderem(G)
+    >>> print(pruned.nodes)
+      [0]
     '''
     deg = graph.degree()
 
@@ -135,6 +178,9 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
   @property
   def _estimator_type (self):
+    '''
+    Get the estimator type
+    '''
     return self.estimator._estimator_type
 
   def _check_chunk (self, X):
@@ -143,8 +189,12 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
     Parameters
     ----------
-    X : array of shape [n_samples, n_features]
-        The input samples.
+      X : array of shape [n_samples, n_features]
+          The input samples.
+
+    Raises
+    ------
+      ValueError if max_chunk <= number of combination (evaluated as Nprobe * (Nprobe - 1) / 2)
 
     '''
     _, Nprobe = np.shape(X)
@@ -169,8 +219,17 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
     Notes
     -----
-      The C++ function allows only numerical (integer) values as labels in input.
-      For more general support refers to the C++ example.
+      .. note::
+        The C++ function allows only numerical (integer) values as labels in input.
+        For more general support refers to the C++ example.
+
+    Examples
+    --------
+    >>> from DNetPRO import DNetPRO
+    >>> y = ('A', 'A', 'B', 'B')
+    >>> num_y = DNetPRO.label2numbers(y)
+    >>> print(num_y)
+      [0, 0, 1, 1]
     '''
     le = LabelEncoder()
     le.fit(arr)
@@ -195,8 +254,16 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
       performances : pandas dataframe
           Dataframe of ordered results with columns (feature_1, feature_2, performances).
           The variable pairs are sorted in ascending order according to the performance values.
+
+    Notes
+    -----
+    .. note::
+      This function prepares the input according to the C++ requirements and it call the
+      cython wrap of the method
     '''
     # Nsample, _ = np.shape(X)
+
+    from DNetPRO.lib.DNetPRO import _DNetPRO_couples
 
     y = np.asarray(y)
 
@@ -242,6 +309,16 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     '''
     Generator of connected components compatible
     with old and new networkx versions
+
+    Parameters
+    ----------
+      G : graph
+        A networkx graph
+
+    Returns
+    -------
+      subgraph : graph
+        A subgraph (networkx like) of the input
     '''
     for c in nx.connected_components(G):
       yield G.subgraph(c)
@@ -351,13 +428,13 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
     Parameters
     ----------
-    X : array of shape [n_samples, n_features]
-        The input samples.
+      X : array of shape [n_samples, n_features]
+          The input samples.
 
     Returns
     -------
-    y : array of shape [n_samples]
-        The predicted target values.
+      y : array of shape [n_samples]
+          The predicted target values.
     '''
     check_is_fitted(self, 'estimator_')
     return self.estimator_.predict(self.transform(X))
@@ -422,7 +499,8 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
     Notes
     -----
-    The signature is selected as the signature with highest score on training (X) data.
+    .. note::
+      The signature is selected as the signature with highest score on training (X) data.
     '''
 
     self.fit(X, y)
@@ -437,8 +515,8 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
     Parameters
     ----------
-    X : array of shape [n_samples, n_features]
-        The input samples.
+      X : array of shape [n_samples, n_features]
+          The input samples.
     '''
 
     check_is_fitted(self, 'estimator_')
@@ -454,11 +532,11 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
     Parameters
     ----------
-    X : array of shape [n_samples, n_features]
-        The input samples.
+      X : array of shape [n_samples, n_features]
+          The input samples.
 
-    y : array of shape [n_samples]
-        The target values.
+      y : array of shape [n_samples]
+          The target values.
     '''
     return self.estimator_.score(self.transform(X), y)
 
@@ -478,6 +556,9 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     return self.estimator_.predict_log_proba(self.transform(X))
 
   def __repr__ (self):
+    '''
+    Object representation
+    '''
     class_name = self.__class__.__qualname__
 
     params = self.__init__.__code__.co_varnames

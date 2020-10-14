@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structscore" kind="class" language="C++" prot="public">
+    <compoundname>score</compoundname>
+    <includes refid="score_8h" local="no">score.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structscore_1a6d85849796e668e848d0c3e59992211c" prot="public" static="no" mutable="no">
+        <type>std ::unique_ptr&lt; float[] &gt;</type>
+        <definition>std :: unique_ptr&lt; float[] &gt; score::mcc</definition>
+        <argsstring></argsstring>
+        <name>mcc</name>
+        <briefdescription>
+<para>Matthews Correlation Correlation of the couples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="27" column="22" bodyfile="/home/nico/Code/DNetPRO/include/score.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structscore_1a1f6c9fd9b568c232489b05537fe56803" prot="public" static="no" mutable="no">
+        <type>std ::unique_ptr&lt; int[] &gt;</type>
+        <definition>std :: unique_ptr&lt; int[] &gt; score::gene_a</definition>
+        <argsstring></argsstring>
+        <name>gene_a</name>
+        <briefdescription>
+<para>First index of the couples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="28" column="22" bodyfile="/home/nico/Code/DNetPRO/include/score.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structscore_1acc1f20b7efd60f8f83e7f74037119d8a" prot="public" static="no" mutable="no">
+        <type>std ::unique_ptr&lt; int[] &gt;</type>
+        <definition>std :: unique_ptr&lt; int[] &gt; score::gene_b</definition>
+        <argsstring></argsstring>
+        <name>gene_b</name>
+        <briefdescription>
+<para>Second index of the couples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="29" column="22" bodyfile="/home/nico/Code/DNetPRO/include/score.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structscore_1a6b04d76d2d914e524d2d0ffc2db9870d" prot="public" static="no" mutable="no">
+        <type>std ::unique_ptr&lt; int[] &gt;</type>
+        <definition>std :: unique_ptr&lt; int[] &gt; score::tot</definition>
+        <argsstring></argsstring>
+        <name>tot</name>
+        <briefdescription>
+<para>Total accuracy of the couples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="30" column="22" bodyfile="/home/nico/Code/DNetPRO/include/score.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structscore_1a54ff440176513e9f09a11785aa543533" prot="public" static="no" mutable="no">
+        <type>std ::unique_ptr&lt; std ::unique_ptr&lt; int[] &gt;[] &gt;</type>
+        <definition>std :: unique_ptr&lt; std :: unique_ptr &lt; int[] &gt;[] &gt; score::class_score</definition>
+        <argsstring></argsstring>
+        <name>class_score</name>
+        <briefdescription>
+<para>Accuracy score for each class. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="32" column="22" bodyfile="/home/nico/Code/DNetPRO/include/score.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structscore_1a807772c4efc6cb05b2956c5feeae03e4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int score::N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <briefdescription>
+<para>The number of couples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="34" column="7" bodyfile="/home/nico/Code/DNetPRO/include/score.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structscore_1afac731e78b98e348f6cc67a48be1ff41" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int score::n_class</definition>
+        <argsstring></argsstring>
+        <name>n_class</name>
+        <briefdescription>
+<para>The number of classes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="35" column="7" bodyfile="/home/nico/Code/DNetPRO/include/score.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structscore_1aab535d75f5f5bbef95b33f00ce5aa2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>score::score</definition>
+        <argsstring>()</argsstring>
+        <name>score</name>
+        <briefdescription>
+<para>Default constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="43" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="structscore_1a50373ab9f1becaa89fd6839ec0f441db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>score::score</definition>
+        <argsstring>(const int &amp;N, const int &amp;n_class)</argsstring>
+        <name>score</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>N</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>n_class</declname>
+        </param>
+        <briefdescription>
+<para>Constructor with number of couples and number of classes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the constructor used inside the DNetPRO algorithm in which the number of couples can be evaluated as</para>
+<para><programlisting filename=".python"><codeline><highlight class="normal">*number_of_combination<sp/>=<sp/>number_of_samples<sp/>*<sp/>(number_of_samples<sp/>-<sp/>1)<sp/>/<sp/>2</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of available couples </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of available classes in which the samples are divided </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="58" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="structscore_1a08137bcd9872d3eb605290e494ea4be3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>score::score</definition>
+        <argsstring>(score &amp;s)</argsstring>
+        <name>score</name>
+        <param>
+          <type><ref refid="structscore" kindref="compound">score</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Copy constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The operator doesn&apos;t perform a deep copy of the object but it just move all the buffers from the input object to the current one. In this way we optimize the memory management.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Score object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="71" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="structscore_1a25dd1e8f41d2890915080a95ef5874dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structscore" kindref="compound">score</ref> &amp;</type>
+        <definition>score&amp; score::operator=</definition>
+        <argsstring>(score &amp;&amp;s)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="structscore" kindref="compound">score</ref> &amp;&amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Copy operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The operator doesn&apos;t perform a deep copy of the object but it just move all the buffers from the input object to the current one. In this way we optimize the memory management.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Score object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="82" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="structscore_1a984dd35bcd451da07c3a45e805bc0722" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>score::~score</definition>
+        <argsstring>()=default</argsstring>
+        <name>~score</name>
+        <briefdescription>
+<para>Destructor set as default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="90" column="3"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structscore_1adbb8ab2964458233b990ad13b61c6488" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>static float score::matthews_corrcoef</definition>
+        <argsstring>(const float &amp;s0, const int &amp;m0, const float &amp;s1, const int &amp;m1)</argsstring>
+        <name>matthews_corrcoef</name>
+        <param>
+          <type>const float &amp;</type>
+          <declname>s0</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>m0</declname>
+        </param>
+        <param>
+          <type>const float &amp;</type>
+          <declname>s1</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>m1</declname>
+        </param>
+        <briefdescription>
+<para>Compute the Matthews Correlation Coefficient from the class scores. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True positive score </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total of true positive </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>False Negative score </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total of false negative</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>This function is useful in the current implementation since we can easily manage the information used by the score object without recomputing new ones. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/nico/Code/DNetPRO/include/score.h" line="106" column="16"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Abstract type representing the ensamble of usefull information to store during the couple evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>In particular the class includes:<itemizedlist>
+<listitem><para>The Matthews Correlation Coefficient values of each couple (<computeroutput>mcc</computeroutput>)</para>
+</listitem><listitem><para>The first gene index of the couple (<computeroutput>gene_a</computeroutput>)</para>
+</listitem><listitem><para>The second gene index of the couple (<computeroutput>gene_b</computeroutput>)</para>
+</listitem><listitem><para>The total accuracy of the couple (<computeroutput>tot</computeroutput>)</para>
+</listitem><listitem><para>The accuracy score for each class (<computeroutput>class_score</computeroutput>) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="/home/nico/Code/DNetPRO/include/score.h" line="25" column="1" bodyfile="/home/nico/Code/DNetPRO/include/score.h" bodystart="24" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structscore_1a54ff440176513e9f09a11785aa543533" prot="public" virt="non-virtual"><scope>score</scope><name>class_score</name></member>
+      <member refid="structscore_1a1f6c9fd9b568c232489b05537fe56803" prot="public" virt="non-virtual"><scope>score</scope><name>gene_a</name></member>
+      <member refid="structscore_1acc1f20b7efd60f8f83e7f74037119d8a" prot="public" virt="non-virtual"><scope>score</scope><name>gene_b</name></member>
+      <member refid="structscore_1adbb8ab2964458233b990ad13b61c6488" prot="public" virt="non-virtual"><scope>score</scope><name>matthews_corrcoef</name></member>
+      <member refid="structscore_1a6d85849796e668e848d0c3e59992211c" prot="public" virt="non-virtual"><scope>score</scope><name>mcc</name></member>
+      <member refid="structscore_1a807772c4efc6cb05b2956c5feeae03e4" prot="public" virt="non-virtual"><scope>score</scope><name>N</name></member>
+      <member refid="structscore_1afac731e78b98e348f6cc67a48be1ff41" prot="public" virt="non-virtual"><scope>score</scope><name>n_class</name></member>
+      <member refid="structscore_1a25dd1e8f41d2890915080a95ef5874dd" prot="public" virt="non-virtual"><scope>score</scope><name>operator=</name></member>
+      <member refid="structscore_1aab535d75f5f5bbef95b33f00ce5aa2e4" prot="public" virt="non-virtual"><scope>score</scope><name>score</name></member>
+      <member refid="structscore_1a50373ab9f1becaa89fd6839ec0f441db" prot="public" virt="non-virtual"><scope>score</scope><name>score</name></member>
+      <member refid="structscore_1a08137bcd9872d3eb605290e494ea4be3" prot="public" virt="non-virtual"><scope>score</scope><name>score</name></member>
+      <member refid="structscore_1a6b04d76d2d914e524d2d0ffc2db9870d" prot="public" virt="non-virtual"><scope>score</scope><name>tot</name></member>
+      <member refid="structscore_1a984dd35bcd451da07c3a45e805bc0722" prot="public" virt="non-virtual"><scope>score</scope><name>~score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
