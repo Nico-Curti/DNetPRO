@@ -16,7 +16,7 @@ The `CMake` installer provides also a `DNetPRO.pc`, useful if you want link to t
 You can also use the `DNetPRO` package in `Python` using the `Cython` wrap provided inside this project.
 The only requirements are the following:
 
-* numpy >= 1.14.3
+* numpy >= 1.16.0
 * networkx >= 2.2
 * cython >= 0.29
 * scikit -learn >= 0.19.1
@@ -32,8 +32,8 @@ The `Python` wrap of the library was written according to `scikit-optimize` `Pyt
 .. |gcc version| image:: https://img.shields.io/badge/gcc-4.8.5%20|%204.9.*%20|%205.*%20|%206.*%20|%207.*%20|%208.*%20|%209.*-yellow.svg
 .. |clang version| image:: https://img.shields.io/badge/clang-3.*%20|%204.*%20|%205.*%20|%206.*%20|%207.*%20|-red.svg
 .. |msvc version| image:: https://img.shields.io/badge/msvc-vs2017%20x86%20|%20vs2017%20x64|%20vs2019%20x86%20|%20vs2019%20x64-blue.svg
-.. _CMake: https://github.com/Nico-Curti/rFBP/blob/master/CMakeLists.txt
-.. _Makefile: https://github.com/Nico-Curti/rFBP/blob/master/Makefile
+.. _CMake: https://github.com/Nico-Curti/DNetPRO/blob/master/CMakeLists.txt
+.. _Makefile: https://github.com/Nico-Curti/DNetPRO/blob/master/Makefile
 
 .. toctree::
    :maxdepth: 2

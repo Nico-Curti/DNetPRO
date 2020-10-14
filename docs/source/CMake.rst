@@ -32,7 +32,7 @@ if you are working on a Windows machine the right script to call is the `build.p
   If you want enable the OpenMP support (*4.5 version is required*) compile the library with `-DOMP=ON`.
 
 .. note::
-	If you want enable the Cython support compile the library with `-DPYWRAP=ON`. The Cython packages will be compiled and correctly positioned in the `DNetPRO` Python package **BUT** you need to run also the setup before use it.
+	If you want enable the Cython support compile the library with `-DPYWRAP=ON`. The Cython packages will be compiled and correctly positioned in the `DNetPRO` Python package.
 
 .. _shut: https://github.com/Nico-Curti/Shut
 .. _`build.ps1`: https://Nico-Curti/DNetPRO/blob/master/build.ps1

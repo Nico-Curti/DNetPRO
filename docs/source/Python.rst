@@ -11,7 +11,7 @@ The easiest way to install the package is using `pip`
 
 .. warning::
 
-	The setup file requires the `Cython` and `Numpy` packages, thus make sure to pre-install them!
+	The setup file requires the `Cython` package, thus make sure to pre-install it!
 	We are working on some workarounds to solve this issue.
 
 The `Python` installation can be performed with or without the `C++` installation.
@@ -47,4 +47,4 @@ or for installing in development mode:
 
 .. |Python version| image:: https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg
 .. _`setup.py`: https://github.com/Nico-Curti/blob/master/setup.py
-.. _issue: https://github.com/Nico-Curti/DNetPRO/issues/5
+.. _issue: https://github.com/Nico-Curti/rFBP/issues/5
