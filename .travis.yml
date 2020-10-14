@@ -323,7 +323,7 @@ before_install:
 
   # install python packages
   - python3 --version
-  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user numpy==1.14.3                                                         ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user numpy==1.16.0                                                         ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user cython==0.29                                                          ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user scikit-learn==0.20.3                                                  ;fi
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user networkx==2.2                                                         ;fi

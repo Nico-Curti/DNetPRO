@@ -135,7 +135,7 @@ The `CMake` installer provides also a `DNetPRO.pc`, useful if you want link to t
 You can also use the `DNetPRO` package in `Python` using the `Cython` wrap provided inside this project.
 The only requirements are the following:
 
-* numpy >= 1.14.3
+* numpy >= 1.16.0
 * networkx >= 2.2
 * cython >= 0.29
 * scikit -learn >= 0.19.1
@@ -378,6 +378,13 @@ or for installing in development mode:
 ```bash
 python setup.py develop --user
 ```
+
+> :warning: The setup file requires the `Cython` and `Numpy` packages, thus make sure to pre-install them!
+> We are working on some workarounds to solve this issue.
+
+> :warning: The current installation via pip has no requirements about the version of `setuptools` package.
+> If the already installed version of `setuptools` is `>= 50.*` you can find some troubles during the installation of our package (ref. [issue](https://github.com/Nico-Curti/rFBP/issues/5)).
+> We suggest to temporary downgrade the `setuptools` version to `49.3.0` to workaround this `setuptools` issue.
 
 ## Efficiency
 

@@ -256,7 +256,7 @@ setup(
   data_files                    = [('', ['CMakeLists.txt', 'README.md', 'LICENSE'])],
   setup_requires                = [# Setuptools 18.0 properly handles Cython extensions.
                                    'setuptools>=18.0',
-                                   'numpy>=1.14.3'
+                                   'numpy>=1.16.0'
                                    'Cython>=0.29'],
   platforms                     = 'any',
   classifiers                   =[
