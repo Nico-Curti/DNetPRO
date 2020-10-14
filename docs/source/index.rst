@@ -47,7 +47,7 @@ C++ example
 The easiest usage of `DNetPRO` algorithm is given by the example provided in the example_cpp_ folder.
 This script includes an easy-to-use command line to run the `DNetPRO` algorithm on a dataset stored into a file.
 
-.. code-block::
+.. code-block:: bash
 
 	./bin/DNetPRO_couples
 	Usage: ./DNetPRO_couples -f <std :: string> -o <std :: string> [-frac <St16remove_referenceIfE> ] [-bin <St16remove_referenceIbE> ] [-verbose <St16remove_referenceIbE> ] [-probeID <St16remove_referenceIbE> ] [-nth <St16remove_referenceIiE> ]

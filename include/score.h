@@ -49,7 +49,7 @@ struct score
   *
   * ```python
   *number_of_combination = number_of_samples * (number_of_samples - 1) / 2
-  *```
+  * ```
   *
   * @param N The number of available couples
   * @param n_class The number of available classes in which the samples are divided
