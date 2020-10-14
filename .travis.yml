@@ -317,6 +317,10 @@ before_install:
   - travis_retry eval "${MATRIX_EVAL}"
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --upgrade pip --user                                                         ;fi
 
+  # temporary solution for setuptools error (https://stackoverflow.com/questions/63663362/django-python3-on-install-i-get-parent-module-setuptools-not-loaded)
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user pip==20.2.1                                                           ;fi
+  - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user setuptools==49.3.0                                                    ;fi
+
   # install python packages
   - python3 --version
   - if [[ "$WITH_PYTHON" == "ON" ]]; then python3 -m pip install --user numpy==1.14.3                                                         ;fi
