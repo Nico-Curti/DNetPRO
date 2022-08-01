@@ -6,8 +6,8 @@ from __future__ import print_function
 import os
 import re
 import sys
+import pathlib
 import platform
-import warnings
 import multiprocessing
 
 try:
