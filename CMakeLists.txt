@@ -46,7 +46,7 @@ option (BUILD_DOCS  "Enable Documentaion builid support" OFF )
 #                         SETTING VARIABLES                     #
 #################################################################
 
-set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/" ${CMAKE_MODULE_PATH})
+set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/" ${CMAKE_MODULE_PATH})
 
 if ( NOT APPLE )
   set (CMAKE_SKIP_BUILD_RPATH             FALSE )

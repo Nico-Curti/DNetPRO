@@ -2,7 +2,6 @@
 name = @CMAKE_PROJECT_NAME@,
 description = @CMAKE_PROJECT_DESCRIPTION@,
 long_description = file: README.md,
-long_description_content_type = text/markdown,
 author = Nico Curti,
 author_email = nico.curti2@unibo.it,
 platforms = any,

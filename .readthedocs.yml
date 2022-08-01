@@ -9,6 +9,10 @@ version: 2
 sphinx:
   configuration: docs/source/conf.py
 
+submodules:
+  include: all
+  recursive: true
+
 # Build documentation with MkDocs
 #mkdocs:
 #  configuration: mkdocs.yml
