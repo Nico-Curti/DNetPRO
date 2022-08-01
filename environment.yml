@@ -1,0 +1,24 @@
+name: scorer-dev
+channels:
+  - default
+  - anaconda
+  - conda-forge
+
+dependencies:
+  # required
+  - numpy>=1.16.0
+  - cython>=0.29
+  - networkx>=2.2
+  - scikit-learn>=0.20.3
+  - pandas>=0.24.2
+
+  # building
+  - pkgconfig
+  - cython>=0.29
+  - cmake
+  - doxygen
+
+  # documentation
+  - breathe>=4.14.1
+  - nbsphinx
+  - IPython

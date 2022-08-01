@@ -177,7 +177,7 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}/hpp")
 
 if (PYWRAP)
   include( UseCython )
-  find_package (Python3 REQUIRED COMPONENTS Interpreter)
+  find_package (Python REQUIRED COMPONENTS Interpreter)
   find_package(NumPy REQUIRED)
   include_directories(${NumPy_INCLUDE_DIRS})
   add_definitions (-DNPY_NO_DEPRECATED_API)

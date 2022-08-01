@@ -30,16 +30,6 @@ jobs:
     - name: Get latest CMake
       uses: lukka/get-cmake@latest
 
-    - name: Restore from cache and run vcpkg (Windows)
-      env:
-        vcpkgResponseFile: ${{ github.workspace }}/cmake/vcpkg_windows.diff
-      uses: lukka/run-vcpkg@v7
-      with:
-        vcpkgArguments: '@${{ env.vcpkgResponseFile }}'
-        vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-        vcpkgGitCommitId: '062f92c92e0e8017929ea7647819036d8daef638'
-        appendedCacheKey: ${{ hashFiles(env.vcpkgResponseFile) }}
-
     - name: Build with CMake and vcpkg
       uses: lukka/run-cmake@v3
       with:
