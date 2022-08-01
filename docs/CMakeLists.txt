@@ -1,24 +1,48 @@
 
+# build C++ APIs with Doxygen
 
-find_package(Doxygen)
+find_package(Doxygen REQUIRED)
 
-if (DOXYGEN_FOUND)
-  # set input and output files
-  set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/../docs/Doxyfile.in)
-  set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile"
+  @ONLY
+)
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/conf.py.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/conf.py"
+  @ONLY
+)
 
-  # request to configure the file
-  configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+add_custom_target(cpp_docs ALL
+  DEPENDS ${dnetprolib}
+  COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  COMMENT "Generating C++ API documentation with Doxygen"
+  VERBATIM
+)
 
-  # note the option ALL which allows to build the docs together with the application
-  add_custom_target( doc_doxygen ALL
-      COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-      COMMENT "Generating API documentation with Doxygen"
-      VERBATIM )
 
-else (DOXYGEN_FOUND)
+# build Python APIs with Sphinx
+if ( PYWRAP )
 
-  message("Doxygen need to be installed to generate the doxygen documentation")
+  find_package(Sphinx REQUIRED)
 
-endif (DOXYGEN_FOUND)
+  set(SPHINX_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/source/")
+  set(SPHINX_BUILD  "${CMAKE_CURRENT_SOURCE_DIR}/build")
+
+  add_custom_target(py_docs ALL
+                    DEPENDS setup_DNetPRO cpp_docs
+                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+                    COMMENT "Generating Python API documentation with Sphinx")
+
+  # Workaround for the lack of post_install steps.
+  install(CODE "set(CMAKE_BINARY_DIR \"${CMAKE_BINARY_DIR}\")")
+  install(CODE "set(SPHINX_SOURCE \"${SPHINX_SOURCE}\")")
+  install(CODE "set(SPHINX_BUILD \"${SPHINX_BUILD}\")")
+  install(CODE "set(SPHINX_EXECUTABLE \"${SPHINX_EXECUTABLE}\")")
+  install(CODE "set(DOXYGEN_OUTPUT_DIR \"${DOXYGEN_OUTPUT_DIR}\")")
+
+  install(SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/RunSphinx.cmake")
+
+endif ()

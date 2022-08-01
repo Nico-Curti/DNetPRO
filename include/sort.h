@@ -26,7 +26,7 @@
 *
 */
 template < typename type, typename lambda >
-void mergeargsort_serial (int * index, type * arr, const int & start, const int & end, lambda order);
+void mergeargsort_serial (int32_t * index, type * arr, const int32_t & start, const int32_t & end, lambda order);
 
 /**
 * @brief Mergesort of the indexes with OMP multithreading support
@@ -49,7 +49,7 @@ void mergeargsort_serial (int * index, type * arr, const int & start, const int 
 *
 */
 template < typename type, typename lambda >
-void mergeargsort_parallel_omp (int * index, type * arr, const int & start, const int & end, const int & threads, lambda order);
+void mergeargsort_parallel_omp (int32_t * index, type * arr, const int32_t & start, const int32_t & end, const int32_t & threads, lambda order);
 
 #endif
 

@@ -27,7 +27,7 @@ void file_error (const std :: string & input);
 * @returns std::unique_ptr<int[]> array of labels as integers
 *
 */
-std :: unique_ptr < int[] > lbl2num (const std :: vector < std :: string > & lbl);
+std :: unique_ptr < int32_t[] > lbl2num (const std :: vector < std :: string > & lbl);
 
 /**
 * @brief Split string to tokens.

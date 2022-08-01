@@ -24,15 +24,15 @@
 struct score
 {
 
-  std :: unique_ptr < float[] > mcc;  ///< Matthews Correlation Correlation of the couples
-  std :: unique_ptr < int[] > gene_a; ///< First index of the couples
-  std :: unique_ptr < int[] > gene_b; ///< Second index of the couples
-  std :: unique_ptr < int[] > tot;    ///< Total accuracy of the couples
+  std :: unique_ptr < float[] > mcc;      ///< Matthews Correlation Correlation of the couples
+  std :: unique_ptr < int32_t[] > gene_a; ///< First index of the couples
+  std :: unique_ptr < int32_t[] > gene_b; ///< Second index of the couples
+  std :: unique_ptr < int32_t[] > tot;    ///< Total accuracy of the couples
 
-  std :: unique_ptr < std :: unique_ptr < int[] >[] > class_score; ///< Accuracy score for each class
+  std :: unique_ptr < std :: unique_ptr < int32_t[] >[] > class_score; ///< Accuracy score for each class
 
-  int N;       ///< The number of couples
-  int n_class; ///< The number of classes
+  int32_t N;       ///< The number of couples
+  int32_t n_class; ///< The number of classes
 
   // Constructors
 
@@ -55,7 +55,7 @@ struct score
   * @param n_class The number of available classes in which the samples are divided
   *
   */
-  score (const int & N, const int & n_class);
+  score (const int32_t & N, const int32_t & n_class);
 
   // Copy constructors
 
@@ -103,7 +103,7 @@ struct score
   * the information used by the score object without recomputing new ones.
   *
   */
-  static float matthews_corrcoef (const float & s0, const int & m0, const float & s1, const int & m1);
+  static float matthews_corrcoef (const float & s0, const int32_t & m0, const float & s1, const int32_t & m1);
 
 };
 

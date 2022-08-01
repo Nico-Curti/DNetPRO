@@ -6,9 +6,31 @@ set (DNETPRO_MINOR    0)
 set (DNETPRO_REVISION 0)
 set (DNETPRO_VERSION ${DNETPRO_MAJOR}.${DNETPRO_MINOR}.${DNETPRO_REVISION})
 
+set (CMAKE_PROJECT_HOMEPAGE_URL "https://github.com/Nico-Curti/DNetPRO")
+set (CMAKE_PROJECT_DESCRIPTION "Discriminant Analysis with Network Processing")
+
+message (STATUS "DNetPRO VERSION: ${DNETPRO_VERSION}")
+
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+  message(STATUS "VCPKG found: $ENV{VCPKG_ROOT}")
+  message(STATUS "Using VCPKG integration")
+  message(STATUS "VCPKG_MANIFEST_FEATURES: ${VCPKG_MANIFEST_FEATURES}")
+  if(DEFINED ENV{VCPKG_DEFAULT_TRIPLET})
+    message(STATUS "Setting default vcpkg target triplet to $ENV{VCPKG_DEFAULT_TRIPLET}")
+    set(VCPKG_TARGET_TRIPLET $ENV{VCPKG_DEFAULT_TRIPLET})
+  endif()
+endif()
+
 project (DNetPRO LANGUAGES CXX VERSION ${DNETPRO_VERSION} DESCRIPTION "Discriminant Network Processing - Feature Selection")
-set (CMAKE_CXX_STANDARD 14)
-#set (CMAKE_CXX_STANDARD_REQUIRED ON)
+
+enable_language(CXX)
+# required by parse_args library
+if ( ( "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" AND ${CMAKE_CXX_COMPILER_VERSION} LESS 7) OR ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" AND ${CMAKE_CXX_COMPILER_VERSION} LESS_EQUAL 4) )
+  set (CMAKE_CXX_STANDARD 14)
+else ()
+  set (CMAKE_CXX_STANDARD 17)
+endif()
 
 add_definitions (-DMAJOR=${DNETPRO_MAJOR} -DMINOR=${DNETPRO_MINOR} -DREVISION=${DNETPRO_REVISION})
 
@@ -24,7 +46,7 @@ option (BUILD_DOCS  "Enable Documentaion builid support" OFF )
 #                         SETTING VARIABLES                     #
 #################################################################
 
-set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/" ${CMAKE_MODULE_PATH})
+set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/" ${CMAKE_MODULE_PATH})
 
 if ( NOT APPLE )
   set (CMAKE_SKIP_BUILD_RPATH             FALSE )
@@ -36,10 +58,16 @@ endif ()
 set (default_build_type "Release")
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message (STATUS "Setting build type to '${default_build_type}' as none was specified.")
-  set (CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Choose the type of build." FORCE)
+  set (CMAKE_BUILD_TYPE "${default_build_type}" CACHE
+    STRING "Choose the type of build." FORCE)
   # Set the possible values of build type for cmake-gui
-  set_property (CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+  set_property (CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif ()
+
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "Install prefix" FORCE)
+endif()
 
 if ( CMAKE_COMPILER_IS_GNUCXX )
   add_compile_options (-Wall -Wextra -Wno-unused-result -Wno-unknown-pragmas -Wfatal-errors -Wno-narrowing -Wpedantic)
@@ -76,15 +104,12 @@ if (MSVC)
 endif ()
 
 
-include (CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG ("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
-if (COMPILER_SUPPORTS_MARCH_NATIVE AND NOT MSVC)
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -march=native -mtune=native")
-endif ()
-
-if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}" CACHE PATH "Install prefix" FORCE)
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
+if (COMPILER_SUPPORTS_MARCH_NATIVE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 endif()
+
 
 #################################################################
 #                         PARSE OPTIONS                         #
@@ -109,49 +134,72 @@ else ()
   add_definitions (-DNUM_AVAILABLE_THREADS=1)
 endif ()
 
+if (FORCE_USE_SUBMODULES)
+  message (STATUS "Use ParseArgs submodule")
+  add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args")
+  include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/include/")
+  include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/hpp/")
+  set (parseargslib parseargs)
+else ()
+  message (STATUS "Looking for ParseArgs library")
+  find_package (ParseArgs)
+  if (ParseArgs_FOUND)
+    include_directories(${ParseArgs_INCLUDE_DIR})
+    set (parseargslib ParseArgs::parseargs)
+  else ()
+    set (FORCE_USE_SUBMODULES ON)
+    message (STATUS "ParseArgs NOT FOUND")
+    message (STATUS "Use ParseArgs submodule")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args")
+    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/include/")
+    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/hpp/")
+  endif ()
+endif ()
 
 #################################################################
 #                         SETTING DIRECTORIES                   #
 #################################################################
 
-set (SRC_DIR      ${CMAKE_SOURCE_DIR}/src             CACHE PATH "Path where find cpp files"                        )
-set (INC_DIR      ${CMAKE_SOURCE_DIR}/include         CACHE PATH "Path where find header files"                     )
-set (HPP_DIR      ${CMAKE_SOURCE_DIR}/hpp             CACHE PATH "Path where find hpp files"                        )
-set (EXAMPLE      ${CMAKE_SOURCE_DIR}/example         CACHE PATH "Path where find examples files"                   )
-set (OUT_DIR      ${CMAKE_SOURCE_DIR}/bin             CACHE PATH "Path where outputs will be installed"        FORCE)
-set (LIB_DIR      ${CMAKE_SOURCE_DIR}/lib             CACHE PATH "Path where lib will be installed"            FORCE)
-set (PYC_DIR      ${CMAKE_SOURCE_DIR}/DNetPRO         CACHE PATH "Path where find pythonize version of DNetPRO"     )
+set(INSTALL_BIN_DIR "${CMAKE_CURRENT_LIST_DIR}/bin" CACHE PATH "Path where exe and dll will be installed")
+set(INSTALL_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}/lib" CACHE PATH "Path where lib will be installed")
 
-set(INSTALL_INCLUDE_DIR  "${CMAKE_CURRENT_LIST_DIR}/share/include/DNetPRO"  CACHE PATH "Path where headers will be installed")
-set(INSTALL_CMAKE_DIR    "${CMAKE_CURRENT_LIST_DIR}/share/DNetPRO"          CACHE PATH "Path where cmake configs will be installed")
+set(INSTALL_INCLUDE_DIR "include/DNetPRO" CACHE PATH "Path where headers will be installed")
+set(INSTALL_CMAKE_DIR   "share/DNetPRO"   CACHE PATH "Path where cmake configs will be installed")
 
 set(CMAKE_DEBUG_POSTFIX d)
 
-set (dnetprolib dnetpro)
+file (GLOB DNetPRO_SRC    "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp"  )
+file (GLOB DNetPRO_HEADER "${CMAKE_CURRENT_LIST_DIR}/include/*.h")
+file (GLOB DNetPRO_HPP    "${CMAKE_CURRENT_LIST_DIR}/hpp/*.hpp"  )
 
-file (GLOB SRC    "${SRC_DIR}/*.cpp")
-file (GLOB HEADER "${INC_DIR}/*.h"  )
-file (GLOB EXE    "${EXAMPLE}/*.cpp")
-
-include_directories (${INC_DIR})
-include_directories (${HPP_DIR})
+include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/hpp")
 
 if (PYWRAP)
   include( UseCython )
-  find_package (Python COMPONENTS Interpreter NumPy)
-endif ()
+  find_package (Python3 REQUIRED COMPONENTS Interpreter)
+  find_package(NumPy REQUIRED)
+  include_directories(${NumPy_INCLUDE_DIRS})
+  add_definitions (-DNPY_NO_DEPRECATED_API)
+endif()
 
-if (BUILD_DOCS)
-  add_subdirectory(${CMAKE_SOURCE_DIR}/docs/)
-endif ()
+set (dnetprolib dnetpro)
 
-#string (REPLACE " " ";" CMAKE_CXX_FLAGS_LIST ${CMAKE_CXX_FLAGS})
-
-set(DNetPRO_INSTALL_INCLUDE_DIR ${INSTALL_INCLUDE_DIR})
-
-configure_file(${CMAKE_SOURCE_DIR}/DNetPRO.pc.in ${CMAKE_SOURCE_DIR}/DNetPRO.pc @ONLY)
-configure_file(${PYC_DIR}/__version__.py.in ${PYC_DIR}/__version__.py @ONLY)
+configure_file(
+  "${CMAKE_CURRENT_LIST_DIR}/DNetPRO.pc.in"
+  "${CMAKE_CURRENT_LIST_DIR}/DNetPRO.pc" @ONLY)
 message(STATUS "Pkg-config generated")
+
+# allow the export of LD_LIBRARY_PATH env variable
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+# Make relative paths absolute (needed later on)
+foreach (p LIB BIN INCLUDE CMAKE)
+  set (var INSTALL_${p}_DIR)
+  if (NOT IS_ABSOLUTE "${${var}}")
+    set (FULLPATH_${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+  endif()
+endforeach()
 
 #################################################################
 #                          SUMMARY                              #
@@ -159,7 +207,7 @@ message(STATUS "Pkg-config generated")
 
 message(STATUS ""                                                                          )
 message(STATUS "=================== DNetPRO configuration Summary =================="      )
-message(STATUS "   DNetPRO version: ${DNETPRO_MAJOR}.${DNETPRO_MINOR}.${DNETPRO_REVISION}" )
+message(STATUS "   DNetPRO version: ${DNETPRO_VERSION}"                                    )
 message(STATUS ""                                                                          )
 message(STATUS "   Build type : ${CMAKE_BUILD_TYPE}"                                       )
 message(STATUS "   C++ :"                                                                  )
@@ -193,52 +241,55 @@ message(STATUS ""                                                               
 #                         MAIN RULES                            #
 #################################################################
 
-add_library(${dnetprolib} SHARED ${SRC} ${HEADER})
+add_library(${dnetprolib} SHARED ${DNetPRO_SRC} ${DNetPRO_HEADER} ${DNetPRO_HPP})
 set_property(TARGET ${dnetprolib} PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_include_directories(${dnetprolib} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include> $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/hpp> $<INSTALL_INTERFACE:${DNetPRO_INSTALL_INCLUDE_DIR}>)
+target_include_directories(${dnetprolib} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include> $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/hpp> $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>)
 target_link_libraries(${dnetprolib} ${linked_libs})
 
-list (APPEND ALL_HEADER ${HEADER})
-list (APPEND ALL_HEADER ${HPP})
-set_target_properties(${dnetprolib} PROPERTIES PUBLIC_HEADER "${ALL_HEADER}")
+list (APPEND ALL_DNetPRO_HEADER ${DNetPRO_HEADER})
+list (APPEND ALL_DNetPRO_HEADER ${DNetPRO_HPP})
+set_target_properties(${dnetprolib} PROPERTIES PUBLIC_HEADER "${ALL_DNetPRO_HEADER}")
+
+install(TARGETS ${dnetprolib} EXPORT DNetPROTargets
+  RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
+  LIBRARY DESTINATION "${INSTALL_LIB_DIR}"
+  ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
+  PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}"
+  COMPONENT dev
+)
+
+add_executable(DNetPRO_couples "${CMAKE_CURRENT_LIST_DIR}/example/DNetPRO_couples.cpp")
+target_link_libraries(DNetPRO_couples ${linked_libs} ${parseargslib} ${dnetprolib})
+if (FORCE_USE_SUBMODULES)
+  add_dependencies(DNetPRO_couples parseargs)
+endif ()
+install(TARGETS DNetPRO_couples
+  DESTINATION "${INSTALL_BIN_DIR}")
 
 if (PYWRAP)
-  add_subdirectory (${PYC_DIR}/source)
+  add_subdirectory ("${CMAKE_CURRENT_LIST_DIR}/DNetPRO/source")
 endif ()
 
-add_executable(DNetPRO_couples ${EXAMPLE}/DNetPRO_couples.cpp)
-target_link_libraries(DNetPRO_couples ${linked_libs} ${dnetprolib})
-
-#################################################################
-#                          INSTALLERS                           #
-#################################################################
-
-install(TARGETS ${dnetprolib}       EXPORT DNetPROTargets
-                                    RUNTIME DESTINATION ${OUT_DIR}
-                                    LIBRARY DESTINATION ${LIB_DIR}
-                                    ARCHIVE DESTINATION ${LIB_DIR}
-                                    PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDE_DIR}
-                                    COMPONENT dev
-                                    )
-
-install(TARGETS DNetPRO_couples     DESTINATION ${OUT_DIR})
+if (BUILD_DOCS)
+  add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/docs/")
+endif ()
 
 #################################################################
 #                          EXPORT DNetPRO                         #
 #################################################################
 
 install (EXPORT DNetPROTargets
-         FILE DNetPROTargets.cmake
-         NAMESPACE DNetPRO::
-         DESTINATION "${INSTALL_CMAKE_DIR}"
-        )
+  FILE DNetPROTargets.cmake
+  NAMESPACE DNetPRO::
+  DESTINATION "${INSTALL_CMAKE_DIR}"
+)
 
 # Export the package for use from the build-tree (this registers the build-tree with a global CMake-registry)
 export (PACKAGE DNetPRO)
 
 # Create the DNetPROConfig.cmake
 # First of all we compute the relative path between the cmake config file and the include path
-file (RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_INCLUDE_DIR}")
+file (RELATIVE_PATH REL_INCLUDE_DIR "${FULLPATH_INSTALL_CMAKE_DIR}" "${FULLPATH_INSTALL_INCLUDE_DIR}")
 set (CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
 configure_file (DNetPROConfig.cmake.in "${PROJECT_BINARY_DIR}/DNetPROConfig.cmake" @ONLY)
 set (CONF_INCLUDE_DIRS "\${DNetPRO_CMAKE_DIR}/${REL_INCLUDE_DIR}")
@@ -247,12 +298,11 @@ configure_file (DNetPROConfig.cmake.in "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIREC
 # Create the DNetPROConfigVersion.cmake
 include (CMakePackageConfigHelpers)
 write_basic_package_version_file ("${PROJECT_BINARY_DIR}/DNetPROConfigVersion.cmake"
-                                  COMPATIBILITY SameMajorVersion
-                                 )
+  COMPATIBILITY SameMajorVersion
+)
 
 install (FILES
-         "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/DNetPROConfig.cmake"
-         "${PROJECT_BINARY_DIR}/DNetPROConfigVersion.cmake"
-         DESTINATION "${INSTALL_CMAKE_DIR}"
-         )
-
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/DNetPROConfig.cmake"
+  "${PROJECT_BINARY_DIR}/DNetPROConfigVersion.cmake"
+  DESTINATION "${INSTALL_CMAKE_DIR}"
+)

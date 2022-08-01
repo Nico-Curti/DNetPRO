@@ -223,7 +223,7 @@ class TestDNetPRO:
     dnet.fit(X, y)
 
     score = dnet.score(X, y)
-    assert score == 0
+    assert np.isclose(score, 0.)
 
   def test_fit_fit_transform (self):
     dnet = DNetPRO(estimator=GaussianNB(), max_chunk=4)

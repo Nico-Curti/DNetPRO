@@ -140,6 +140,11 @@ DNetPRO/[Ss]ource/*.h
 DNetPRO/__version__.py
 __pycache__/
 [Dd]ata/
+DNetPRO.pc
+setup_.py
+setup.cfg
+DNetPROConfig.cmake
+include/DNetPRO
 
 # Utilities
 [Uu]tilities/
@@ -169,3 +174,7 @@ html*
 # documentation
 docs/source/doxydoc/*.xsd
 docs/source/doxydoc/*.xslt
+docs/source/doxydoc/*.xml
+docs/Doxyfile
+docs/build
+docs/doxydoc

@@ -1,25 +1,41 @@
 # If the pyx file is a C++ file, we should specify that here.
 
-set(PYC_SRC_DIR    ${PYC_DIR}/source       CACHE PATH "Path where find pyx files" )
-set(PYC_INC_DIR    ${PYC_DIR}/lib          CACHE PATH "Path where find pxd files" )
-
-set_source_files_properties( ${PYC_SRC_DIR}/DNetPRO.pyx PROPERTIES CYTHON_IS_CXX TRUE )
+set_source_files_properties( "${CMAKE_CURRENT_SOURCE_DIR}/DNetPRO.pyx" PROPERTIES CYTHON_IS_CXX TRUE )
 
 # Include *.pxd directory
 
-include_directories(${PYC_INC_DIR})
+include_directories("${CMAKE_SOURCE_DIR}/DNetPRO/lib")
 
 # Multi-file cython modules do not appear to be working at the moment.
-cython_add_module( DNetPRO DNetPRO.pyx
-                  ${SRC_DIR}/dnetpro_couples.cpp ${INC_DIR}/dnetpro_couples.h
-                  ${SRC_DIR}/score.cpp ${INC_DIR}/score.h
-                  ${SRC_DIR}/utils.cpp ${INC_DIR}/utils.h
-                  ${SRC_DIR}/misc.cpp ${INC_DIR}/misc.h
-                  )
-target_include_directories(DNetPRO PRIVATE ${Python_NumPy_INCLUDE_DIRS})
-target_compile_definitions(DNetPRO PRIVATE -D__dnet__ -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION)
-target_link_libraries(DNetPRO ${linked_libs})
+cython_add_module(DNetPRO "${CMAKE_CURRENT_SOURCE_DIR}/DNetPRO.pyx")
+target_compile_definitions(DNetPRO PRIVATE -D__dnet__)
+target_link_libraries(DNetPRO ${linked_libs} ${dnetprolib})
 
 # Installation of targets
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/DNetPRO.cpp      DESTINATION ${PYC_SRC_DIR})
-install(TARGETS DNetPRO          DESTINATION ${PYC_INC_DIR})
+install(TARGETS DNetPRO                                 DESTINATION "${CMAKE_SOURCE_DIR}/DNetPRO/lib")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/DNetPRO.cpp" DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}")
+
+add_custom_target(PyDNetPRO)
+add_dependencies(PyDNetPRO dnetpro)
+add_dependencies(PyDNetPRO DNetPRO)
+
+# setup installation
+
+configure_file(
+  "${CMAKE_SOURCE_DIR}/setup.py.in"
+  "${CMAKE_SOURCE_DIR}/setup_.py" @ONLY)
+configure_file(
+  "${CMAKE_SOURCE_DIR}/DNetPRO/__version__.py.in"
+  "${CMAKE_SOURCE_DIR}/DNetPRO/__version__.py" @ONLY)
+configure_file(
+  "${CMAKE_SOURCE_DIR}/setup.cfg.in"
+  "${CMAKE_SOURCE_DIR}/setup.cfg" @ONLY)
+
+# NOTE: the current installation is performed in development mode
+add_custom_target(setup_DNetPRO ALL
+  DEPENDS PyDNetPRO
+  COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/setup_.py" develop --user
+  #COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/setup_.py" install --user
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  COMMENT "Setup Python installation"
+)

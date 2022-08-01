@@ -15,29 +15,98 @@ try:
   from setuptools import Extension
   from setuptools import find_packages
 
-  import setuptools
-
-  setuptools_version = setuptools.__version__.split('.')
-  if int(setuptools_version[0]) >= 50:
-    warnings.warn('The setuptools version found is >= 50.* '
-                  'This version could lead to ModuleNotFoundError of basic packages '
-                  '(ref. https://github.com/Nico-Curti/rFBP/issues/5). '
-                  'We suggest to temporary downgrade the setuptools version to 49.3.0 to workaround this setuptools issue.', ImportWarning)
-
-  from setuptools import dist
-
-  dist.Distribution().fetch_build_eggs(['numpy>=1.15', 'Cython>=0.29'])
-
 except ImportError:
   from distutils.core import setup
   from distutils.core import Extension
   from distutils.core import find_packages
 
-import numpy as np
 from distutils import sysconfig
 from Cython.Distutils import build_ext
 from distutils.sysconfig import customize_compiler
 from distutils.command.sdist import sdist as _sdist
+
+
+class CMakeExtension (Extension):
+
+  # Reference: https://stackoverflow.com/a/48015772
+
+  def __init__(self, name):
+    # don't invoke the original build_ext for this special extension
+    super().__init__(name, sources=[])
+
+
+class cmake_build_ext (build_ext):
+
+  # Reference: https://stackoverflow.com/a/48015772
+
+  def run (self):
+
+    for ext in self.extensions:
+      self.build_cmake(ext)
+
+    super().run()
+
+  def build_cmake (self, ext):
+
+    cwd = pathlib.Path().absolute()
+
+    # these dirs will be created in build_py, so if you don't have
+    # any python sources to bundle, the dirs will be missing
+    build_temp = pathlib.Path(self.build_temp)
+    build_temp.mkdir(parents=True, exist_ok=True)
+    extdir = pathlib.Path(self.get_ext_fullpath(ext.name))
+    extdir.mkdir(parents=True, exist_ok=True)
+
+    # example of cmake args
+    config = 'Debug' if self.debug else 'Release'
+    cmake_args = [
+        '-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:FILEPATH=' + str(extdir.parent.absolute()) + '/lib',
+        '-DCMAKE_BUILD_TYPE:STRING=' + config,
+        '-DBUILD_DOCS:BOOL=OFF',
+        '-DPYWRAP:BOOL=ON',
+        '-DFORCE_USE_SUBMODULES:BOLL=ON',
+        '-DOMP:BOOL={0}'.format('ON' if ENABLE_OMP else 'OFF')
+    ]
+
+    if platform.system() == 'Windows':
+      vcpkg_root = os.environ.get('VCPKG_ROOT').replace('\\', '/')
+
+      if not vcpkg_root:
+        raise ValueError('VCPKG not found. '
+                         'Please set the environment variable to the path in which vcpkg can be found. '
+                         '(E.g $env:VCPKG_ROOT=C:/Users/Myuser/vcpkg/')
+
+      vcpk_triplet = os.environ.get('VCPKG_DEFAULT_TRIPLET')
+      vcpk_triplet = vcpk_triplet if vcpk_triplet else 'x64-windows'
+
+      cmake_args.extend(['-DCMAKE_TOOLCHAIN_FILE={}/scripts/buildsystems/vcpkg.cmake'.format(vcpkg_root),
+                         '-DVCPKG_TARGET_TRIPLET={}'.format(vcpk_triplet)
+                         ])
+
+    # example of build args
+    build_args = [
+        '--target', 'install',
+        '--config', config,
+        '--parallel', '4',
+    ]
+
+    os.chdir(str(build_temp))
+    self.spawn(['cmake', str(cwd)] + cmake_args)
+    if not self.dry_run:
+      self.spawn(['cmake', '--build', '.'] + build_args)
+    # Troubleshooting: if fail on line above then delete all possible
+    # temporary CMake files including "CMakeCache.txt" in top level dir.
+    os.chdir(str(cwd))
+
+
+
+class sdist (_sdist):
+
+  def run (self):
+
+    self.run_command('build_ext')
+    _sdist.run(self)
+
 
 def get_requires (requirements_filename):
   '''
@@ -58,56 +127,6 @@ def get_requires (requirements_filename):
 
   return list(filter(lambda x: x != '', requirements.split()))
 
-def get_ext_filename_without_platform_suffix (filename):
-    name, ext = os.path.splitext(filename)
-    ext_suffix = sysconfig.get_config_var('EXT_SUFFIX')
-
-    if ext_suffix == ext:
-      return filename
-
-    ext_suffix = ext_suffix.replace(ext, '')
-    idx = name.find(ext_suffix)
-
-    if idx == -1:
-      return filename
-    else:
-      return name[:idx] + ext
-
-class dnetpro_build_ext (build_ext):
-  '''
-  Custom build type
-  '''
-
-  def get_ext_filename (self, ext_name):
-
-    if platform.system() == 'Windows':
-    # The default EXT_SUFFIX of windows include the PEP 3149 tags of compiled modules
-    # In this case I rewrite a custom version of the original distutils.command.build_ext.get_ext_filename function
-      ext_path = ext_name.split('.')
-      ext_suffix = '.pyd'
-      filename = os.path.join(*ext_path) + ext_suffix
-    else:
-      filename = super().get_ext_filename(ext_name)
-
-    return get_ext_filename_without_platform_suffix(filename)
-
-  def build_extensions (self):
-
-    customize_compiler(self.compiler)
-
-    try:
-      self.compiler.compiler_so.remove('-Wstrict-prototypes')
-
-    except (AttributeError, ValueError):
-      pass
-
-    build_ext.build_extensions(self)
-
-
-class sdist(_sdist):
-  def run(self):
-    self.run_command('build_ext')
-    _sdist.run(self)
 
 def read_description (readme_filename):
   '''
@@ -196,7 +215,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 # Package meta-data.
 NAME = 'DNetPRO'
-DESCRIPTION = 'Discriminant Network Processing'
+DESCRIPTION = 'Discriminant Analysis with Network Processing'
 URL = 'https://github.com/Nico-Curti/DNetPRO'
 EMAIL = 'nico.curit2@unibo.it, enrico.giampieri@unibo.it, daniel.remondini@unibo.it'
 AUTHOR = 'Nico Curti, Enrico Giampieri, Daniel Remondini'
@@ -211,10 +230,10 @@ VERSION_FILENAME = os.path.join(here, 'DNetPRO', '__version__.py')
 
 ENABLE_OMP = False
 
-current_python = sys.executable.split('/bin')[0]
-numpy_dir = current_python + '/lib/python{}.{}/site-packages/numpy/core/include'.format(sys.version_info.major, sys.version_info.minor)
-if os.path.isdir(numpy_dir):
-  os.environ['CFLAGS'] = '-I' + numpy_dir
+if '--omp' in sys.argv:
+  ENABLE_OMP = True
+  sys.argv.remove('--omp')
+
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
@@ -235,62 +254,7 @@ if not VERSION:
 else:
   about['__version__'] = VERSION
 
-# parse version variables and add them to command line as definitions
-Version = about['__version__'].split('.')
-
-# Set compiler variables
-
-define_args = [ '-DMAJOR={}'.format(Version[0]),
-                '-DMINOR={}'.format(Version[1]),
-                '-DREVISION={}'.format(Version[2]),
-                '-DNUM_AVAILABLE_THREADS={}'.format(NTH),
-                '-D__dnet__', # enable misc utilities
-                '-DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION'
-              ]
-
-if 'GCC' in CPP_COMPILER or 'Clang' in CPP_COMPILER:
-  compile_args = ['-std=c++14', '-g0',
-                  '-O3',
-                  '-Wno-unused-function', # disable unused-function warnings
-                  '-Wno-narrowing', # disable narrowing conversion warnings
-                   # enable common warnings flags
-                  '-Wall',
-                  '-Wextra',
-                  '-Wno-unused-result',
-                  '-Wno-unknown-pragmas',
-                  '-Wfatal-errors',
-                  '-Wpedantic',
-                  '-march=native',
-                  ]
-
-  try:
-
-    compiler, compiler_version = CPP_COMPILER.split()
-
-  except ValueError:
-
-    compiler, compiler_version = (CPP_COMPILER, '0')
-
-  if ENABLE_OMP and compiler == 'GCC':
-    linker_args = ['-fopenmp']
-  else:
-    print('OpenMP support disabled. It can be used only with gcc compiler.')
-    linker_args = []
-
-elif 'MSC' in CPP_COMPILER:
-  compile_args = ['/std:c++14', '/Ox', '/Wall', '/W3']
-
-  if ENABLE_OMP:
-    linker_args = ['/openmp']
-  else:
-    linker_args = []
-
-else:
-  raise ValueError('Unknown c++ compiler arg')
-
-whole_compiler_args = sum([compile_args, define_args, linker_args], [])
-
-cmdclass = {'build_ext': dnetpro_build_ext,
+cmdclass = {'build_ext': cmake_build_ext,
             'sdist': sdist}
 
 setup(
@@ -308,43 +272,40 @@ setup(
   url                           = URL,
   download_url                  = URL,
   keywords                      = KEYWORDS,
-  packages                      = find_packages(include=['DNetPRO', 'DNetPOR.*'], exclude=('test', 'testing', 'example')),
-  include_package_data          = True, # no absolute paths are allowed
-  data_files                    = [('', ['CMakeLists.txt', 'README.md', 'LICENSE'])],
   setup_requires                = [# Setuptools 18.0 properly handles Cython extensions.
                                    'setuptools>=18.0',
+                                   'cython',
                                    'numpy>=1.16.0'
-                                   'Cython>=0.29'],
+                                   'Cython>=0.29'
+                                   'cmake',],
+  packages                      = find_packages(include=['DNetPRO', 'DNetPRO.*'], exclude=('test', 'testing', 'example')),
+  package_data                  = {'DNetPRO': ['lib/*.pxd', 'source/*.pyx', 'source/*.cpp'],},
+  include_package_data          = True, # no absolute paths are allowed
+  data_files                    = [('', ['CMakeLists.txt', 'README.md', 'LICENSE', 'setup.py.in', 'DNetPRO.pc.in', 'DNetPROConfig.cmake.in']),
+                                   ('example', ['example/DNetPRO_couples.cpp']),
+                                   ('cmake', ['cmake/modules/FindCython.cmake', 'cmake/modules/FindSphinx.cmake', 'cmake/modules/UseCython.cmake']),
+                                  ],
   platforms                     = 'any',
-  classifiers                   =[
+  classifiers                   = [
                                    #'License :: OSI Approved :: GPL License',
+                                   'Natural Language :: English',
+                                   'Operating System :: MacOS :: MacOS X',
+                                   'Operating System :: POSIX',
+                                   'Operating System :: POSIX :: Linux',
+                                   'Operating System :: Microsoft :: Windows',
                                    'Programming Language :: Python',
                                    'Programming Language :: Python :: 3',
+                                   'Programming Language :: Python :: 3.5',
                                    'Programming Language :: Python :: 3.6',
+                                   'Programming Language :: Python :: 3.7',
+                                   'Programming Language :: Python :: 3.8',
                                    'Programming Language :: Python :: Implementation :: CPython',
                                    'Programming Language :: Python :: Implementation :: PyPy'
-                                 ],
+                                  ],
   license                       = 'MIT',
   cmdclass                      = cmdclass,
-  ext_modules                   = [Extension( name='.'.join(['DNetPRO', 'lib', 'DNetPRO']),
-                                              sources=['./DNetPRO/source/DNetPRO.pyx',
-                                                       './src/dnetpro_couples.cpp',
-                                                       './src/misc.cpp',
-                                                       './src/score.cpp',
-                                                       './src/utils.cpp'
-                                                       ],
-                                              include_dirs=[ './DNetPRO/lib','./hpp/', './include/', np.get_include()],
-                                              libraries=[],
-                                              library_dirs=[
-                                                            os.path.join(here, 'lib'),
-                                                            os.path.join('usr', 'lib'),
-                                                            os.path.join('usr', 'local', 'lib'),
-                                                            np.get_include(),
-                                              ],  # path to .a or .so file(s)
-                                              extra_compile_args = whole_compiler_args,
-                                              extra_link_args = [],
-                                              language='c++'
-                                              )
+  ext_modules                   = [
+                                    CMakeExtension(name=NAME)
   ],
 )
 

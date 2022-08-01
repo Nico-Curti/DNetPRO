@@ -1,0 +1,3 @@
+[submodule "modules/parse_args"]
+	path = modules/parse_args
+	url = https://github.com/Nico-Curti/parse_args

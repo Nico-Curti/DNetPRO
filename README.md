@@ -1,6 +1,7 @@
-| **Authors**  | **Project** | **Build Status** | **Code Quality** | **Coverage** |
-|:------------:|:-----------:|:----------------:|:----------------:|:------------:|
-| [**N. Curti**](https://github.com/Nico-Curti) |  **DNetPRO**<br/>[![arxiv.org](http://img.shields.io/badge/bioRxiv-0.1101/773622-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/773622v1)  | **Linux/MacOS** : [![travis](https://travis-ci.com/Nico-Curti/DNetPRO.svg?branch=master)](https://travis-ci.com/Nico-Curti/DNetPRO) <br/> **Windows** : [![appveyor](https://ci.appveyor.com/api/projects/status/tbjbqnr3am9xms1a?svg=true)](https://ci.appveyor.com/project/Nico-Curti/dnetpro) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/f3ff6cf583d4474e988d33923137e184)](https://www.codacy.com/manual/Nico-Curti/DNetPRO?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/DNetPRO&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![Codebeat](https://codebeat.co/badges/0c5129c1-4537-4545-a8e2-07807c6303f5)](https://codebeat.co/projects/github-com-nico-curti-dnetpro-master) | [![codecov](https://codecov.io/gh/Nico-Curti/DNetPRO/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/DNetPRO) |
+| **Authors**  | **Project** |  **Documentation** | **Build Status** | **License** | **Code Quality** | **Coverage** |
+|:------------:|:-----------:|:------------------:|:----------------:|:-----------:|:----------------:|:------------:|
+| [**N. Curti**](https://github.com/Nico-Curti) | **DNetPRO**<br/>[![arxiv.org](http://img.shields.io/badge/bioRxiv-0.1101/773622-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/773622v1)
+| **Docs CI:** [![DNetPRO Docs CI](https://github.com/Nico-Curti/DNetPRO/actions/workflows/docs.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/docs.yml) <br/> [![docs](https://readthedocs.org/projects/dnetpro/badge/?version=latest)](https://dnetpro.readthedocs.io/en/latest/?badge=latest) | [![Linux DNetPRO CI](https://github.com/Nico-Curti/DNetPRO/actions/workflows/linux.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/linux.yml) <br/> **Windows:** [![Windows DNetPRO CI](https://github.com/Nico-Curti/DNetPRO/actions/workflows/windows.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/windows.yml)  <br/> **MacOS:** [![MacOS DNetPRO CI](https://github.com/Nico-Curti/DNetPRO/actions/workflows/macos.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/macos.yml) <br/> **Python:** [![Python DNetPRO CI](https://github.com/Nico-Curti/DNetPRO/actions/workflows/python.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/python.yml) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/DNetPRO/blob/master/LICENSE) | **Codacy** : [![Codacy](https://api.codacy.com/project/badge/Grade/f3ff6cf583d4474e988d33923137e184)](https://www.codacy.com/manual/Nico-Curti/DNetPRO?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/DNetPRO&amp;utm_campaign=Badge_Grade) <br/> **Codebeat** : [![Codebeat](https://codebeat.co/badges/0c5129c1-4537-4545-a8e2-07807c6303f5)](https://codebeat.co/projects/github-com-nico-curti-dnetpro-master) | [![codecov](https://codecov.io/gh/Nico-Curti/DNetPRO/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/DNetPRO) |
 
 [![C++ version CI](https://github.com/Nico-Curti/DNetPRO/workflows/C++%20version%20CI/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions?query=workflow%3A%22C%2B%2B+version+CI%22)
 
@@ -25,7 +26,7 @@
 
 ## Discriminant Analysis with Network Processing
 
-Official implementation of the DNetPRO algorithm published on [BioRXiv](https://www.biorxiv.org/content/early/2019/09/19/773622) by Curti et al.
+Official implementation of the DNetPRO algorithm published on [BioRXiv](https://www.biorxiv.org/content/early/2019/09/19/773622) by Curti et al. [![arxiv.org](http://img.shields.io/badge/bioRxiv-0.1101/773622-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/773622v1)
 
 * [Overview](#overview)
 * [Theory](#theory)
@@ -37,9 +38,10 @@ Official implementation of the DNetPRO algorithm published on [BioRXiv](https://
 * [Table of contents](#table-of-contents)
 * [Contribution](#contribution)
 * [References](#references)
+* [FAQ](#faq)
 * [Authors](#authors)
 * [License](#license)
-* [Acknowledgments](#acknowledgments)
+* [Acknowledgment](#acknowledgment)
 * [Citation](#citation)
 
 ## Overview
@@ -48,9 +50,9 @@ Official implementation of the DNetPRO algorithm published on [BioRXiv](https://
 
 Methods that select variables for multi-dimensional signatures based on single-variable performance can have limits in predicting
 higher-dimensional signature performance.
-As shown in Fig. [1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png)(a), in which both variables taken singularly perform poorly, but their performance becomes optimal in a 2-dimensional combination, in terms of linear separation of the two classes.
+As shown in Fig.[1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png)(a), in which both variables taken singularly perform poorly, but their performance becomes optimal in a 2-dimensional combination, in terms of linear separation of the two classes.
 
-It is known that complex separation surfaces characterize classification tasks associated to image and speech recognition, for which Deep Networks are used successfully in recent times, but in many cases biological data, such as gene or protein expression, are more likely characterized by a up/down-regulation behavior (as shown in Fig. [1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png)(b) top), while more complex behaviors (e.g. a optimal range of activity, Fig. [1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png)(b) bottom) are much less likely.
+It is known that complex separation surfaces characterize classification tasks associated to image and speech recognition, for which Deep Networks are used successfully in recent times, but in many cases biological data, such as gene or protein expression, are more likely characterized by a up/down-regulation behavior (as shown in Fig.[1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png)(b) top), while more complex behaviors (e.g. a optimal range of activity, Fig.[1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png)(b) bottom) are much less likely.
 Thus, discriminant-based methods (and logistic regression methods alike) can very likely provide good classification performances in these cases (as demonstrated by our results with DNetPRO) if applied in at least
 two-dimensional spaces.
 Moreover, the of these methods (that generate very simple class separation surfaces, i.e. linear or quadratic) guarantee that a of a signature based on lower-dimensional signatures is feasible.
@@ -138,7 +140,7 @@ The only requirements are the following:
 * numpy >= 1.16.0
 * networkx >= 2.2
 * cython >= 0.29
-* scikit -learn >= 0.19.1
+* scikit-learn >= 0.19.1
 * pandas >= 0.24.2
 
 The `Cython` version can be built and installed via `CMake` enabling the `-DPYWRAP` variable.
@@ -156,6 +158,7 @@ The `Python` wrap of the library was written according to `scikit-optimize` `Pyt
 ```bash
 git clone https://github.com/Nico-Curti/DNetPRO.git
 cd DNetPRO
+git submodule update --init --recursive
 ```
 
 3) `DNetPRO` could be built with CMake and Make or with the *build* scripts in the project.
@@ -202,6 +205,7 @@ git clone https://github.com/physycom/sysconfig
 cd $WORKSPACE
 git clone https://github.com/Nico-Curti/DNetPRO
 cd DNetPRO
+git submodule update --init --recursive
 
 mkdir -p build
 cd build
@@ -246,6 +250,7 @@ source ~/.bash_profile
 cd $WORKSPACE
 git clone https://github.com/Nico-Curti/DNetPRO
 cd DNetPRO
+git submodule update --init --recursive
 
 mkdir -p build
 cd build
@@ -330,6 +335,7 @@ With a valid `CMake` version installed first of all clone the project as:
 ```bash
 git clone https://github.com/Nico-Curti/DNetPRO
 cd DNetPRO
+git submodule update --init --recursive
 ```
 
 The you can build the `DNetPRO` package with
@@ -347,9 +353,23 @@ or more easily
 
 if you are working on a Windows machine the right script to call is the [`build.ps1`](https://Nico-Curti/DNetPRO/blob/master/build.ps1).
 
-**NOTE 1:** if you want enable the OpenMP support compile the library with `-DOMP=ON`.
+The `CMake` command line can be customized according to the following parameters:
 
-**NOTE 2:** if you want enable the Cython support compile the library with `-DPYWRAP=ON`. The Cython packages will be compiled and correctly positioned in the `DNetPRO` Python package **BUT** you need to run also the setup before use it.
+* `-DOMP` : Enable/Disable the OpenMP support for multi-threading computation
+* `-DBUILD_DOCS` : Enable/Disable the build of docs using Doxygen and Sphinx
+* `-DPYWRAP` : Enable/Disable the build of Python wrap of the library via Cython (see next section for Python requirements)
+
+| :triangular_flag_on_post: Note |
+|:-------------------------------|
+| All the variables above are set to `OFF` by default! |
+
+| :triangular_flag_on_post: NOTE |
+|:-------------------------------|
+| If you are working under Windows OS and you are familiar with vcpkg package, you can find the series of `ports` script for vcpkg integration of `parseargs` in the relative directory.<br>Copying those scripts in the vcpkg project folder you can install both the libraries via vcpkg!<br>Then you should use them directly via `CMAKE_TOOLCHAIN_FILE` |
+
+| :warning: WARNING |
+|:------------------|
+| If the `ParseArgs` library is not found during the building process, the submodules of the current project directory are used.<br>You can manually force the use of submodules using the `-DFORCE_USE_SUBMODULE:BOOL=ON` flag during the configuration.<br>If you have manually installed the libraries you can pass to the `CMake` configuration the variable `-DParseArgs_DIR:PATH=/path/to/parseargs/share/parseargs`. |
 
 ### Python installation
 
@@ -379,12 +399,13 @@ or for installing in development mode:
 python setup.py develop --user
 ```
 
-> :warning: The setup file requires the `Cython` and `Numpy` packages, thus make sure to pre-install them!
-> We are working on some workarounds to solve this issue.
+| :warning: WARNING |
+|:------------------|
+| The installation of the `Python` modules requires the `CMake` support and all the listed above libraries.<br>If you are working under *Window OS* we require the usage of `VCPKG` for the installation of the libraries and a precise configuration of the environment variables.<br>In particular you need to set the variables `VCPKG_ROOT=/path/to/vcpkg/rootdir/` and `VCPKG_DEFAULT_TRIPLET=x64-windows`.<br>A full working example of OS configuration can be found in the CI actions of the project, available [here](https://github.com/Nico-Curti/DNetPRO/blob/main/.github/workflows/) |
 
-> :warning: The current installation via pip has no requirements about the version of `setuptools` package.
-> If the already installed version of `setuptools` is `>= 50.*` you can find some troubles during the installation of our package (ref. [issue](https://github.com/Nico-Curti/rFBP/issues/5)).
-> We suggest to temporary downgrade the `setuptools` version to `49.3.0` to workaround this `setuptools` issue.
+| :warning: WARNING |
+|:------------------|
+| All the `CMake` flags are set internally in the `setup.py` script with default values.<br>You can manually turn on/off the multi-threading support passing the flag `--omp` at the setup command line, i.e. `python setup.py develop --user --omp` |
 
 ## Efficiency
 
@@ -525,6 +546,52 @@ See [here](https://github.com/Nico-Curti/DNetPRO/blob/master/.github/CONTRIBUTIN
 
 <blockquote>6- C. Terragna, D. Remondini, M. Martello, E. Zamagni, L. Pantani, F. Patriarca, A. Pezzi, G. Levi, M. Offidani, I. Proserpio, G. De Sabbata, P. Tacchetti, C. Cangialosi, F. Ciambelli, C. Virginia Viganò, F. Angela Dico, B. Santacroce, E. Borsi, A. Brioli, G. Marzocchi, G. Castellani, G. Martinelli, A. Palumbo, M. Cavo. "The genetic and genomic background of multiple myeloma patients achieving complete response after induction therapy with bortezomib, thalidomide and dexamethasone", Oncotarget, 2016</blockquote>
 
+## FAQ
+
+* **How can I properly set the C++ compiler for the Python installation?**
+
+If you are working on a Ubuntu machine pay attention to properly set the environment variables related to the `C++` compiler.
+First of all take care to put the compiler executable into your environmental path:
+
+```bash
+ls -ltA /usr/bin | grep g++
+```
+
+Then you can simply use the command to properly set the right aliases/variables
+
+```bash
+export CXX=/usr/bin/g++
+export CC=/usr/bin/gcc
+```
+
+but I suggest you to put those lines into your `.bashrc` file (one for all):
+
+```bash
+echo "export CC=/usr/bin/gcc" >> ~/.bashrc
+echo "export CXX=/usr/bin/g++" >> ~/.bashrc
+```
+
+I suggest you to not use the default `Python` compiler (aka `x86_64-linux-gnu-g++`) since it can suffer of many issues during the compilation if it is not manually customized.
+
+| :triangular_flag_on_post: Note |
+|:-------------------------------|
+| If you are working under Windows OS a complete guide on how to properly configure your MSVC compiler can be found [here](https://github.com/physycom/sysconfig) |
+
+* **I installed the `DNetPRO` Python package following the instructions but I have an `ImportError` when I try to import the package as in the examples**
+
+This error is due a missing environment variable (which is not automatically set by the installation script).
+All the `C++` libraries are searched into the OS directory tree starting from the information/paths hinted by the `LD_LIBRARY_PATH` environment variable.
+When you install the `DNetPRO` library the produced `.so`, `.dll`, `.dylib` files are saved into the `lib` directory created into the project root directory.
+After the installation you must add this directory into the searching path.
+You can add this information editing the configuration file of your `Unix`-like system, i.e
+
+```bash
+echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/DNetPRO/project/directory/lib/" >> ~/.bashrc
+echo "export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/path/to/DNetPRO/project/directory/lib/" >> ~/.bashrc
+```
+
+or adding the `LD_LIBRARY_PATH` to your set of environment variables (especially for `Windows` users).
+
 ## Authors
 
 * <img src="https://avatars0.githubusercontent.com/u/24650975?s=400&v=4" width="25px"> **Nico Curti** [git](https://github.com/Nico-Curti), [unibo](https://www.unibo.it/sitoweb/nico.curti2)
@@ -547,7 +614,7 @@ Thanks goes to all contributors of this project.
 If you have found `DNetPRO` helpful in your research, please consider citing the original paper
 
 ```BibTex
-@article {Curti2019DNetPRO,
+@article {10.1101/773622,
   author = {Curti, Nico and Giampieri, Enrico and Levi, Giuseppe and Castellani, Gastone and Remondini, Daniel},
   title = {DNetPRO: A network approach for low-dimensional signatures from high-throughput data},
   elocation-id = {773622},

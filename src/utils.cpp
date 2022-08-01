@@ -33,9 +33,9 @@ std :: vector < std :: string > split (const std :: string & txt, const std :: s
   return token;
 }
 
-std :: unique_ptr < int[] > lbl2num (const std :: vector < std :: string > & lbl)
+std :: unique_ptr < int32_t[] > lbl2num (const std :: vector < std :: string > & lbl)
 {
-  std :: unique_ptr < int[] > num (new int[lbl.size()]);
+  std :: unique_ptr < int32_t[] > num (new int32_t[lbl.size()]);
   std :: unordered_set < std :: string > str_lbl(lbl.begin(), lbl.end(), lbl.size() * sizeof (std :: string));
   std :: transform(lbl.begin(), lbl.end(), num.get(),
                    [&](const std :: string & l)

@@ -1,4 +1,4 @@
-name: Python version CI
+name: Python DNetPRO CI
 
 on:
   push:
@@ -26,11 +26,14 @@ jobs:
         git submodule update --init --recursive
         python -m pip install --upgrade pip
         pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
+
+    - name: 'Install CMake'
+      run: sudo apt install cmake
 
     - name: Install testing dependencies
       run: |
-        python -m pip install hypothesis>=4.13.0 codecov pytest-cov
+        python -m pip install codecov pytest-cov
 
     - name: Lint with flake8
       run: |
@@ -45,4 +48,4 @@ jobs:
 
     - name: Test with pytest
       run: |
-        pytest --cov=DNetPRO --cov-config=.coveragerc
+        python -m pytest ./DNetPRO/test/ --cov=DNetPRO --cov-config=.coveragerc

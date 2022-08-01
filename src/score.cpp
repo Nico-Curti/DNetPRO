@@ -4,18 +4,18 @@ score :: score () : mcc (nullptr), gene_a (nullptr), gene_b (nullptr), tot (null
 {
 }
 
-score :: score (const int & N, const int & n_class) : N (N), n_class (n_class)
+score :: score (const int32_t & N, const int32_t & n_class) : N (N), n_class (n_class)
 {
-  this->tot = std :: make_unique < int[] >(N);
-  this->gene_a = std :: make_unique < int[] >(N);
-  this->gene_b = std :: make_unique < int[] >(N);
+  this->tot = std :: make_unique < int32_t[] >(N);
+  this->gene_a = std :: make_unique < int32_t[] >(N);
+  this->gene_b = std :: make_unique < int32_t[] >(N);
 
   this->mcc = std :: make_unique < float[] >(N);
-  this->class_score = std :: make_unique < std :: unique_ptr < int[] >[] >(n_class);
+  this->class_score = std :: make_unique < std :: unique_ptr < int32_t[] >[] >(n_class);
 
-  for (int i = 0; i < n_class; ++i)
+  for (int32_t i = 0; i < n_class; ++i)
   {
-    this->class_score[i] = std :: make_unique < int[] >(N);
+    this->class_score[i] = std :: make_unique < int32_t[] >(N);
     std :: fill_n(this->class_score[i].get(), N, 0);
   }
 }
@@ -44,7 +44,7 @@ score & score :: operator = (score && s)
   return *this;
 }
 
-float score :: matthews_corrcoef (const float & s0, const int & m0, const float & s1, const int & m1)
+float score :: matthews_corrcoef (const float & s0, const int32_t & m0, const float & s1, const int32_t & m1)
 {
   const float num = (m0 * s1 - m1 * (m0 - s0));
   const float den = std :: sqrt(m0 * m1 * (s0 + m1 - s1) * (s1 + m0 - s0));

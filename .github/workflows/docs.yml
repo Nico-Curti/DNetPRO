@@ -33,7 +33,7 @@ jobs:
       run: |
         git submodule update --init --recursive
         python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
 
     - name: Install DNetPRO
       run: |
@@ -51,11 +51,11 @@ jobs:
       run: |
         mkdir buildDirectory_debug
         cd buildDirectory_debug
-        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -DBUILD_DOCS=ON
+        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING="Debug" -DBUILD_DOCS:BOOL=ON -DFORCE_USE_SUBMODULES:BOOL=ON
         cd ..
         mkdir buildDirectory_release
         cd buildDirectory_release
-        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -DBUILD_DOCS=ON
+        cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE:STRING="Release" -DBUILD_DOCS:BOOL=ON -DFORCE_USE_SUBMODULES:BOOL=ON
         cd ..
 
     - name: 'Build'

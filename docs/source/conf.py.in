@@ -12,16 +12,16 @@
 #
 import sys
 
-sys.path.insert(0, '/home/ncurti/Code/DNetPRO')
+sys.path.insert(0, '@CMAKE_SOURCE_DIR@')
 
 # -- Project information -----------------------------------------------------
 
-project = 'DNetPRO - Discriminant Network Processing - Feature Selection'
+project = '@CMAKE_PROJECT_NAME@ - @CMAKE_PROJECT_DESCRIPTION@'
 copyright = '2022, Nico Curti'
 author = 'Nico Curti'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '@CMAKE_PROJECT_VERSION@'
 
 master_doc = 'index'
 
@@ -66,11 +66,11 @@ html_static_path = []
 
 # Grouping the document tree into LaTeX files. List of tuples# (source start file, target name, title, author, documentclass [howto/manual]).
 latex_engine = 'xelatex'
-latex_documents = [('index', 'DNetPRO.tex', u'DNetPRO - Discriminant Network Processing - Feature Selection', u'Nico Curti', 'manual'),]
+latex_documents = [('index', '@CMAKE_PROJECT_NAME@.tex', u'@CMAKE_PROJECT_NAME@ - @CMAKE_PROJECT_DESCRIPTION@', u'Nico Curti', 'manual'),]
 latex_show_pagerefs = True
 latex_domain_indices = False
 
-pdf_documents = [('index', u'DNetPRO', u'DNetPRO - Discriminant Network Processing - Feature Selection', u'Nico Curti', 'DNetPRO - Discriminant Network Processing - Feature Selection'),]
+pdf_documents = [('index', u'@CMAKE_PROJECT_NAME@', u'@CMAKE_PROJECT_NAME@ - @CMAKE_PROJECT_DESCRIPTION@', u'Nico Curti', '@CMAKE_PROJECT_NAME@ - @CMAKE_PROJECT_DESCRIPTION@'),]
 
 
 nbsphinx_input_prompt = 'In [%s]:'
@@ -79,7 +79,7 @@ nbsphinx_output_prompt = 'Out[%s]:'
 
 
 breathe_projects = {
-  'score' : '/home/ncurti/Code/DNetPRO/docs/source//',
-  'DNetPRO' : '/home/ncurti/Code/DNetPRO/docs/source//',
-  'utils' : '/home/ncurti/Code/DNetPRO/docs/source//',
+  'score' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@/',
+  'DNetPRO' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@/',
+  'utils' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@/',
   }

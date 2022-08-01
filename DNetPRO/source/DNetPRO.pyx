@@ -15,16 +15,24 @@ from misc cimport two_dimension_pointer_for_cython
 
 import numpy as np
 
+__author__  = ['Nico Curti']
+__email__ = ['nico.curti2@unibo.it']
+__all__ = ['_DNetPRO_couples']
+
+ctypedef np.float32_t FLT32_T
+ctypedef np.int32_t INT32_T
+
+
 cdef class _score:
 
-  def __init__ (self, other=None):
+  def __init__ (self, INT32_T N=0, INT32_T n_class=0):
 
-    try:
+    if N != 0 and n_class != 0:
 
-      self.N, self.n_class = other
+      self.N, self.n_class = (N, n_class)
       self.thisptr.reset(new score(self.N, self.n_class))
 
-    except TypeError:
+    else:
 
       self.N, self.n_class = (0, 0)
       self.thisptr.reset(new score())
@@ -40,33 +48,32 @@ cdef class _score:
 
   @property
   def gene_a(self):
-    cdef int * gene_a = unique_pointer_to_pointer(deref(self.thisptr).gene_a, self.N)
+    cdef INT32_T * gene_a = unique_pointer_to_pointer(deref(self.thisptr).gene_a, self.N)
     return [gene_a[i] for i in range(self.N)]
 
   @property
   def gene_b(self):
-    cdef int * gene_b = unique_pointer_to_pointer(deref(self.thisptr).gene_b, self.N)
+    cdef INT32_T * gene_b = unique_pointer_to_pointer(deref(self.thisptr).gene_b, self.N)
     return [gene_b[i] for i in range(self.N)]
 
   @property
   def score(self):
-    cdef int * tot = unique_pointer_to_pointer(deref(self.thisptr).tot, self.N)
+    cdef INT32_T * tot = unique_pointer_to_pointer(deref(self.thisptr).tot, self.N)
     gene_a = self.gene_a
     gene_b = self.gene_b
     return [(a, b, tot[i]) for a, b, i in zip(gene_a, gene_b, range(self.N))]
 
 
 
-def _DNetPRO_couples (X, y, float percentage=.1, int verbose=0, int nth=1):
-
-  cdef np.ndarray[float, ndim=2, mode='c'] data = X.astype('float32')
-  cdef np.ndarray[int, ndim=1, mode='c'] label = y.astype('int32')
+def _DNetPRO_couples (np.ndarray[FLT32_T, ndim=2, mode='c'] X,
+  np.ndarray[INT32_T, ndim=1, mode='c'] y,
+  float percentage=.1, INT32_T verbose=0, INT32_T nth=1):
 
   Nprobe, Nsample = np.shape(X)
 
-  cdef score sc = dnetpro_couples(two_dimension_pointer_for_cython[float, float](&data[0, 0], Nprobe, Nsample),
+  cdef score sc = dnetpro_couples(two_dimension_pointer_for_cython[float, float](&X[0, 0], Nprobe, Nsample),
                                   Nprobe, Nsample,
-                                  &label[0],
+                                  &y[0],
                                   verbose,
                                   percentage,
                                   nth)

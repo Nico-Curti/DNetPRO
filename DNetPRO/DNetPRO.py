@@ -31,6 +31,8 @@ from sklearn.preprocessing import LabelEncoder
 
 from sklearn.naive_bayes import GaussianNB
 
+from DNetPRO.lib.DNetPRO import _DNetPRO_couples
+
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -234,7 +236,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     le = LabelEncoder()
     le.fit(arr)
     numeric_labels = le.transform(arr)
-    return numeric_labels.astype(int)
+    return numeric_labels.astype(np.int32)
 
 
   def _evaluate_couples (self, X, y):
@@ -263,20 +265,18 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     '''
     # Nsample, _ = np.shape(X)
 
-    from DNetPRO.lib.DNetPRO import _DNetPRO_couples
-
     y = np.asarray(y)
 
     if y.dtype is not int:
       y = DNetPRO.label2numbers(y)
 
-    self.X = check_array(X)
+    self.X = check_array(X, dtype=np.float32)
     # set contiguous order memory for c++ compatibility
     self.y = np.ascontiguousarray(y)
     X = np.ascontiguousarray(self.X.T)
 
     # pay attention to the transposition
-    score = _DNetPRO_couples(X, y, self.percentage, self.verbose, self.n_jobs)
+    score = _DNetPRO_couples(X, self.y, self.percentage, self.verbose, self.n_jobs)
     performances = score.score
 
     return performances
@@ -348,7 +348,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     self._check_chunk(X)
 
     # Initialization
-    cv = check_cv(self.cv, y, is_classifier(self.estimator))
+    cv = check_cv(cv=self.cv, y=y, classifier=is_classifier(self.estimator))
     scorer = check_scoring(self.estimator, scoring=self.scoring)
 
     couples = self._evaluate_couples(X, y, **fit_params)

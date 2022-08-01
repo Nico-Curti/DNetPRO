@@ -1,0 +1,121 @@
+[metadata]
+name = @CMAKE_PROJECT_NAME@,
+description = @CMAKE_PROJECT_DESCRIPTION@,
+long_description = file: README.md,
+long_description_content_type = text/markdown,
+author = Nico Curti,
+author_email = nico.curti2@unibo.it,
+platforms = any,
+license = MIT
+license_file = LICENSE
+description-file = README.md
+classifiers = License :: OSI Approved :: MIT License,
+    Natural Language :: English,
+    Operating System :: MacOS :: MacOS X,
+    Operating System :: POSIX,
+    Operating System :: POSIX :: Linux,
+    Operating System :: Microsoft :: Windows,
+    Programming Language :: Python,
+    Programming Language :: Python :: 3,
+    Programming Language :: Python :: 3.5,
+    Programming Language :: Python :: 3.6,
+    Programming Language :: Python :: 3.7,
+    Programming Language :: Python :: 3.8,
+    Programming Language :: Python :: Implementation :: CPython,
+    Programming Language :: Python :: Implementation :: PyPy
+
+[options]
+packages = find:
+install_requires =
+    setuptools>=18.0
+    wheel
+    cython>=0.29
+    numpy>=1.16
+    cmake>=3.12.0
+python_requires = >=3.5
+include_package_data = True
+zip_safe = False
+
+[options.extras_require]
+test =
+    pytest>=6.0
+
+[options.package_data]
+* = lib/**/*.dll
+
+[build_ext]
+inplace = True
+
+[options.packages.find]
+include = DNetPRO, DNetPRO.*
+exclude = test, testing
+
+[coverage:run]
+branch = True
+omit =
+    DNetPRO/__init__.py
+    DNetPRO/__version__.py
+    DNetPRO/setup_.py
+plugins = Cython.Coverage
+source = DNetPRO
+
+[coverage:report]
+ignore_errors = False
+show_missing = True
+omit =
+    DNetPRO/__init__.py
+    DNetPRO/__version__.py
+    DNetPRO/setup_.py
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain about missing debug-only code:
+    def __repr__
+
+    # Don't complain if tests don't hit defensive assertion code:
+    raise AssertionError
+    raise NotImplementedError
+    AbstractMethodError
+
+    # Don't complain if non-runnable code isn't run:
+    if 0:
+    if __name__ == .__main__.:
+
+[coverage:html]
+directory = coverage_html_report
+
+[flake8]
+max-line-length = 88
+ignore =
+    # space before : (needed for how black formats slicing)
+    E203,
+    # line break before binary operator
+    W503,
+    # line break after binary operator
+    W504,
+    # module level import not at top of file
+    E402,
+    # do not assign a lambda expression, use a def
+    E731,
+    # found modulo formatter (incorrect picks up mod operations)
+    S001,
+    # controversial
+    B005,
+    # controversial
+    B006,
+    # controversial
+    B007,
+    # controversial
+    B008,
+    # setattr is used to side-step mypy
+    B009,
+    # getattr is used to side-step mypy
+    B010,
+    # tests use assert False
+    B011,
+    # tests use comparisons but not their returned value
+    B015,
+    # false positives
+    B301

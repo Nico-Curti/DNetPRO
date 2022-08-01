@@ -1,0 +1,85 @@
+name: Linux DNetPRO CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.cfg.os }}
+    name: ${{ matrix.cfg.os }}@${{ matrix.cfg.cxx }}-${{ matrix.cfg.cpp-version }}
+
+    strategy:
+      matrix:
+        cfg:
+          #- {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 4.8, generator: Ninja}
+          #- {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 4.9, generator: Ninja}
+          #- {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 5.0, generator: Ninja}
+          #- {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 6.0, generator: Ninja}
+          #- {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 7.0, generator: Ninja}
+
+          - {os: ubuntu-18.04, cc: gcc, cxx: g++, cpp-version: 7.0, generator: Ninja}
+          - {os: ubuntu-18.04, cc: gcc, cxx: g++, cpp-version: 8.0, generator: Ninja}
+          - {os: ubuntu-18.04, cc: gcc, cxx: g++, cpp-version: 9.0, generator: Ninja}
+
+          #- {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 4.8, generator: Ninja}
+          #- {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 4.9, generator: Ninja}
+          #- {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 5.0, generator: Ninja}
+          #- {os: ubuntu-16.04, cc: gcc, cxx: g++, cpp-version: 6.0, generator: Ninja}
+          - {os: ubuntu-20.04, cc: gcc, cxx: g++, cpp-version: 7.0, generator: Ninja}
+          - {os: ubuntu-20.04, cc: gcc, cxx: g++, cpp-version: 8.0, generator: Ninja}
+          - {os: ubuntu-20.04, cc: gcc, cxx: g++, cpp-version: 9.0, generator: Ninja}
+          - {os: ubuntu-20.04, cc: gcc, cxx: g++, cpp-version: 10,  generator: Ninja}
+
+
+          - {os: ubuntu-20.04, cc: clang, cxx: clang++, cpp-version: 7, generator: Ninja}
+          - {os: ubuntu-20.04, cc: clang, cxx: clang++, cpp-version: 8, generator: Ninja}
+          - {os: ubuntu-20.04, cc: clang, cxx: clang++, cpp-version: 9, generator: Ninja}
+          - {os: ubuntu-20.04, cc: clang, cxx: clang++, cpp-version: 10,generator: Ninja}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: Get latest CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Get Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+        architecture: 'x64'
+
+    - name: Install python deps
+      run: |
+        python -m pip install -r requirements.txt
+
+    - name: Install compiler and dependencies
+      shell: bash
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y ${{ matrix.cfg.cxx }}-${{ matrix.cfg.cpp-version }}
+
+        if [[ "${{ matrix.cfg.cxx }}" == "clang" ]]; then
+          sudo apt-get install -y lld-${{ matrix.cfg.cpp-version }} libc++-${{ matrix.cfg.cpp-version }}-dev libc++abi-${{ matrix.cfg.cpp-version }}-dev clang-tools-${{ matrix.cfg.cpp-version }}
+        fi
+
+        echo "CC=${{ matrix.cfg.cc }}-${{ matrix.cfg.cpp-version }}" >> $GITHUB_ENV
+        echo "CXX=${{ matrix.cfg.cxx }}-${{ matrix.cfg.cpp-version }}" >> $GITHUB_ENV
+
+    - name: Build with CMake
+      uses: lukka/run-cmake@v3
+      with:
+        cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+        cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
+        useVcpkgToolchainFile: false
+        buildDirectory: '${{ runner.workspace }}/buildDirectory'
+        cmakeAppendedArgs: "-G\"${{ matrix.cfg.generator }}\" -DCMAKE_BUILD_TYPE:STRING=Release -DBUILD_DOCS:BOOL=OFF -DPYWRAP:BOOL=OFF -DOMP:BOOL=OFF -DFORCE_USE_SUBMODULES:BOOL=ON"
+        cmakeBuildType: 'Release'
+        buildWithCMakeArgs: '--config Release --target install'

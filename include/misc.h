@@ -49,7 +49,7 @@ std :: unique_ptr < type[] > pointer_to_unique_pointer (type * src, const std ::
 *
 */
 template < typename type_in, typename type_out >
-type_out ** two_dimension_pointer_for_cython (type_in * input, const int & n_row, const int & n_cols);
+type_out ** two_dimension_pointer_for_cython (type_in * input, const int32_t & n_row, const int32_t & n_cols);
 
 #endif // dnet
 

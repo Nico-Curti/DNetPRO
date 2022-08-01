@@ -23,14 +23,14 @@ std :: unique_ptr < type[] > pointer_to_unique_pointer (type * src, const std ::
 
 
 template < typename type_in, typename type_out >
-type_out ** two_dimension_pointer_for_cython (type_in * input, const int & n_row, const int & n_cols)
+type_out ** two_dimension_pointer_for_cython (type_in * input, const int32_t & n_row, const int32_t & n_cols)
 {
   type_out ** output = new type_out * [n_row];
   std :: generate_n (output, n_row, [&] () { return new type_out[n_cols]; });
 
-  int idx = 0;
-  for (int i = 0; i < n_row; ++i)
-    for (int j = 0; j < n_cols; ++j, ++idx)
+  int32_t idx = 0;
+  for (int32_t i = 0; i < n_row; ++i)
+    for (int32_t j = 0; j < n_cols; ++j, ++idx)
       output[i][j] = static_cast < type_in >(input[idx]);
 
   return output;
