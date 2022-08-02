@@ -18,10 +18,10 @@ jobs:
     strategy:
       matrix:
         cfg:
-          - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.5}
-          - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.6}
-          - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.7}
-          - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.8}
+          - {os: ubuntu-latest, cc: gcc, cxx: g++, cpp-version: 10, python-version: 3.5, generator: Ninja}
+          - {os: ubuntu-latest, cc: gcc, cxx: g++, cpp-version: 10, python-version: 3.6, generator: Ninja}
+          - {os: ubuntu-latest, cc: gcc, cxx: g++, cpp-version: 10, python-version: 3.7, generator: Ninja}
+          - {os: ubuntu-latest, cc: gcc, cxx: g++, cpp-version: 10, python-version: 3.8, generator: Ninja}
 
     steps:
 
@@ -37,16 +37,6 @@ jobs:
 
     - name: Get latest CMake
       uses: lukka/get-cmake@latest
-
-    - name: Install compiler and dependencies (Ubuntu)
-      if: runner.os == 'Linux'
-      shell: bash
-      run: |
-        sudo apt-get update -y
-        sudo apt-get install -y ${{ matrix.cfg.cxx }}
-
-        echo "CC=${{ matrix.cfg.cc }}" >> $GITHUB_ENV
-        echo "CXX=${{ matrix.cfg.cxx }}" >> $GITHUB_ENV
 
     - name: Install dependencies
       run: |
