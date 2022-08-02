@@ -12,22 +12,10 @@ environment:
   matrix:
   - platform: Win32
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    PYTHON: "C:\\Python35-x64"
-    COMPILER: vs
-    MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
-    MSVC_SETUP_ARG: x86
-  - platform: Win32
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     PYTHON: "C:\\Python36-x64"
     COMPILER: vs
     MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
     MSVC_SETUP_ARG: x86
-  - platform: Win64
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    PYTHON: "C:\\Python35-x64"
-    COMPILER: vs
-    MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
-    MSVC_SETUP_ARG: x64
   - platform: Win64
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     PYTHON: "C:\\Python36-x64"
@@ -38,22 +26,10 @@ environment:
   # MSVC v2019
   - platform: Win32
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    PYTHON: "C:\\Python35-x64"
-    COMPILER: vs
-    MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
-    MSVC_SETUP_ARG: x86
-  - platform: Win32
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     PYTHON: "C:\\Python36-x64"
     COMPILER: vs
     MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
     MSVC_SETUP_ARG: x86
-  - platform: Win64
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    PYTHON: "C:\\Python35-x64"
-    COMPILER: vs
-    MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
-    MSVC_SETUP_ARG: x64
   - platform: Win64
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     PYTHON: "C:\\Python36-x64"
@@ -93,11 +69,11 @@ before_build:
   - cd build
 
 build_script:
-  - if [%MSVC_SETUP_ARG%]==[x64] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" cmake .. -G "Visual Studio 15 2017 Win64" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
-  - if [%MSVC_SETUP_ARG%]==[x86] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" cmake .. -G "Visual Studio 15 2017" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
+  - if [%MSVC_SETUP_ARG%]==[x64] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" cmake .. -G "Visual Studio 15 2017 Win64" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DBUILD_DOCS:BOOL=OFF" -DPYWRAP:BOOL=OFF "-DOMP:BOOL=OFF" "-DFORCE_USE_SUBMODULES:BOOL=ON"
+  - if [%MSVC_SETUP_ARG%]==[x86] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" cmake .. -G "Visual Studio 15 2017" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DBUILD_DOCS:BOOL=OFF" -DPYWRAP:BOOL=OFF "-DOMP:BOOL=OFF" "-DFORCE_USE_SUBMODULES:BOOL=ON"
 
-  - if [%MSVC_SETUP_ARG%]==[x64] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" cmake .. -G "Visual Studio 16 2019" -T "host=x64" -A "x64" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
-  - if [%MSVC_SETUP_ARG%]==[x86] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" cmake .. -G "Visual Studio 16 2019" "-DCMAKE_BUILD_TYPE=Release" "-DOMP=OFF"
+  - if [%MSVC_SETUP_ARG%]==[x64] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" cmake .. -G "Visual Studio 16 2019" -T "host=x64" -A "x64" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DBUILD_DOCS:BOOL=OFF" -DPYWRAP:BOOL=OFF "-DOMP:BOOL=OFF" "-DFORCE_USE_SUBMODULES:BOOL=ON"
+  - if [%MSVC_SETUP_ARG%]==[x86] if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" cmake .. -G "Visual Studio 16 2019" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DBUILD_DOCS:BOOL=OFF" -DPYWRAP:BOOL=OFF "-DOMP:BOOL=OFF" "-DFORCE_USE_SUBMODULES:BOOL=ON"
 
   - cmake --build . --config Release
 
