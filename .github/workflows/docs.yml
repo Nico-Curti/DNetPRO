@@ -1,4 +1,4 @@
-name: DNetPRO Docs CI
+name: Doxygen Sphinx
 
 on:
   push:

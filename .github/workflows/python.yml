@@ -1,4 +1,4 @@
-name: Python DNetPRO CI
+name: Python
 
 on:
   push:

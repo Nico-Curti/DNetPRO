@@ -1,4 +1,4 @@
-name: MacOS DNetPRO CI
+name: MacOS
 
 on:
   push:

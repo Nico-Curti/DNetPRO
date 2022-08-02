@@ -1,4 +1,4 @@
-name: Linux DNetPRO CI
+name: Linux
 
 on:
   push:
