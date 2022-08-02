@@ -105,7 +105,7 @@ So, given an initial dataset, with `S` *samples* (e.g. cells or patients) each o
   We have tested the efficacy of this empirical approach in some real cases [@10.3233/JAD-190480@, @10.1007/BF02951333@], obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
 5. [**Optional**]
 6. **(a)** All signatures are applied onto the test set to estimate their performance, producing more than one final signature.
-  * **OR**
+> **OR**
 6. **(b)** To identify a unique best performing signature, a further cross validation step can be applied, with a further `dataset` splitting into training (to identify the multiple signatures), test (to identify the best signature) and validation set (to evaluate the best signature performance).
 
 We would stress that this method is completely independent to the choose of the classification algorithm, but, from a biological point-of-view, a simple one is preferable to keep an easy interpretability of the results.
@@ -422,8 +422,9 @@ The obtained results are shown in following Figure.
 In each plot, we fixed two variables and we evaluated the remaining one.
 
 | Features | Samples | Threads |
-| :------: | :-----: | :-----: |
-| ![Execution time of `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementations. Execution time in function of the number of variables (the number of samples and the number of threads are kept fixed).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/features_timing.svg) | ![Execution time of `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementation. Execution time in function of the number of samples (the number of variables and the number of threads are kept fixed).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/samples_timing.svg) | ![Execution time of `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementation. Execution time in function of the number of threads (the number of variables and the number of samples are kept fixed).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/nth_timing.svg) |
+| -------- | ------- | ------- |
+| ![features](https://github.com/Nico-Curti/DNetPRO/blob/master/img/features_timing.svg) | ![samples](https://github.com/Nico-Curti/DNetPRO/blob/master/img/samples_timing.svg) | ![threads](https://github.com/Nico-Curti/DNetPRO/blob/master/img/nth_timing.svg) |
+| Execution time of the `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementations. Execution time in function of the number of variables (the number of samples and the number of threads are kept fixed). | Execution time of the `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementation. Execution time in function of the number of samples (the number of variables and the number of threads are kept fixed). | Execution time of the `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementation. Execution time in function of the number of threads (the number of variables and the number of samples are kept fixed). |
 
 In all our simulations, the efficiency of the (optimized) `Cython` version is easily visible and the gap between the two implementations reached more than `10^4` seconds.
 On the other hand, it is important to highlight the scalability of the codes against the various parameters.

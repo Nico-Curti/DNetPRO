@@ -38,7 +38,7 @@ The `DNetPRO` project implements a `scikit-learn` compatible feature selection a
 The core of the library is written in `C++` (with multi-threading support via OpenMP) to guarantee a fast computational time of the possible feature pairs.
 The wrap, via `Cython`, of the `C++` APIs guarantees an efficient computational time also in the `Python` applications.
 The library provides easily extendible APIs and possible integrations with other projects.
-The method is easily scalable allowing efficient computing for high number of observable ($10^4$ — $10^5$).
+The method is easily scalable allowing efficient computing for high number of observable ( $10^4$ - $10^5$ ).
 
 We tested our method on synthetic data, showing how its efficiency increases on ill-posed problems (similar to those encountered in omics analysis) in comparison with classical incremental feature selection methods.
 We have also applied the algorithm on real high-throughput genomic datasets [@10.1101/773622@, @10.3233/JAD-190480@, @10.1007/BF02951333@], proving how our solution is able to outperform existing results or compare to them but with a smaller number of selected features.
@@ -65,7 +65,7 @@ The pseudo-code of the proposed `DNetPRO` algorithm could be sketched as:
 >
 > Divide the data into training and test by a Hold-Out method;
 >
-> **FOR** `couple` &larr; (feature_1, feature_2) &in; `Couples` **DO**
+> **FOR** `couple` &larr; ( $feature\_1$ , $feature\_2$ ) &in; `Couples` **DO**
 >> &nbsp;&nbsp;&nbsp;&nbsp;Leave-One-Out cross validation;\
 >> &nbsp;&nbsp;&nbsp;&nbsp;Score estimation using the Classifier;
 >
@@ -96,7 +96,7 @@ Given a `dataset`, consisting of $S$ `samples` (e.g., cells, patients) with $N$ 
   We have tested the efficacy of this empirical approach in some real cases [@10.3233/JAD-190480@, @10.1007/BF02951333@], obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
 5. [**Optional**]
 6. **(a)** All signatures are applied onto the test set to estimate their performance, producing more than one final signature.
-  * **OR**
+> **OR**
 6. **(b)** To identify a unique best performing signature, a further cross validation step can be applied, with a further `dataset` splitting into training (to identify the multiple signatures), test (to identify the best signature) and validation set (to evaluate the best signature performance).
 
 To test the performance of all feature pairs, we used a diag-quadratic Discriminant Analysis, a robust classifier that allows fast computation.
