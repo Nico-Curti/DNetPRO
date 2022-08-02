@@ -59,7 +59,7 @@ Often is difficult to discriminate between noise and significant variables and e
 In this project we propose a new method of features selection - DNetPRO, *Discriminant Analysis with Network PROcessing* - developed to outperform the mentioned above problems.
 The method is particularly designed to gene-expression data analysis and it was tested against the most common feature selection techniques.
 The method was already applied on gene-expression datasets but my work focused on the benchmark of it and on its optimization for Big Data applications.
-The pipeline algorithm is made by many different steps and only a part of it was designed to biological application: this allow me to apply (part of) the same techniques also in different kind of problems with good results (see [[Mizzi2018](https://doi.org/10.1140/epjds/s13688-018-0168-2)]).
+The pipeline algorithm is made by many different steps and only a part of it was designed to biological application: this allow me to apply (part of) the same techniques also in different kind of problems with good results (see [[10.1140/epjds/s13688-018-0168-2](https://doi.org/10.1140/epjds/s13688-018-0168-2)]).
 
 ## Theory
 
@@ -102,7 +102,7 @@ So, given an initial dataset, with `S` *samples* (e.g. cells or patients) each o
   The threshold value can be determined also via cross validation of the entire signature extraction procedure.
 4. [**Optional**] In the hypothesis that node degree is associated to the global feature performance in combination with the other features, to reduce the size of an identified signature, the `pendant nodes` of the signature network, *i.e.*, nodes with degree equal to one, can be removed.
   This procedure can be applied once, or recursively until the core network, *i.e.*, a network with all nodes with at least two links, is reached.
-  We have tested the efficacy of this empirical approach in some real cases [@10.3233/JAD-190480@, @10.1007/BF02951333@], obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
+  We have tested the efficacy of this empirical approach in some real cases [[10.3233/JAD-190480](https://doi.org/10.3233/JAD-190480), [10.1007/BF02951333](https://doi.org/10.1007/BF02951333), obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
 5. [**Optional**]
 6. **(a)** All signatures are applied onto the test set to estimate their performance, producing more than one final signature.
 > **OR**
@@ -117,7 +117,7 @@ A linear separation might not be common in some classification problems (e.g. im
 A second direct gain by the couples evaluation is related to the network structure: the `DNetPRO` network signatures allow a hierarchical ranking of features according to their centrality compared to other methods.
 The underlying network structure of the signature could suggests further methods to improve its dimensionality reduction based on network topological properties to fit real application needs, and it could help to evaluate the cooperation of variables for the class identification.
 
-In the end, we remark that our signatures have a purely statistical relevance by being generated with a purpose of maximal classification performance, but sometimes the selected features (e.g. genes, DNA loci, metabolites) can be of clinical and biological interest, helping to improve knowledge on the mechanism associated to the studied phenomenon [[PMrna](https://genome.cshlp.org/content/early/2013/10/02/gr.155192.113.abstract), [Scotlandi2009](https://doi.org/10.1200/JCO.2008.19.2542), [PMgene](https://www.ncbi.nlm.nih.gov/pubmed/26297486), [Terragna](https://www.ncbi.nlm.nih.gov/pubmed/26575327)].
+In the end, we remark that our signatures have a purely statistical relevance by being generated with a purpose of maximal classification performance, but sometimes the selected features (e.g. genes, DNA loci, metabolites) can be of clinical and biological interest, helping to improve knowledge on the mechanism associated to the studied phenomenon [[10.1101/gr.155192.113](https://doi.org/10.1101/gr.155192.113), [10.1200/JCO.2008.19.2542](https://doi.org/10.1200/JCO.2008.19.2542), [10.1101/gr.193342.115](https://doi.org/10.1101/gr.193342.115), [10.18632/oncotarget.5718](https://doi.org/10.18632/oncotarget.5718)].
 
 ## Prerequisites
 
@@ -534,17 +534,15 @@ See [here](https://github.com/Nico-Curti/DNetPRO/blob/master/.github/CONTRIBUTIN
 
 ## References
 
-<blockquote>1- K. Scotlandi, D. Remondini, G. Castellani, M. C. Manara, F. Nardi, L. Cantiani, M. Francesconi, M. Mercuri, A. M. Caccuri, M. Serra, S. Knuutila, P. Picci. "Overcoming Resistance to Conventional Drugs in Ewing Sarcoma and Identification of Molecular Predictors of Outcome", Journal of Clinical Oncology, 2009. </blockquote>
-
-<blockquote>2- Y. Wang, J. GM Klijn, Yi Zhang, A. M Sieuwerts, M. P Look, F. Yang, D. Talantov, M. Timmermans, M. E Meijer-van Gelder, J. Yu, T. Jatkoe, E. MJJ Berns, D. Atkins, J. A Foekens. "Gene-expression profiles to predict distant metastasis of lymph-node-negative primary breast cancer", The Lancet, 2005. </blockquote>
-
-<blockquote>3- Y. Yuan, E. M Van Allen, L. Omberg, N. Wagle, A. Amin-Mansour, A. Sokolov, L. A Byers, Y. Xu, K. R Hess, L. Diao, L. Han, X. Huang, M. S Lawrence, J. N Weinstein, J. M Stuart, G. B Mills, L. A Garraway, A. A Margolin, G. Getz, H. Liang. "Assessing the clinical utility of cancer genomic and proteomic data across tumor types", Nature Biotechnology, 2014. </blockquote>
-
-<blockquote>4- C. Mizzi, A. Fabbri, S. Rambaldi, F. Bertini, N. Curti, S. Sinigardi, R. Luzi, G. Venturi, M. Davide, G. Muratore, A. Vannelli, A. Bazzani. "Unraveling pedestrian mobility on a road network using ICTs data during great tourist events", EPJ Data Science, 2018</blockquote>
-
-<blockquote>5- V. Boccardi, L. Paolacci, D. Remondini, E. Giampieri, N. Curti, A. Villa, G. Poli, R. Cecchetti, S. Brancorsini, P. Mecocci. '"Cytokinome signature" in cognitive impairment: from early stages to Alzheimer’s disease', Journal of Alzheimer Disease, 2019</blockquote>
-
-<blockquote>6- C. Terragna, D. Remondini, M. Martello, E. Zamagni, L. Pantani, F. Patriarca, A. Pezzi, G. Levi, M. Offidani, I. Proserpio, G. De Sabbata, P. Tacchetti, C. Cangialosi, F. Ciambelli, C. Virginia Viganò, F. Angela Dico, B. Santacroce, E. Borsi, A. Brioli, G. Marzocchi, G. Castellani, G. Martinelli, A. Palumbo, M. Cavo. "The genetic and genomic background of multiple myeloma patients achieving complete response after induction therapy with bortezomib, thalidomide and dexamethasone", Oncotarget, 2016</blockquote>
+<blockquote> Boccardi, Virginia et al. Cognitive Decline and Alzheimer's Disease in Old Age: A Sex-Specific Cytokinome Signature. 1 Jan. 2019 : 911 – 918. https://doi.org/10.3233/JAD-190480 </blockquote>
+<blockquote> Chen, B., Hong, J. & Wang, Y. The minimum feature subset selection problem. J. of Comput. Sci. & Technol. 12, 145–153 (1997). https://doi.org/10.1007/BF02951333 </blockquote>
+<blockquote> Mizzi, C., Fabbri, A., Rambaldi, S. et al. Unraveling pedestrian mobility on a road network using ICTs data during great tourist events. EPJ Data Sci. 7, 44 (2018). https://doi.org/10.1140/epjds/s13688-018-0168-2 </blockquote>
+<blockquote> Belkin, M., Niyogi, P. Semi-Supervised Learning on Riemannian Manifolds. Machine Learning 56, 209–239 (2004). https://doi.org/10.1023/B:MACH.0000033120.25363.1e </blockquote>
+<blockquote> Miao, Z., Balzer, M.S., Ma, Z. et al. Single cell regulatory landscape of the mouse kidney highlights cellular differentiation programs and disease targets. Nat Commun 12, 2277 (2021). https://doi.org/10.1038/s41467-021-22266-1 </blockquote>
+<blockquote> Levine JH, Simonds EF, Bendall SC, Davis KL, Amir el-AD, Tadmor MD, Litvin O, Fienberg HG, Jager A, Zunder ER, Finck R, Gedman AL, Radtke I, Downing JR, Pe'er D, Nolan GP. Data-Driven Phenotypic Dissection of AML Reveals Progenitor-like Cells that Correlate with Prognosis. Cell. 2015 Jul 2;162(1):184-97. doi: 10.1016/j.cell.2015.05.047. Epub 2015 Jun 18. PMID: 26095251; PMCID: PMC4508757. </blockquote>
+<blockquote> Katia Scotlandi, Daniel Remondini, Gastone Castellani, Maria Cristina Manara, Filippo Nardi, Lara Cantiani, Mirko Francesconi, Mario Mercuri, Anna Maria Caccuri, Massimo Serra, Sakari Knuutila, and Piero Picci, Journal of Clinical Oncology 2009 27:13, 2209-2216 </blockquote>
+<blockquote> Cenik C, Cenik ES, Byeon GW, Grubert F, Candille SI, Spacek D, Alsallakh B, Tilgner H, Araya CL, Tang H, Ricci E, Snyder MP. Integrative analysis of RNA, translation, and protein levels reveals distinct regulatory variation across humans. Genome Res. 2015 Nov;25(11):1610-21. doi: 10.1101/gr.193342.115. Epub 2015 Aug 21. PMID: 26297486; PMCID: PMC4617958. </blockquote>
+<blockquote> Terragna C., Remondini D., Martello M., Zamagni E., Pantani L., Patriarca F., Pezzi A., Levi G., Offidani M., Proserpio I., Sabbata G., Tacchetti P., Cangialosi C., et al The genetic and genomic background of multiple myeloma patients achieving complete response after induction therapy with bortezomib, thalidomide and dexamethasone (VTD). Oncotarget. 2016; 7: 9666-9679. Retrieved from https://www.oncotarget.com/article/5718/text/ </blockquote>
 
 ## FAQ
 

@@ -38,9 +38,10 @@ add_definitions (-DMAJOR=${DNETPRO_MAJOR} -DMINOR=${DNETPRO_MINOR} -DREVISION=${
 #                         COMPILE OPTIONS                       #
 #################################################################
 
-option (OMP         "Enable OpenMP              support" OFF )
-option (PYWRAP      "Enable Cython              support" OFF )
-option (BUILD_DOCS  "Enable Documentaion builid support" OFF )
+option (OMP                  "Enable OpenMP              support"    OFF)
+option (PYWRAP               "Enable Cython              support"    OFF)
+option (BUILD_DOCS           "Enable Documentaion builid support"    OFF)
+option (FORCE_USE_SUBMODULES "Force the usage of submodule packages" OFF)
 
 #################################################################
 #                         SETTING VARIABLES                     #
