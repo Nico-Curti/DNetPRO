@@ -142,7 +142,7 @@ if (FORCE_USE_SUBMODULES)
   set (parseargslib parseargs)
 else ()
   message (STATUS "Looking for ParseArgs library")
-  find_package (ParseArgs)
+  find_package (ParseArgs HINTS ParseArgs_DIR)
   if (ParseArgs_FOUND)
     include_directories(${ParseArgs_INCLUDE_DIR})
     set (parseargslib ParseArgs::parseargs)
@@ -177,9 +177,13 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}/hpp")
 
 if (PYWRAP)
   include( UseCython )
-  find_package (Python REQUIRED COMPONENTS Interpreter)
-  find_package(NumPy REQUIRED)
-  include_directories(${NumPy_INCLUDE_DIRS})
+  find_package (Python REQUIRED COMPONENTS Interpreter NumPy)
+  if (NOT Python_NumPy_FOUND)
+    find_package(NumPy REQUIRED)
+    include_directories(${NumPy_INCLUDE_DIRS})
+  else ()
+    include_directories(${Python_NumPy_INCLUDE_DIRS})
+  endif ()
   add_definitions (-DNPY_NO_DEPRECATED_API)
 endif()
 
@@ -243,7 +247,11 @@ message(STATUS ""                                                               
 
 add_library(${dnetprolib} SHARED ${DNetPRO_SRC} ${DNetPRO_HEADER} ${DNetPRO_HPP})
 set_property(TARGET ${dnetprolib} PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_include_directories(${dnetprolib} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include> $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/hpp> $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>)
+target_include_directories(${dnetprolib}
+  PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/hpp>
+  $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>)
 target_link_libraries(${dnetprolib} ${linked_libs})
 
 list (APPEND ALL_DNetPRO_HEADER ${DNetPRO_HEADER})
@@ -263,8 +271,7 @@ target_link_libraries(DNetPRO_couples ${linked_libs} ${parseargslib} ${dnetproli
 if (FORCE_USE_SUBMODULES)
   add_dependencies(DNetPRO_couples parseargs)
 endif ()
-install(TARGETS DNetPRO_couples
-  DESTINATION "${INSTALL_BIN_DIR}")
+install(TARGETS DNetPRO_couples DESTINATION "${INSTALL_BIN_DIR}")
 
 if (PYWRAP)
   add_subdirectory ("${CMAKE_CURRENT_LIST_DIR}/DNetPRO/source")

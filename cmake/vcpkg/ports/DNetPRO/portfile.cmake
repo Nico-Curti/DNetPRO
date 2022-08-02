@@ -8,13 +8,11 @@ vcpkg_from_github(
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
   FEATURES
-    "python"  PYTHON_WRAP
+    "python"  PYWRAP
 )
 
-set(ENABLE_PYTHON OFF)
 if("python" IN_LIST FEATURES)
   x_vcpkg_get_python_packages(PYTHON_VERSION "3" PACKAGES numpy cython OUT_PYTHON_VAR "PYTHON3")
-  set(ENABLE_PYTHON ON)
   set(ENV{PYTHON} "${PYTHON3}")
 endif()
 
@@ -26,7 +24,6 @@ vcpkg_cmake_configure(
     -DINSTALL_LIB_DIR:STRING=lib
     -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF
     -DFORCE_USE_SUBMODULES:BOOL=OFF
-    -DPYWRAP:BOOL=${ENABLE_PYTHON}
     -DBUILD_DOCS:BOOL=OFF
 )
 

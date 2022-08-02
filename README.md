@@ -38,7 +38,9 @@ Official implementation of the DNetPRO algorithm published on [BioRXiv](https://
 
 ## Overview
 
-![(a) An example in which single-parameter classification fails in predicting higher-dimension classification performance. Both parameters (*feature1* and *feature2*) badly classify in 1-D, but have a very good performance in 2D. Moreover, classification can be easily interpreted in terms of relative higher/lower expression of both probes. (b)Activity of a biological feature (e.g. a gene) as a function of its expression level: top) monotonically increasing, often also discretized to an on/off state; center, bottom) "windowed" behavior, in which there are two or more activity states that do not depend monotonically on expression level. X axis: expression level, Y axis, biological state (arbitrary scales).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png)
+| <img src="https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png" width=600> |
+| -- |
+| **(a)** An example in which single-parameter classification fails in predicting higher-dimension classification performance. Both parameters (*feature1* and *feature2*) badly classify in 1-D, but have a very good performance in 2D. Moreover, classification can be easily interpreted in terms of relative higher/lower expression of both probes. **(b)** Activity of a biological feature (e.g. a gene) as a function of its expression level: top) monotonically increasing, often also discretized to an on/off state; center, bottom) "windowed" behavior, in which there are two or more activity states that do not depend monotonically on expression level. X axis: expression level, Y axis, biological state (arbitrary scales). |
 
 Methods that select variables for multi-dimensional signatures based on single-variable performance can have limits in predicting
 higher-dimensional signature performance.
@@ -47,7 +49,7 @@ As shown in Fig.[1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/exampl
 It is known that complex separation surfaces characterize classification tasks associated to image and speech recognition, for which Deep Networks are used successfully in recent times, but in many cases biological data, such as gene or protein expression, are more likely characterized by a up/down-regulation behavior (as shown in Fig.[1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png)(b) top), while more complex behaviors (e.g. a optimal range of activity, Fig.[1](https://github.com/Nico-Curti/DNetPRO/blob/master/img/examples.png)(b) bottom) are much less likely.
 Thus, discriminant-based methods (and logistic regression methods alike) can very likely provide good classification performances in these cases (as demonstrated by our results with DNetPRO) if applied in at least
 two-dimensional spaces.
-Moreover, the of these methods (that generate very simple class separation surfaces, i.e. linear or quadratic) guarantee that a of a signature based on lower-dimensional signatures is feasible.
+Moreover, the of these methods (that generate very simple class separation surfaces, *i.e.* linear or quadratic) guarantee that a of a signature based on lower-dimensional signatures is feasible.
 
 This consideration are relevant in particular for microarray data where we face on a small number of samples compared to a huge amount of variables (gene probes).
 This kind of problem, often called problem (where `N` is the number of features, i.e variables, and `S` is the number of samples), tend to be prone to overfitting and they are classified to ill-posed.
@@ -95,7 +97,7 @@ So, given an initial dataset, with `S` *samples* (e.g. cells or patients) each o
 
 - every *connected component* which composes the network identifies a putative signature.
 
-- (optional) in order to reduce the size of an identified signature, the pendant nodes of the network (i.e. nodes with degree equal to one) can be removed, in a single step or recursively up to the core network (i.e. a network with all nodes with at least two links).
+- (optional) in order to reduce the size of an identified signature, the pendant nodes of the network (*i.e.* nodes with degree equal to one) can be removed, in a single step or recursively up to the core network (*i.e.* a network with all nodes with at least two links).
 
 - all signatures are evaluated onto the test set to estimate their performances.
 
@@ -110,7 +112,7 @@ A linear separation might not be common in some classification problems (e.g. im
 A second direct gain by the couples evaluation is related to the network structure: the `DNetPRO` network signatures allow a hierarchical ranking of features according to their centrality compared to other methods.
 The underlying network structure of the signature could suggests further methods to improve its dimensionality reduction based on network topological properties to fit real application needs, and it could help to evaluate the cooperation of variables for the class identification.
 
-In the end, we remark that our signatures have a purely statistical relevance by being generated with a purpose of maximal classification performance, but sometimes the selected features (e.g. genes, DNA loci, metabolites) can be of clinical and biological interest, helping to improve knowledge on the mechanism associated to the studied phenomenon [[PMrna](https://genome.cshlp.org/content/early/2013/10/02/gr.155192.113.abstract), [Scotlandi2009](https://doi.org/10.1200/JCO.2008.19.2542), [PMgene](https://www.ncbi.nlm.nih.gov/pubmed/26297486), [Terragna](https://www.ncbi.nlm.nih.gov/pubmed/26575327)].
+In the end, we remark that our signatures have a purely statistical relevance by being generated with a purpose of maximal classification performance, but sometimes the selected features (e.g. genes, DNA loci, metabolites) can be of clinical and biological interest, helping to improve knowledge on the mechanism associated to the studied phenomenon [[PMrna](https://genome.cshlp.org/content/early/2013/10/02/gr.155192.113.abstract), [Scotlandi2009](https://doi.org/10.1200/JCO.2008.19.2542), [PMgene](https://www.ncbi.nlm.nih.gov/pubmed/26297486), [Terragna](https://www.ncbi.nlm.nih.gov/pubmed/26575327)].
 
 ## Prerequisites
 
@@ -125,6 +127,11 @@ C++ supported compilers:
 The `DNetPRO` project is written in `C++` and it supports also older standard versions (std=c++1+).
 The package installation can be performed via [`CMake`](https://github.com/Nico-Curti/DNetPRO/blob/master/CMakeLists.txt).
 The `CMake` installer provides also a `DNetPRO.pc`, useful if you want link to the `DNetPRO` using `pkg-config`.
+
+The only dependency of the `C++` version of the project is given by the [`parse_args`](http://github.com/Nico-Curti/parse_args) library.
+A complete list of instruction for its installation is available [here](https://github.com/Nico-Curti/parse_args/README.md).
+If you prefer, you can also use the [`submodule`](https://github.com/Nico-Curti/DNetPRO/blob/master/modules/) version of the library and leave to the current `CMake` the responsibility of its installation.
+In this case you need to provide to the `cmake` command line the extra-flag of `FORCE_USE_SUBMODULES:BOOL=ON` (see next for further details about it).
 
 You can also use the `DNetPRO` package in `Python` using the `Cython` wrap provided inside this project.
 The only requirements are the following:
@@ -156,17 +163,12 @@ git submodule update --init --recursive
 3) `DNetPRO` could be built with CMake and Make or with the *build* scripts in the project.
 Example:
 
-**Unix OS:**
-```bash
-./build.sh
-```
+|              |  **Linux**    |  **MacOS**    |  **Windows**  |
+|:------------:|:--------------|:--------------|:--------------|
+| **Script**   | `./build.sh`  | `./build.sh`  | `./build.ps1` |
 
-**Windows OS:**
-```Powershell
-PS \>                 ./build.ps1
-```
-
-### Ubuntu
+<details><summary><b>Ubuntu</b></summary>
+<p>
 
 1) Define a work folder, which we will call WORKSPACE in this tutorial: this could be a "Code" folder in our home, a "c++" folder on our desktop, whatever you want. Create it if you don't already have, using your favourite method (mkdir in bash, or from the graphical interface of your distribution). We will now define an environment variable to tell the system where our folder is. Please note down the full path of this folder, which will look like `/home/$(whoami)/code/`
 
@@ -207,8 +209,11 @@ make -j
 cmake --build . --target install
 cd ..
 ```
+</p>
+</details>
 
-### macOS
+<details><summary><b>macOS</b></summary>
+<p>
 
 1) If not already installed, install the XCode Command Line Tools, typing this command in a terminal:
 
@@ -253,7 +258,11 @@ cmake --build . --target install
 cd ..
 ```
 
-### Windows (7+)
+</p>
+</details>
+
+<details><summary><b>Windows (7+)</b></summary>
+<p>
 
 1) Install Visual Studio 2017 from the [official website](https://www.visualstudio.com/)
 
@@ -316,6 +325,9 @@ PS Code>              cd DNetPRO
 PS Code\DNetPRO>      .\build.ps1
 ```
 
+</p>
+</details>
+
 ### CMake C++ installation
 
 We recommend the use of `CMake` for the installation since it is the most automated way to reach your needs.
@@ -347,9 +359,10 @@ if you are working on a Windows machine the right script to call is the [`build.
 
 The `CMake` command line can be customized according to the following parameters:
 
-* `-DOMP` : Enable/Disable the OpenMP support for multi-threading computation
-* `-DBUILD_DOCS` : Enable/Disable the build of docs using Doxygen and Sphinx
-* `-DPYWRAP` : Enable/Disable the build of Python wrap of the library via Cython (see next section for Python requirements)
+* `-DOMP:BOOL` : Enable/Disable the OpenMP support for multi-threading computation
+* `-DBUILD_DOCS:BOOL` : Enable/Disable the build of docs using Doxygen and Sphinx
+* `-DPYWRAP:BOOL` : Enable/Disable the build of Python wrap of the library via Cython (see next section for Python requirements)
+* `-DFORCE_USE_SUBMODULES:BOOL` : Force the use of submodules or the already installed versions of the required libraries.
 
 | :triangular_flag_on_post: Note |
 |:-------------------------------|
@@ -373,22 +386,13 @@ The `Python` installation is always executed using [`setup.py`](https://github.c
 If you have already build the `DNetPRO` `C++` library the installation is performed faster and the `Cython` wrap directly links to the last library installed.
 Otherwise the full list of dependencies is build.
 
-In both cases the installation steps are
+In both cases the installation steps are:
 
-```bash
-python -m pip install -r ./requirements.txt
-```
-
-to install the prerequisites and then
-
-```bash
-python setup.py install
-```
-
-or for installing in development mode:
-
-```bash
-python setup.py develop --user
+```mermaid
+graph LR;
+    A(Install<br>Requirements) -->|python -m pip install -r requirements.txt| B(Install<br>DNetPRO)
+    B -->|python setup.py install| C(Package<br>Install)
+    B -->|python setup.py develop --user| D(Development<br>Mode)
 ```
 
 | :warning: WARNING |
@@ -397,7 +401,7 @@ python setup.py develop --user
 
 | :warning: WARNING |
 |:------------------|
-| All the `CMake` flags are set internally in the `setup.py` script with default values.<br>You can manually turn on/off the multi-threading support passing the flag `--omp` at the setup command line, i.e. `python setup.py develop --user --omp` |
+| All the `CMake` flags are set internally in the `setup.py` script with default values.<br>You can manually turn on/off the multi-threading support passing the flag `--omp` at the setup command line, *i.e.* `python setup.py develop --user --omp` |
 
 ## Efficiency
 
@@ -412,11 +416,9 @@ The tests were performed on a classical bioinformatics server (128 GB RAM memory
 The obtained results are shown in following Figure.
 In each plot, we fixed two variables and we evaluated the remaining one.
 
-![Execution time of `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementations. Execution time in function of the number of variables (the number of samples and the number of threads are kept fixed).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/features_timing.svg)
-
-![Execution time of `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementation. Execution time in function of the number of samples (the number of variables and the number of threads are kept fixed).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/samples_timing.svg)
-
-![Execution time of `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementation. Execution time in function of the number of threads (the number of variables and the number of samples are kept fixed).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/nth_timing.svg)
+| Features | Samples | Threads |
+| :------: | :-----: | :-----: |
+| ![Execution time of `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementations. Execution time in function of the number of variables (the number of samples and the number of threads are kept fixed).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/features_timing.svg) | ![Execution time of `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementation. Execution time in function of the number of samples (the number of variables and the number of threads are kept fixed).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/samples_timing.svg) | ![Execution time of `DNetPRO` algorithm. We compare the execution time between pure-`Python` (orange) and `Cython` (blue, `C++` wrap) implementation. Execution time in function of the number of threads (the number of variables and the number of samples are kept fixed).](https://github.com/Nico-Curti/DNetPRO/blob/master/img/nth_timing.svg) |
 
 In all our simulations, the efficiency of the (optimized) `Cython` version is easily visible and the gap between the two implementations reached more than `10^4` seconds.
 On the other hand, it is important to highlight the scalability of the codes against the various parameters.
@@ -583,6 +585,28 @@ echo "export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/path/to/DNetPRO/project/direc
 ```
 
 or adding the `LD_LIBRARY_PATH` to your set of environment variables (especially for `Windows` users).
+
+* **I installed the `DNetPRO` C++ library with the `FORCE_USE_SUBMODULES:BOOL=ON` flag and now I don't find the installed libraries and header files**
+
+The `DNetPRO` was developed as standalone library, also if it depends by other external libraries.
+All the dependencies are stored as submodule packages, and they could be installed *before* the `DNetPRO` installation (according to the documentation of the libraries) or alongside it, forcing the usage of submodules.
+If the `FORCE_USE_SUBMODULES` is enabled, the installation uses the local versions of submodules libraries and, therefore, the outputs are sent to the submodule `share` and `lib` folders.
+This behavior is not a real issue of the package, since following a "classical" installation, *i.e.* with all the requirements pre-installed, the outputs are correctly set.
+A correct output destination is achieved also installing the library via `vcpkg` (see next FAQ for more details about it).
+
+* **How can I install the library via `VCPKG` dependency manager?**
+
+The `DNetPRO` library is not yet supported via `vcpkg` (I have not submitted any PR yet).
+However, in the [`cmake`](https://github.com/Nico-Curti/blob/master/cmake) folder you can find a complete directory-tree named `vcpkg`.
+You can simply copy&paste the entire `vcpkg` folder over the original (cloned [here](https://github.com/microsoft/vcpkg)) project to manage the entire installation of the library *also* via vcpkg.
+
+| :triangular_flag_on_post: Note |
+|:-------------------------------|
+| Since no releases have been published yet, the [`portfile`](https://github.com/Nico-Curti/blob/master/cmake/ports/DNetPRO/portfile.cmake) is not complete and you need to manually set the `REF` and `SHA512` variables! |
+
+| :warning: WARNING |
+|:------------------|
+| All the submodule dependencies provide the same `vcpkg` "support" via copy&paste. For submodules not released yet, the editing of the related variables is mandatory! |
 
 ## Authors
 
