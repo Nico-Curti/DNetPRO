@@ -96,9 +96,7 @@ Given a `dataset`, consisting of $S$ `samples` (e.g., cells, patients) with $N$ 
   We have tested the efficacy of this empirical approach in some real cases [@10.3233/JAD-190480@, @10.1007/BF02951333@], obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
 5. [**Optional**]
 6. **(a)** All signatures are applied onto the test set to estimate their performance, producing more than one final signature.
-
   * **OR**
-
 6. **(b)** To identify a unique best performing signature, a further cross validation step can be applied, with a further `dataset` splitting into training (to identify the multiple signatures), test (to identify the best signature) and validation set (to evaluate the best signature performance).
 
 To test the performance of all feature pairs, we used a diag-quadratic Discriminant Analysis, a robust classifier that allows fast computation.

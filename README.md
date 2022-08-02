@@ -69,39 +69,44 @@ This behavior allows to overcome some of the limits of single-feature selection 
 The combinatorial evaluation is the most time-expensive step of the algorithm and it needs an accurate algorithmic implementation for Big Data applications.
 A summary of the algorithm is shown in the following pseudo-code.
 
-```
-Data matrix (N, S) -> List of putative signatures
-  Divide the data into training and test by an Hold-Out method;
-  For {couple <- (feature_1, feature_2) in Couples}{
-    Leave-One-Out cross validation;
-    Score estimation using a Classifier;
-  }
-  Sorting of the couples in ascending order according to their score;
-  Threshold over the couples score (K-best couples);
-  For {component in connected_components}{
-    If {reduction}{
-      Iteratively pendant node remotion;
-    }
-    Signature evaluation using a Classifier;
-  }
-```
+> **Data:** Data Matrix (N, S)\
+> **Result:** List of putative signatures
+>
+> Divide the data into training and test by a Hold-Out method;
+>
+> **FOR** `couple` &larr; (feature_1, feature_2) &in; `Couples` **DO**
+>> &nbsp;&nbsp;&nbsp;&nbsp;Leave-One-Out cross validation;\
+>> &nbsp;&nbsp;&nbsp;&nbsp;Score estimation using the Classifier;
+>
+> **END**
+>
+> Sorting of the couples in ascending order according to their score;\
+> Threshold over the couples score (K-best couples);
+>
+> **FOR** `component` &in; `connected_components` **DO**
+>> &nbsp;&nbsp;&nbsp;&nbsp;**IF** `reduction`\
+>> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iteratively pendant node removal;\
+>>  &nbsp;&nbsp;&nbsp;&nbsp;**END**
+>>
+>> Signature evaluation using the Classifier;
+>
+> **END**
 
 So, given an initial dataset, with `S` *samples* (e.g. cells or patients) each one described by $N$ observations (our *variables*, e.g. gene or protein expression profiles), the signature identification can be summarized with the following steps:
 
-- separation of available data into a training and test sets (e.g. 33/66, or 20/80);
-
-- estimation of the classification performance on the training set of all `S(S-1)/2` variable couples through a computationally fast and reproducible cross-validation procedure (leave-one-out cross validation was chosen);
-
-- selection of top-performing couples through a hard-thresholding procedure.
-  The performance of each couple constitutes a *weighted link* of a network, where the nodes are the variables connected at least through one link;
-
-- every *connected component* which composes the network identifies a putative signature.
-
-- (optional) in order to reduce the size of an identified signature, the pendant nodes of the network (*i.e.* nodes with degree equal to one) can be removed, in a single step or recursively up to the core network (*i.e.* a network with all nodes with at least two links).
-
-- all signatures are evaluated onto the test set to estimate their performances.
-
-- a further cross validation step is performed (with a further dataset splitting into test and validation sets) to identify the best performing signature.
+1. Separation of available data into a `training` and a `test` set (typically 66/33, or 80/20).
+2. Estimation of the classification performance according to the desired metric on the training set of all $S(S-1)/2$ `feature pairs` through a computationally fast and reproducible cross-validation procedure (leave-one-out cross validation was chosen).
+  The results are mapped into a completely connected symmetric weighted network, with nodes corresponding to features and link weights corresponding to performance of the node couples.
+3. Selection of top-performing pairs through a hard-thresholding procedure, that removes links (and nodes) from the initial completely connected network: every `connected component` obtained is considered as a putative classification signature.
+  The threshold value can be tuned according to a desired minimum-performance value or considering a minimum number of nodes/features  in the signature.
+  The threshold value can be determined also via cross validation of the entire signature extraction procedure.
+4. [**Optional**] In the hypothesis that node degree is associated to the global feature performance in combination with the other features, to reduce the size of an identified signature, the `pendant nodes` of the signature network, *i.e.*, nodes with degree equal to one, can be removed.
+  This procedure can be applied once, or recursively until the core network, *i.e.*, a network with all nodes with at least two links, is reached.
+  We have tested the efficacy of this empirical approach in some real cases [@10.3233/JAD-190480@, @10.1007/BF02951333@], obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
+5. [**Optional**]
+6. **(a)** All signatures are applied onto the test set to estimate their performance, producing more than one final signature.
+  * **OR**
+6. **(b)** To identify a unique best performing signature, a further cross validation step can be applied, with a further `dataset` splitting into training (to identify the multiple signatures), test (to identify the best signature) and validation set (to evaluate the best signature performance).
 
 We would stress that this method is completely independent to the choose of the classification algorithm, but, from a biological point-of-view, a simple one is preferable to keep an easy interpretability of the results.
 The geometrical simplicity of the resulting class-separation surfaces, in fact, allows an easier interpretation of the results, as compared to very powerful but black-box methods like nonlinear-kernel SVM or Neural Networks.
