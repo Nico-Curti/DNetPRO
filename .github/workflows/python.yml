@@ -18,10 +18,10 @@ jobs:
     strategy:
       matrix:
         cfg:
-          - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.5}
           - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.6}
           - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.7}
           - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.8}
+          - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.9}
 
     steps:
 
@@ -72,4 +72,4 @@ jobs:
 
     - name: Test with pytest
       run: |
-        python -m pytest ./DNetPRO/test/ --cov=DNetPRO --cov-config=.coveragerc
+        python3 -m pytest ./DNetPRO/test/ --cov=DNetPRO --cov-config=.coveragerc

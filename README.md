@@ -136,7 +136,7 @@ In this case you need to provide to the `cmake` command line the extra-flag of `
 You can also use the `DNetPRO` package in `Python` using the `Cython` wrap provided inside this project.
 The only requirements are the following:
 
-* numpy >= 1.16.0
+* numpy >= 1.15
 * networkx >= 2.2
 * cython >= 0.29
 * scikit-learn >= 0.19.1
