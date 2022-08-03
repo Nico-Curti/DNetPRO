@@ -102,7 +102,7 @@ So, given an initial dataset, with `S` *samples* (e.g. cells or patients) each o
   The threshold value can be determined also via cross validation of the entire signature extraction procedure.
 4. [**Optional**] In the hypothesis that node degree is associated to the global feature performance in combination with the other features, to reduce the size of an identified signature, the `pendant nodes` of the signature network, *i.e.*, nodes with degree equal to one, can be removed.
   This procedure can be applied once, or recursively until the core network, *i.e.*, a network with all nodes with at least two links, is reached.
-  We have tested the efficacy of this empirical approach in some real cases [[10.3233/JAD-190480](https://doi.org/10.3233/JAD-190480), [10.1007/BF02951333](https://doi.org/10.1007/BF02951333), obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
+  We have tested the efficacy of this empirical approach in some real cases [[10.3233/JAD-190480](https://doi.org/10.3233/JAD-190480), [10.1007/BF02951333](https://doi.org/10.1007/BF02951333)], obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
 5. [**Optional**]
 6. **(a)** All signatures are applied onto the test set to estimate their performance, producing more than one final signature.
 > **OR**
@@ -601,12 +601,12 @@ A correct output destination is achieved also installing the library via `vcpkg`
 * **How can I install the library via `VCPKG` dependency manager?**
 
 The `DNetPRO` library is not yet supported via `vcpkg` (I have not submitted any PR yet).
-However, in the [`cmake`](https://github.com/Nico-Curti/blob/master/cmake) folder you can find a complete directory-tree named `vcpkg`.
+However, in the [`cmake`](https://github.com/Nico-Curti/DNetPRO/blob/master/cmake) folder you can find a complete directory-tree named `vcpkg`.
 You can simply copy&paste the entire `vcpkg` folder over the original (cloned [here](https://github.com/microsoft/vcpkg)) project to manage the entire installation of the library *also* via vcpkg.
 
 | :triangular_flag_on_post: Note |
 |:-------------------------------|
-| Since no releases have been published yet, the [`portfile`](https://github.com/Nico-Curti/blob/master/cmake/ports/DNetPRO/portfile.cmake) is not complete and you need to manually set the `REF` and `SHA512` variables! |
+| Since no releases have been published yet, the [`portfile`](https://github.com/Nico-Curti/DNetPRO/blob/master/cmake/ports/DNetPRO/portfile.cmake) is not complete and you need to manually set the `REF` and `SHA512` variables! |
 
 | :warning: WARNING |
 |:------------------|

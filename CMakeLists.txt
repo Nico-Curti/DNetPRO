@@ -22,7 +22,7 @@ if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   endif()
 endif()
 
-project (DNetPRO LANGUAGES CXX VERSION ${DNETPRO_VERSION} DESCRIPTION "Discriminant Network Processing - Feature Selection")
+project (DNetPRO LANGUAGES CXX VERSION ${DNETPRO_VERSION} DESCRIPTION ${CMAKE_PROJECT_DESCRIPTION})
 
 enable_language(CXX)
 # required by parse_args library

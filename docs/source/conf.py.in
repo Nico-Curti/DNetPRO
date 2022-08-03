@@ -11,8 +11,14 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import sys
+import platform
+from ctypes import *
 
 sys.path.insert(0, '@CMAKE_SOURCE_DIR@')
+if platform.system() == 'Windows':
+  lib = cdll.LoadLibrary('@INSTALL_BIN_DIR@/@dnetprolib@.dll')
+else:
+  lib = cdll.LoadLibrary('@INSTALL_LIB_DIR@/lib@dnetprolib@.so')
 
 # -- Project information -----------------------------------------------------
 
@@ -79,7 +85,7 @@ nbsphinx_output_prompt = 'Out[%s]:'
 
 
 breathe_projects = {
-  'score' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@/',
-  'DNetPRO' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@/',
-  'utils' : '@CMAKE_SOURCE_DIR@/docs/source/@XML_OUTPUT_DIR@/',
+  'score' : '@CMAKE_SOURCE_DIR@/docs/source/doxydoc',
+  'DNetPRO' : '@CMAKE_SOURCE_DIR@/docs/source/doxydoc',
+  'utils' : '@CMAKE_SOURCE_DIR@/docs/source/doxydoc',
   }
