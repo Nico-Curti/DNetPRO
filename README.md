@@ -95,15 +95,18 @@ A summary of the algorithm is shown in the following pseudo-code.
 So, given an initial dataset, with `S` *samples* (e.g. cells or patients) each one described by $N$ observations (our *variables*, e.g. gene or protein expression profiles), the signature identification can be summarized with the following steps:
 
 1. Separation of available data into a `training` and a `test` set (typically 66/33, or 80/20).
-2. Estimation of the classification performance according to the desired metric on the training set of all $S(S-1)/2$ `feature pairs` through a computationally fast and reproducible cross-validation procedure (leave-one-out cross validation was chosen).
-  The results are mapped into a completely connected symmetric weighted network, with nodes corresponding to features and link weights corresponding to performance of the node couples.
-3. Selection of top-performing pairs through a hard-thresholding procedure, that removes links (and nodes) from the initial completely connected network: every `connected component` obtained is considered as a putative classification signature.
-  The threshold value can be tuned according to a desired minimum-performance value or considering a minimum number of nodes/features  in the signature.
-  The threshold value can be determined also via cross validation of the entire signature extraction procedure.
-4. [**Optional**] In the hypothesis that node degree is associated to the global feature performance in combination with the other features, to reduce the size of an identified signature, the `pendant nodes` of the signature network, *i.e.*, nodes with degree equal to one, can be removed.
+2. Estimation of the classification performance according to the desired metric on the training set of all $S(S−1)/2$ `feature pairs` through a computationally fast and reproducible cross-validation procedure (leave-one-out cross validation was chosen).
+  In the applications provided in this work we used the Matthew Coefficient as a metric for performance estimation of a discriminant analysis.
+  The results are mapped into a fully connected symmetric weighted network, with nodes corresponding to features and link weights corresponding to performance of the node couples.
+3. Selection of top-performing pairs through a hard-thresholding procedure, that removes links (and nodes) from the initial fully connected network: every connected component obtained is considered as a putative classification signature.
+  The threshold value can be tuned according to a desired minimum-performance value or considering a minimum number of nodes/features in the signature.
+  The threshold value can be determined also by testing each of the obtained performances as a possible cut-off via a cross validation of the entire signature extraction procedure.
+4. [**Optional**] In the hypothesis that node degree is associated to the global feature performance in combination with the other features, to reduce the size of an identified signature, the pendant nodes of the signature network, *i.e.*, nodes with degree equal to one, can be removed.
   This procedure can be applied once, or recursively until the core network, *i.e.*, a network with all nodes with at least two links, is reached.
   We have tested the efficacy of this empirical approach in some real cases [[10.3233/JAD-190480](https://doi.org/10.3233/JAD-190480), [10.1007/BF02951333](https://doi.org/10.1007/BF02951333)], obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
-5. [**Optional**]
+5. [**Optional**] The classifier used in the feature selection and the final classification does not need to be a Discriminant
+Analysis classifier, but can in principle be any classifier. Moreover, the classifier used in the feature selection does not
+need to be the same one used for the final evaluation of the obtained signature.
 6. **(a)** All signatures are applied onto the test set to estimate their performance, producing more than one final signature.
 > **OR**
 6. **(b)** To identify a unique best performing signature, a further cross validation step can be applied, with a further `dataset` splitting into training (to identify the multiple signatures), test (to identify the best signature) and validation set (to evaluate the best signature performance).
@@ -386,7 +389,7 @@ The `CMake` command line can be customized according to the following parameters
 Python version supported : ![Python version](https://img.shields.io/badge/python-3.5|3.6|3.7|3.8-blue.svg)
 
 The `Python` installation can be performed with or without the `C++` installation.
-The `Python` installation is always executed using [`setup.py`](https://github.com/Nico-Curti/blob/master/setup.py) script.
+The `Python` installation is always executed using [`setup.py`](https://github.com/Nico-Curti/DNetPRO/blob/master/setup.py) script.
 
 If you have already build the `DNetPRO` `C++` library the installation is performed faster and the `Cython` wrap directly links to the last library installed.
 Otherwise the full list of dependencies is build.

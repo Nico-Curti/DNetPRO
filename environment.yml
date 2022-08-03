@@ -1,4 +1,4 @@
-name: scorer-dev
+name: DNetPRO-dev
 channels:
   - default
   - anaconda

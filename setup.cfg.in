@@ -54,7 +54,7 @@ branch = True
 omit =
     DNetPRO/__init__.py
     DNetPRO/__version__.py
-    DNetPRO/setup_.py
+    ./setup_.py
 plugins = Cython.Coverage
 source = DNetPRO
 
@@ -64,7 +64,7 @@ show_missing = True
 omit =
     DNetPRO/__init__.py
     DNetPRO/__version__.py
-    DNetPRO/setup_.py
+    ./setup_.py
 # Regexes for lines to exclude from consideration
 exclude_lines =
     # Have to re-enable the standard pragma
