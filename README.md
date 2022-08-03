@@ -449,7 +449,7 @@ This script includes an easy-to-use command line to run the `DNetPRO` algorithm 
 
 ```
 ./bin/DNetPRO_couples
-Usage: ./DNetPRO_couples -f <std :: string> -o <std :: string> [-frac <St16remove_referenceIfE> ] [-bin <St16remove_referenceIbE> ] [-verbose <St16remove_referenceIbE> ] [-probeID <St16remove_referenceIbE> ] [-nth <St16remove_referenceIiE> ]
+Usage: ./DNetPRO_couples -f <std :: string> -o <std :: string> [-frac <float> ] [-bin <bool> ] [-verbose <bool> ] [-probeID <bool> ] [-nth <int> ]
 
 DNetPRO couples evaluation 2.0
 
@@ -459,7 +459,7 @@ optional arguments:
         -s,   --frac                    Fraction of results to save
         -b,   --bin                     Enable Binary output
         -q,   --verbose                 Enable stream output
-        -p,   --probeID                 ProbeID name to skip (true/false)
+        -p,   --probeID                 ProbeID name to skip
         -n,   --nth                     Number of threads to use
 ```
 
