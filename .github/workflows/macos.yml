@@ -22,7 +22,7 @@ jobs:
           - {os: macOS-11, cc: xcode, cxx: xcode, cpp-version: 11.7,   generator: Ninja}
           - {os: macOS-11, cc: xcode, cxx: xcode, cpp-version: 12.4,   generator: Ninja}
           - {os: macOS-11, cc: xcode, cxx: xcode, cpp-version: 12.5.1, generator: Ninja}
-          - {os: macOS-11, cc: xcode, cxx: xcode, cpp-version: 13.0,   generator: Ninja}
+          #- {os: macOS-11, cc: xcode, cxx: xcode, cpp-version: 13.0,   generator: Ninja}
           - {os: macOS-11, cc: xcode, cxx: xcode, cpp-version: 13.1,   generator: Ninja}
           - {os: macOS-11, cc: xcode, cxx: xcode, cpp-version: 13.2.1, generator: Ninja}
 
