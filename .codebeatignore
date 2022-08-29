@@ -1,5 +1,5 @@
 *.md
 *.bib
-./pipeline/TCGA/
-./toy/
-./timing/
+pipeline/TCGA/**
+toy/**
+timing/**

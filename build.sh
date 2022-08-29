@@ -6,11 +6,10 @@ reset=$(tput sgr0)
 
 # get the directory of the current bash script (independently by the execution path)
 scriptdir=$(dirname $(readlink /proc/$$/fd/255))
-pushd $scriptdir > /dev/null
+pushd $scriptdir > "/dev/null"
 
 # $1 debug or release
 build_type=$1
-compiler=$(echo "${CXX##*/}")
 number_of_build_workers=$(grep -c ^processor /proc/cpuinfo)
 
 other_cmake_flags="${@:2}"

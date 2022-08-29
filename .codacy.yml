@@ -13,7 +13,9 @@ exclude_paths:
   - 'docs/**'
   - 'paper/**'
   - DNetPRO/__init__.py
-  - DNetPRO/test/*
-  - toy/**
-  - timing/**
-  - pipeline/**
+  - 'DNetPRO/test/*'
+  - 'toy/**'
+  - 'timing/**'
+  - 'pipeline/**'
+  - build.*
+  - 'docker/**'
