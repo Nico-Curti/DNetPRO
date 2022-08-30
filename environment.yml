@@ -5,8 +5,9 @@ channels:
   - conda-forge
 
 dependencies:
+  # error: numpy 1.23.1 is installed but numpy<1.23.0,>=1.16.5 is required by {'scipy'}
+  - numpy<1.23.0,>=1.16.5
   # required
-  - numpy>=1.16.0
   - cython>=0.29
   - networkx>=2.2
   - scikit-learn>=0.20.3
