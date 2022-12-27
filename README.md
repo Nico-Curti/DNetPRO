@@ -1,6 +1,6 @@
 | **Authors**  | **Project** |  **Documentation** | **Build Status** | **License** | **Code Quality** | **Coverage** |
 |:------------:|:-----------:|:------------------:|:----------------:|:-----------:|:----------------:|:------------:|
-| [**N. Curti**](https://github.com/Nico-Curti) | **DNetPRO**<br/>[![arxiv.org](http://img.shields.io/badge/bioRxiv-0.1101/773622-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/773622v1) | [![Doxygen Sphinx](https://github.com/Nico-Curti/DNetPRO/actions/workflows/docs.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/docs.yml) <br/> [![ReadTheDocs](https://readthedocs.org/projects/dnetpro/badge/?version=latest)](https://dnetpro.readthedocs.io/en/latest/?badge=latest) | [![Linux](https://github.com/Nico-Curti/DNetPRO/actions/workflows/linux.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/linux.yml) <br/> [![Windows](https://github.com/Nico-Curti/DNetPRO/actions/workflows/windows.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/windows.yml)  <br/> [![MacOS](https://github.com/Nico-Curti/DNetPRO/actions/workflows/macos.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/macos.yml) <br/> [![Python](https://github.com/Nico-Curti/DNetPRO/actions/workflows/python.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/python.yml) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/DNetPRO/blob/master/LICENSE) | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/13ded25898ce4844a2591f1cff7764c8)](https://www.codacy.com/gh/Nico-Curti/DNetPRO/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/DNetPRO&amp;utm_campaign=Badge_Grade) <br/> [![Codebeat](https://codebeat.co/badges/0c5129c1-4537-4545-a8e2-07807c6303f5)](https://codebeat.co/projects/github-com-nico-curti-dnetpro-master) | [![codecov](https://codecov.io/gh/Nico-Curti/DNetPRO/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/DNetPRO) |
+| [**N. Curti**](https://github.com/Nico-Curti) | **DNetPRO**<br/>[![Scientific Reports](https://img.shields.io/badge/Scientific%20Reports-s41598.022.25549.9-g.svg)](https://www.nature.com/articles/s41598-022-25549-9) | [![Doxygen Sphinx](https://github.com/Nico-Curti/DNetPRO/actions/workflows/docs.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/docs.yml) <br/> [![ReadTheDocs](https://readthedocs.org/projects/dnetpro/badge/?version=latest)](https://dnetpro.readthedocs.io/en/latest/?badge=latest) | [![Linux](https://github.com/Nico-Curti/DNetPRO/actions/workflows/linux.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/linux.yml) <br/> [![Windows](https://github.com/Nico-Curti/DNetPRO/actions/workflows/windows.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/windows.yml)  <br/> [![MacOS](https://github.com/Nico-Curti/DNetPRO/actions/workflows/macos.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/macos.yml) <br/> [![Python](https://github.com/Nico-Curti/DNetPRO/actions/workflows/python.yml/badge.svg)](https://github.com/Nico-Curti/DNetPRO/actions/workflows/python.yml) | [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Nico-Curti/DNetPRO/blob/master/LICENSE) | [![Codacy Badge](https://app.codacy.com/project/badge/Grade/13ded25898ce4844a2591f1cff7764c8)](https://www.codacy.com/gh/Nico-Curti/DNetPRO/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nico-Curti/DNetPRO&amp;utm_campaign=Badge_Grade) <br/> [![Codebeat](https://codebeat.co/badges/0c5129c1-4537-4545-a8e2-07807c6303f5)](https://codebeat.co/projects/github-com-nico-curti-dnetpro-master) | [![codecov](https://codecov.io/gh/Nico-Curti/DNetPRO/branch/master/graph/badge.svg)](https://codecov.io/gh/Nico-Curti/DNetPRO) |
 
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/Nico-Curti/DNetPRO.svg?style=plastic)](https://github.com/Nico-Curti/DNetPRO/issues)
@@ -18,7 +18,7 @@
 
 ## Discriminant Analysis with Network Processing
 
-Official implementation of the DNetPRO algorithm published on [BioRXiv](https://www.biorxiv.org/content/early/2019/09/19/773622) by Curti et al. [![arxiv.org](http://img.shields.io/badge/bioRxiv-0.1101/773622-B31B1B.svg)](https://www.biorxiv.org/content/10.1101/773622v1)
+Official implementation of the DNetPRO algorithm published on [Scientific Reports](https://www.nature.com/articles/s41598-022-25549-9) by Curti et al. [![Scientific Reports](https://img.shields.io/badge/Scientific%20Reports-s41598.022.25549.9-g.svg)](https://www.nature.com/articles/s41598-022-25549-9)
 
 * [Overview](#overview)
 * [Theory](#theory)
@@ -637,16 +637,20 @@ Thanks goes to all contributors of this project.
 If you have found `DNetPRO` helpful in your research, please consider citing the original paper
 
 ```BibTex
-@article {10.1101/773622,
-  author = {Curti, Nico and Giampieri, Enrico and Levi, Giuseppe and Castellani, Gastone and Remondini, Daniel},
-  title = {DNetPRO: A network approach for low-dimensional signatures from high-throughput data},
-  elocation-id = {773622},
-  year = {2019},
-  doi = {10.1101/773622},
-  publisher = {Cold Spring Harbor Laboratory},
-  URL = {\url{https://www.biorxiv.org/content/early/2019/09/19/773622}},
-  eprint = {\url{https://www.biorxiv.org/content/early/2019/09/19/773622.full.pdf}},
-  journal = {bioRxiv}
+@article{Curti2022,
+  author={Curti, Nico and Levi, Giuseppe and Giampieri, Enrico and Castellani, Gastone and Remondini, Daniel},
+  title={A network approach for low dimensional signatures from high throughput data},
+  journal={Scientific Reports},
+  year={2022},
+  month={Dec},
+  day={23},
+  volume={12},
+  number={1},
+  pages={22253},
+  abstract={One of the main objectives of high-throughput genomics studies is to obtain a low-dimensional set of observables---a signature---for sample classification purposes (diagnosis, prognosis, stratification). Biological data, such as gene or protein expression, are commonly characterized by an up/down regulation behavior, for which discriminant-based methods could perform with high accuracy and easy interpretability. To obtain the most out of these methods features selection is even more critical, but it is known to be a NP-hard problem, and thus most feature selection approaches focuses on one feature at the time (k-best, Sequential Feature Selection, recursive feature elimination). We propose DNetPRO, Discriminant Analysis with Network PROcessing, a supervised network-based signature identification method. This method implements a network-based heuristic to generate one or more signatures out of the best performing feature pairs. The algorithm is easily scalable, allowing efficient computing for high number of observables ({\$}{\$}10^3{\$}{\$}--{\$}{\$}10^5{\$}{\$}). We show applications on real high-throughput genomic datasets in which our method outperforms existing results, or is compatible with them but with a smaller number of selected features. Moreover, the geometrical simplicity of the resulting class-separation surfaces allows a clearer interpretation of the obtained signatures in comparison to nonlinear classification models.},
+  issn={2045-2322},
+  doi={10.1038/s41598-022-25549-9},
+  url={https://doi.org/10.1038/s41598-022-25549-9}
 }
 ```
 or just this repository
