@@ -18,10 +18,10 @@ jobs:
     strategy:
       matrix:
         cfg:
-          - {os: ubuntu-latest, cc: gcc, cxx: g++, cpp-version: 10, python-version: 3.6, generator: Ninja}
           - {os: ubuntu-latest, cc: gcc, cxx: g++, cpp-version: 10, python-version: 3.7, generator: Ninja}
           - {os: ubuntu-latest, cc: gcc, cxx: g++, cpp-version: 10, python-version: 3.8, generator: Ninja}
           - {os: ubuntu-latest, cc: gcc, cxx: g++, cpp-version: 10, python-version: 3.9, generator: Ninja}
+          - {os: ubuntu-latest, cc: gcc, cxx: g++, cpp-version: 10, python-version: 3.10, generator: Ninja}
 
     steps:
 
