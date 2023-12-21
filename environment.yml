@@ -10,7 +10,7 @@ dependencies:
   # required
   - cython>=0.29
   - networkx>=2.2
-  - scikit-learn>=0.20.3
+  - scikit-learn>=1
   - pandas>=0.24.2
 
   # building

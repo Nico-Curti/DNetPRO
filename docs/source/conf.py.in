@@ -88,4 +88,4 @@ breathe_projects = {
   'score' : '@CMAKE_SOURCE_DIR@/docs/source/doxydoc',
   'DNetPRO' : '@CMAKE_SOURCE_DIR@/docs/source/doxydoc',
   'utils' : '@CMAKE_SOURCE_DIR@/docs/source/doxydoc',
-  }
+}

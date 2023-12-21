@@ -1,3 +1,48 @@
+[project]
+name = 'DNetPRO'
+version = '1.0.0'
+authors = [
+  { name='Nico Curti', email='nico.curti2@unibo.it' },
+]
+description = 'Discriminant Analysis with Network Processing.'
+readme = 'README.md'
+requires-python = '>=3.5'
+license = {text = "MIT"}
+keywords = [
+	'feature-selection',
+	'machine-learning-algorithm',
+	'classification-algorithm',
+	'genomics',
+	'rna',
+	'mirna',
+]
+maintainers = [
+  { name='Nico Curti', email='nico.curti2@unibo.it' },
+]
+classifiers = [
+  'Natural Language :: English',
+  'Operating System :: MacOS :: MacOS X',
+  'Operating System :: POSIX',
+  'Operating System :: POSIX :: Linux',
+  'Operating System :: Microsoft :: Windows',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.5',
+  'Programming Language :: Python :: 3.6',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: Implementation :: CPython',
+  'Programming Language :: Python :: Implementation :: PyPy'
+]
+
+[project.urls]
+'Homepage' = 'https://github.com/Nico-Curti/DNetPRO'
+'Bug Tracker' = 'https://github.com/Nico-Curti/DNetPRO/issues'
+
+
 [build-system]
 requires = ["setuptools>=18.0", "wheel", "numpy>=1.16", "Cython>=0.29", "cmake"]
 build-backend = "setuptools.build_meta"
