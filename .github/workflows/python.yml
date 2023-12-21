@@ -18,7 +18,6 @@ jobs:
     strategy:
       matrix:
         cfg:
-          - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.7}
           - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.8}
           - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: 3.9}
           - {os: ubuntu-latest, cc: gcc, cxx: g++, python-version: '3.10'}

@@ -19,7 +19,7 @@ The only requirements are the following:
 * numpy >= 1.16.0
 * networkx >= 2.2
 * cython >= 0.29
-* scikit -learn >= 0.19.1
+* scikit-learn>=1.3.2
 * pandas >= 0.24.2
 
 The `Cython` version can be built and installed via `CMake` enabling the `-DPYWRAP` variable.
