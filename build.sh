@@ -14,7 +14,7 @@ number_of_build_workers=$(grep -c ^processor /proc/cpuinfo)
 
 other_cmake_flags="${@:2}"
 
-elif [ "$build_type" == "Release" ] || [ "$build_type" == "release" ]; then
+if [ "$build_type" == "Release" ] || [ "$build_type" == "release" ]; then
   echo "${green}Building Release project${reset}"
   build_type=Release
   #rm -rf build_release
