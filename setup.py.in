@@ -107,5 +107,9 @@ setup(
                                    'Programming Language :: Python :: Implementation :: PyPy'
                                   ],
   license                       = 'MIT',
+  entry_points={'console_scripts': [
+    'dnetpro = DNetPRO.__main__:main',
+    ],
+  },
 )
 
