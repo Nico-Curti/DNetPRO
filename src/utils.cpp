@@ -13,34 +13,58 @@ std :: vector < std :: string > split (const std :: string & txt, const std :: s
 {
   std :: vector < std :: string > token;
 
-  std :: size_t pos = txt.find_first_of(del);
+  if ( txt.empty() )
+    return token;
+
   std :: size_t start = 0;
-  std :: size_t end = txt.size();
 
-  while (pos != std :: string :: npos)
+  while (true)
   {
-    if (pos)
-      token.push_back(txt.substr(start, pos));
+    // find the next del starting from 'start'
+    std :: size_t pos = txt.find_first_of(del, start);
 
-    start += pos + 1;
+    if (pos == std :: string :: npos)
+    {
+      // last token (if not empty)
+      if (start < txt.size())
+        token.emplace_back(txt.substr(start));
+      break;
+    }
 
-    pos = txt.substr(start, end).find_first_of(del);
+    if (pos > start)
+    {
+      // add no empty token found
+      token.emplace_back(txt.substr(start, pos - start));
+    }
+
+    // restart from the next del found
+    start = pos + 1;
   }
-
-  if (start != end)
-    token.push_back(txt.substr(start, pos));
 
   return token;
 }
 
 std :: unique_ptr < int32_t[] > lbl2num (const std :: vector < std :: string > & lbl)
 {
-  std :: unique_ptr < int32_t[] > num (new int32_t[lbl.size()]);
-  std :: unordered_set < std :: string > str_lbl(lbl.begin(), lbl.end(), lbl.size() * sizeof (std :: string));
-  std :: transform(lbl.begin(), lbl.end(), num.get(),
-                   [&](const std :: string & l)
-                   {
-                     return std :: distance(str_lbl.begin(), str_lbl.find(l));
-                   });
+  std :: unique_ptr < int32_t[] > num(new int32_t[lbl.size()]);
+
+  std :: unordered_map < std :: string, int32_t > map_lbl;
+  map_lbl.reserve(lbl.size());
+
+  int32_t next_id = 0;
+
+  for (std :: size_t i = 0; i < lbl.size(); ++i)
+  {
+    const std :: string & l = lbl[i];
+
+    auto it = map_lbl.find(l);
+    if (it == map_lbl.end())
+    {
+      it = map_lbl.emplace(l, next_id).first;
+      ++next_id;
+    }
+
+    num[i] = it->second;
+  }
   return num;
 }

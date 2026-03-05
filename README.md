@@ -449,13 +449,17 @@ This script includes an easy-to-use command line to run the `DNetPRO` algorithm 
 
 ```
 ./bin/DNetPRO_couples
-Usage: ./DNetPRO_couples -f <std :: string> -o <std :: string> [-frac <float> ] [-bin <bool> ] [-verbose <bool> ] [-probeID <bool> ] [-nth <int> ]
+DNetPRO version: 1.0.0
+Usage: ./DNetPRO_couples [-version <bool> ] [-omp <bool> ] -f <std :: string> -o <std :: string> [-sep <std :: string> ] [-frac <float> ] [-bin <bool> ] [-verbose <bool> ] [-probeID <bool> ] [-nth <int> ]
 
-DNetPRO couples evaluation 2.0
+DNetPRO couples evaluation v1.0.0
 
 optional arguments:
+        -v,   --version                 Get current DNetPRO version
+        -o,   --omp                     Check if the installed DNetPRO supports OpenMP
         -f,   --input                   Input filename
         -o,   --output                  Output filename
+        -d,   --sep                     File delimiter
         -s,   --frac                    Fraction of results to save
         -b,   --bin                     Enable Binary output
         -q,   --verbose                 Enable stream output
@@ -653,6 +657,7 @@ If you have found `DNetPRO` helpful in your research, please consider citing the
   url={https://doi.org/10.1038/s41598-022-25549-9}
 }
 ```
+
 or just this repository
 
 ```BibTex

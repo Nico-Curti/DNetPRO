@@ -1,9 +1,10 @@
-libdir=@CMAKE_SOURCE_PATH@/lib
-includedir=@CMAKE_SOURCE_PATH@/include
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/@INSTALL_LIB_DIR@
+includedir=${prefix}/@INSTALL_INCLUDE_DIR@
 
 Name: DNetPRO
-Description: Discriminant Analysis with Network Processing
+Description: @CMAKE_PROJECT_DESCRIPTION@
 
 Version: @DNetPRO_VERSION@
-Libs: -L${libdir} -l@CMAKE_STATIC_LIBRARY_PREFIX@DNetPRO/lib/
+Libs: -L${libdir} -lDNetPRO
 Cflags: -I${includedir}

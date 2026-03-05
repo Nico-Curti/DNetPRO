@@ -4,6 +4,7 @@
 from __future__ import division
 from __future__ import print_function
 
+import os
 # import itertools
 import numpy as np
 import pandas as pd
@@ -13,7 +14,6 @@ from operator import itemgetter
 
 from sklearn.utils import check_X_y
 from sklearn.utils import check_array
-from sklearn.utils.metaestimators import if_delegate_has_method
 from sklearn.utils.validation import check_is_fitted
 
 from sklearn.model_selection import check_cv
@@ -33,6 +33,25 @@ from sklearn.naive_bayes import GaussianNB
 
 from DNetPRO.lib.DNetPRO import _DNetPRO_couples
 
+try:
+  # sklearn >= 1.1
+  from sklearn.utils.metaestimators import available_if
+except ImportError:
+  # fallback for old sklearn versions
+  from sklearn.utils.metaestimators import if_delegate_has_method
+
+  def available_if(check):
+    # adapter: ignore the predicate and use old decorator
+    def decorator(func):
+      return if_delegate_has_method(delegate='estimator')(func)
+    return decorator
+
+def _estimator_has(attr):
+  def check(self):
+    # use estimator_ in DNetPRO since it has its fit method
+    return hasattr(self.estimator_, attr)
+  return check
+
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
 
@@ -43,46 +62,46 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
   Parameters
   ----------
     estimator : object
-        A supervised learning estimator with a ``fit`` method that provides
-        information about feature importance either through a ``coef_``
-        attribute or through a ``feature_importances_`` attribute.
+      A supervised learning estimator with a ``fit`` method that provides
+      information about feature importance either through a ``coef_``
+      attribute or through a ``feature_importances_`` attribute.
 
     cv : int, cross-validation generator or an iterable, optional
-        Determines the cross-validation splitting strategy.
-        Possible inputs for cv are:
+      Determines the cross-validation splitting strategy.
+      Possible inputs for cv are:
 
-        - None, to use the default 3-fold cross-validation,
-        - integer, to specify the number of folds.
-        - An object to be used as a cross-validation generator.
-        - An iterable yielding train/test splits.
+      - None, to use the default 3-fold cross-validation,
+      - integer, to specify the number of folds.
+      - An object to be used as a cross-validation generator.
+      - An iterable yielding train/test splits.
 
-        For integer/None inputs, if ``y`` is binary or multiclass,
-        :class:`sklearn.model_selection.StratifiedKFold` is used. If the
-        estimator is a classifier or if ``y`` is neither binary nor multiclass,
-        :class:`sklearn.model_selection.KFold` is used.
+      For integer/None inputs, if ``y`` is binary or multiclass,
+      :class:`sklearn.model_selection.StratifiedKFold` is used. If the
+      estimator is a classifier or if ``y`` is neither binary nor multiclass,
+      :class:`sklearn.model_selection.KFold` is used.
 
-        Refer to scikit-learn cross_validation for the various
-        cross-validation strategies that can be used here.
+      Refer to scikit-learn cross_validation for the various
+      cross-validation strategies that can be used here.
 
     scoring : string, callable or None, optional, default: None
-        A string (see model evaluation documentation) or
-        a scorer callable object / function with signature
-        ``scorer(estimator, X, y)``.
+      A string (see model evaluation documentation) or
+      a scorer callable object / function with signature
+      ``scorer(estimator, X, y)``.
 
     max_chunk : int, default=100
-        Max number of features allowed in performances-chunk. If the size of chunk is greater than max_chunk
-        and it is not the first one, features selection iteration is stopped.
+      Max number of features allowed in performances-chunk. If the size of chunk is greater than max_chunk
+      and it is not the first one, features selection iteration is stopped.
 
     percentage : float, default=0.1
-        Percentage of couples to save after sorting
+      Percentage of couples to save after sorting
 
     verbose : int, default=0
-        Controls verbosity of couples evaluation.
+      Controls verbosity of couples evaluation.
 
     n_jobs : int, default 1
-        Number of cores to run in parallel while fitting across folds.
-        Defaults to 1 core. If `n_jobs=-1`, then number of jobs is set
-        to number of cores.
+      Number of cores to run in parallel while fitting across folds.
+      Defaults to 1 core. If `n_jobs=-1`, then number of jobs is set
+      to number of cores.
 
   Example
   -------
@@ -108,25 +127,28 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
   References
   ----------
-  - Nico Curti, Enrico Giampieri, Giuseppe Levi, Gastone Castellani, Daniel Remondini; DNetPRO: A network approach for low-dimensional signatures from high-throughput data; bioRxiv 773622; doi: https://doi.org/10.1101/773622
-  - Mizzi, C., Fabbri, A., Rambaldi, S. et al. Unraveling pedestrian mobility on a road network using ICTs data during great tourist events. EPJ Data Sci. 7, 44 (2018). https://doi.org/10.1140/epjds/s13688-018-0168-2
-  - Boccardi V, Paolacci L, Remondini D, Giampieri E, Poli G, Curti N, Cecchetti R, Villa A, Ruggiero C, Brancorsini S, Mecocci P. Cognitive Decline and Alzheimer's Disease in Old Age: A Sex-Specific Cytokinome Signature. J Alzheimers Dis. 2019;72(3):911-918. doi: 10.3233/JAD-190480. PMID: 31658056.
-  - Malvisi M, Curti N, Remondini D, De Iorio MG, Palazzo F, Gandini G, Vitali S, Polli M, Williams JL, Minozzi G. Combinatorial Discriminant Analysis Applied to RNAseq Data Reveals a Set of 10 Transcripts as Signatures of Exposure of Cattle to Mycobacterium avium subsp. paratuberculosis. Animals (Basel). 2020 Feb 5;10(2):253. doi: 10.3390/ani10020253. PMID: 32033399; PMCID: PMC7070263.
+  - Curti N., Giampieri E., Levi G., Castellani G., Remondini D.; DNetPRO: A network approach for low-dimensional signatures from high-throughput data; bioRxiv 773622; doi: https://doi.org/10.1101/773622
+  - Mizzi C., Fabbri A., Rambaldi S. et al.; Unraveling pedestrian mobility on a road network using ICTs data during great tourist events. EPJ Data Sci. 7, 44 (2018); https://doi.org/10.1140/epjds/s13688-018-0168-2
+  - Boccardi V., Paolacci L., Remondini D., Giampieri E., Poli G., Curti N., Cecchetti R., Villa A., Ruggiero C., Brancorsini S., Mecocci P.; Cognitive Decline and Alzheimer's Disease in Old Age: A Sex-Specific Cytokinome Signature. J Alzheimers Dis. 2019;72(3):911-918. doi: 10.3233/JAD-190480. PMID: 31658056.
+  - Malvisi M., Curti N., Remondini D., De Iorio MG., Palazzo F., Gandini G., Vitali S., Polli M., Williams JL., Minozzi G. Combinatorial Discriminant Analysis Applied to RNAseq Data Reveals a Set of 10 Transcripts as Signatures of Exposure of Cattle to Mycobacterium avium subsp. paratuberculosis. Animals (Basel). 2020 Feb 5;10(2):253. doi: 10.3390/ani10020253. PMID: 32033399; PMCID: PMC7070263.
+  - R. Biondi, G. Gravante, D. Remondini, S. Peluso, S. Cominetti, F. D'Amore, M. Bignami, A.D. Arosio, N. Curti; Towards Precision Medicine in Sinonasal Tumors: Low-Dimensional Radiomic Signature Extraction from MRI. Diagnostics (2025); doi: 10.3390/diagnostics15131675.
   '''
 
   def __init__ (self, estimator=GaussianNB(), cv=LeaveOneOut(), scoring=None, max_chunk=100, percentage=.1, verbose=False, n_jobs=1):
 
     if not (0. < percentage <= 1.):
-      raise ValueError('percentage must be > 0 and <= 1. Given {}'.format(percentage))
+      raise ValueError(f"'percentage' must be > 0 and <= 1. Given {percentage}")
 
-    if not (0. < n_jobs):
-      raise ValueError('n_jobs must be a positive integer. Given {}'.format(percentage))
+    if n_jobs < -1 or n_jobs == 0:
+      raise ValueError(f"'n_jobs' must be a positive integer (use -1 for the maximum number of CPUs). Given {n_jobs}")
+    # set the correct value of workers
+    n_jobs = min(n_jobs, os.cpu_count())
 
-    if not (max_chunk >= 0):
-      raise ValueError('max_chunk must be >= 0. Given: {}'.format(max_chunk))
+    if max_chunk < 0:
+      raise ValueError(f"'max_chunk' must be >= 0. Given: {max_chunk}")
 
     if not is_classifier(estimator):
-      raise ValueError('Estimator must be a sklearn-like classifier. Given {}'.format(estimator))
+      raise ValueError(f"'estimator' must be a sklearn-like classifier. Given {estimator}")
 
     scoring = check_scoring(estimator, scoring=scoring)
 
@@ -138,7 +160,6 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     self.percentage = percentage
     self.verbose = verbose
     self.n_jobs = n_jobs
-
 
   @staticmethod
   def pendrem (graph):
@@ -170,7 +191,9 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     while min(map(itemgetter(1), deg)) < 2:
       G = graph.copy()
 
-      graph.remove_nodes_from( [n for n, d in deg if d < 2] )
+      graph.remove_nodes_from(
+        [n for n, d in deg if d < 2]
+      )
       deg = graph.degree()
 
       if len(deg) == 0:
@@ -192,17 +215,18 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     Parameters
     ----------
       X : array of shape [n_samples, n_features]
-          The input samples.
+        The input samples.
 
     Raises
     ------
       ValueError if max_chunk <= number of combination (evaluated as Nprobe * (Nprobe - 1) / 2)
-
     '''
     _, Nprobe = np.shape(X)
     Ncomb = Nprobe * (Nprobe - 1) >> 1
     if not (self.max_chunk <= Ncomb):
-      raise ValueError('max_chunk must be <= possible features combinations. Given: {}'.format(self.max_chunk))
+      raise ValueError(
+        f"'max_chunk' must be <= possible features combinations. Given: {self.max_chunk}"
+      )
 
   @staticmethod
   def label2numbers (arr):
@@ -222,8 +246,8 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     Notes
     -----
       .. note::
-        The C++ function allows only numerical (integer) values as labels in input.
-        For more general support refers to the C++ example.
+      The C++ function allows only numerical (integer) values as labels in input.
+      For more general support refers to the C++ example.
 
     Examples
     --------
@@ -246,16 +270,16 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     Parameters
     ----------
       X : array-like of shape (Nsample, Nprobe)
-          The training input samples
+        The training input samples
 
       y : array-like, shape (Nsample, )
-          The target values (converted to unique integers)
+        The target values (converted to unique integers)
 
     Returns
     -------
       performances : pandas dataframe
-          Dataframe of ordered results with columns (feature_1, feature_2, performances).
-          The variable pairs are sorted in ascending order according to the performance values.
+        Dataframe of ordered results with columns (feature_1, feature_2, performances).
+        The variable pairs are sorted in ascending order according to the performance values.
 
     Notes
     -----
@@ -267,7 +291,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
     y = np.asarray(y)
 
-    if y.dtype is not int:
+    if np.issubdtype(y.dtype, np.integer):
       y = DNetPRO.label2numbers(y)
 
     self.X = check_array(X, dtype=np.float32)
@@ -330,11 +354,11 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     Parameters
     ----------
       X : array-like of shape (n_samples, n_features)
-          The training input samples.
+        The training input samples.
 
       y : array-like, shape (n_samples,)
-          The target values (integers that correspond to classes in
-          classification, real numbers in regression).
+        The target values (integers that correspond to classes in
+        classification, real numbers in regression).
 
       **fit_params : Other estimator specific parameters
 
@@ -352,7 +376,10 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     scorer = check_scoring(self.estimator, scoring=self.scoring)
 
     couples = self._evaluate_couples(X, y, **fit_params)
-    couples = pd.DataFrame(data=couples, columns=['feature_1', 'feature_2', 'performances'])
+    couples = pd.DataFrame(
+      data=couples, 
+      columns=['feature_1', 'feature_2', 'performances']
+    )
 
     # compute the max of performances
     max_perf = couples.performances.max()
@@ -385,11 +412,11 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
                                 scoring=scorer).mean()
 
         self.signatures.append({
-                                 'number_of_genes'    : len(comp.nodes()),
-                                 'performace_couples' : perf,
-                                 'features'           : list(comp.nodes()),
-                                 'signature'          : comp,
-                                 'score'              : score
+                                 'number_of_features'  : len(comp.nodes()),
+                                 'performance_couples' : perf,
+                                 'features'            : list(comp.nodes()),
+                                 'signature'           : comp,
+                                 'score'               : score
                                })
 
     self.estimator_ = clone(self.estimator)
@@ -420,7 +447,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     self.selected_signature = self.get_signature()[index]['features']
 
 
-  @if_delegate_has_method(delegate='estimator')
+  @available_if(_estimator_has("predict"))
   def predict (self, X):
     '''
     Reduce X to the selected features and then predict using the
@@ -429,12 +456,12 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     Parameters
     ----------
       X : array of shape [n_samples, n_features]
-          The input samples.
+        The input samples.
 
     Returns
     -------
       y : array of shape [n_samples]
-          The predicted target values.
+        The predicted target values.
     '''
     check_is_fitted(self, 'estimator_')
     return self.estimator_.predict(self.transform(X))
@@ -447,21 +474,21 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
   #   Parameters
   #   ----------
   #     X : array-like of shape (n_samples, n_features)
-  #         The training input samples.
+  #       The training input samples.
 
   #     y : array-like, shape (n_samples,)
-  #         The target values (integers that correspond to classes in
-  #         classification, real numbers in regression).
+  #       The target values (integers that correspond to classes in
+  #       classification, real numbers in regression).
 
   #     **fit_params : Other estimator specific parameters
 
   #   Returns
   #   -------
   #     Xnew : array-like of shape (n_sample, n_signature_features)
-  #            The data filtered according to the best features found by the model
+  #       The data filtered according to the best features found by the model
 
   #     score : float
-  #             Accuracy score over the test set (X_test)
+  #       Accuracy score over the test set (X_test)
 
   #   Notes
   #   -----
@@ -484,18 +511,18 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     Parameters
     ----------
       X : array-like of shape (n_samples, n_features)
-          The training input samples.
+        The training input samples.
 
       y : array-like, shape (n_samples,)
-          The target values (integers that correspond to classes in
-          classification, real numbers in regression).
+        The target values (integers that correspond to classes in
+        classification, real numbers in regression).
 
       **fit_params : Other estimator specific parameters
 
     Returns
     -------
       Xnew : array-like of shape (n_sample, n_signature_features)
-             The data filtered according to the best features found by the model
+        The data filtered according to the best features found by the model
 
     Notes
     -----
@@ -516,7 +543,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     Parameters
     ----------
       X : array of shape [n_samples, n_features]
-          The input samples.
+        The input samples.
     '''
 
     check_is_fitted(self, 'estimator_')
@@ -524,7 +551,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     X = X[:, self.selected_signature]
     return X
 
-  @if_delegate_has_method(delegate='estimator')
+  @available_if(_estimator_has("score"))
   def score (self, X, y):
     '''
     Reduce X to the selected features and then return the score of the
@@ -533,24 +560,24 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     Parameters
     ----------
       X : array of shape [n_samples, n_features]
-          The input samples.
+        The input samples.
 
       y : array of shape [n_samples]
-          The target values.
+        The target values.
     '''
     return self.estimator_.score(self.transform(X), y)
 
-  @if_delegate_has_method(delegate='estimator')
+  @available_if(_estimator_has("decision_function"))
   def decision_function (self, X):
     check_is_fitted(self, 'estimator_')
     return self.estimator_.decision_function(self.transform(X))
 
-  @if_delegate_has_method(delegate='estimator')
+  @available_if(_estimator_has("predict_proba"))
   def predict_proba (self, X):
     check_is_fitted(self, 'estimator_')
     return self.estimator_.predict_proba(self.transform(X))
 
-  @if_delegate_has_method(delegate='estimator')
+  @available_if(_estimator_has("predict_log_proba"))
   def predict_log_proba (self, X):
     check_is_fitted(self, 'estimator_')
     return self.estimator_.predict_log_proba(self.transform(X))

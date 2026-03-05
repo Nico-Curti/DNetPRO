@@ -52,12 +52,15 @@ jobs:
       run: |
 
         python3 -m pip install --upgrade pip
-        python3 -m pip install flake8 pytest
         python3 -m pip install -r requirements.txt
 
     - name: Install testing dependencies
       run: |
-        python3 -m pip install codecov pytest-cov
+        python3 -m pip install flake8
+        python3 -m pip install pytest
+        python3 -m pip install codecov
+        python3 -m pip install pytest-cov
+        python3 -m pip install hypothesis
 
     - name: Lint with flake8
       run: |

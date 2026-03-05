@@ -1,9 +1,10 @@
 # distutils: language = c++
-# cython: language_level=2
+# cython: language_level=3
 
 from libcpp.memory cimport unique_ptr
-from libcpp cimport bool
 cimport numpy as np
+from libc.stdint cimport int32_t
+from libcpp cimport bool as cpp_bool
 
 cdef extern from "score.h":
 
@@ -20,25 +21,24 @@ cdef extern from "score.h":
     unique_ptr[np.int32_t[]] gene_a;
     unique_ptr[np.int32_t[]] gene_b;
     unique_ptr[np.int32_t[]] tot;
+    unique_ptr[np.int32_t[]] class_score;
 
     np.int32_t N;
     np.int32_t n_class;
 
 cdef extern from "dnetpro_couples.h":
 
-  score dnetpro_couples (float ** data,
-                         const np.int32_t & Nprobe,
-                         const np.int32_t & Nsample,
-                         np.int32_t * labels,
-                         const bool & verbose,
-                         float percentage,
-                         # const bool & return_couples,
-                         np.int32_t nth)
+  unique_ptr[score] dnetpro_couples (
+    float ** data,
+    const int32_t & Nprobe,
+    const int32_t & Nsample,
+    int32_t * labels,
+    const cpp_bool & verbose,
+    float percentage,
+    int32_t nth)
 
 cdef extern from "<utility>" namespace "std" nogil:
-
   cdef unique_ptr[score] move(unique_ptr[score])
-
 
 cdef class _score:
 
@@ -48,6 +48,4 @@ cdef class _score:
     np.int32_t N;
     np.int32_t n_class;
 
-  cdef inline _move (self, score src):
-    self.N, self.n_class = src.N, src.n_class
-    self.thisptr.reset(new score(src))
+    cdef void _set_ptr(self, unique_ptr[score] & ptr);

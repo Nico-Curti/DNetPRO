@@ -1,3 +1,4 @@
+set(DNetPRO_VERSION "@DNetPRO_VERSION@")
 # Config file for the DNetPRO package
 
 get_filename_component(DNetPRO_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
@@ -18,8 +19,9 @@ endif()
 include("${DNetPRO_CMAKE_DIR}/DNetPROTargets.cmake")
 include("${DNetPRO_CMAKE_DIR}/DNetPROConfigVersion.cmake")
 
-get_target_property(FULL_DNetPRO_INCLUDE_DIRS DNetPRO::dnetpro INTERFACE_INCLUDE_DIRECTORIES)
+set(DNetPRO_TARGET "DNetPRO::DNetPRO")
+get_target_property(FULL_DNetPRO_INCLUDE_DIRS ${DNetPRO_TARGET} INTERFACE_INCLUDE_DIRECTORIES)
 list(GET FULL_DNetPRO_INCLUDE_DIRS 0 DNetPRO_INCLUDE_DIR)
 get_filename_component(DNetPRO_INCLUDE_DIR "${DNetPRO_INCLUDE_DIR}" REALPATH)
 
-find_package_handle_standard_args(DNetPRO REQUIRED_VARS DNetPRO_INCLUDE_DIR VERSION_VAR PACKAGE_VERSION)
+find_package_handle_standard_args(DNetPRO REQUIRED_VARS DNetPRO_INCLUDE_DIR VERSION_VAR DNetPRO_VERSION)

@@ -4,4 +4,4 @@
 __author__  = ['Nico Curti', 'Enrico Giampieri', 'Daniel Remondini']
 __email__ = ['nico.curit2@unibo.it', 'enrico.giampieri@unibo.it', 'daniel.remondini@unibo.it']
 
-__version__ = '@DNETPRO_VERSION@'
+__version__ = '@DNetPRO_VERSION@'

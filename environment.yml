@@ -6,18 +6,18 @@ channels:
 
 dependencies:
   # error: numpy 1.23.1 is installed but numpy<1.23.0,>=1.16.5 is required by {'scipy'}
-  - numpy<1.23.0,>=1.16.5
-  # required
-  - cython>=0.29
+  - numpy>=1.16
   - networkx>=2.2
-  - scikit-learn>=0.20.3
+  - scikit-learn>=0.19.1
   - pandas>=0.24.2
 
   # building
   - pkgconfig
-  - cython>=0.29
+  - scikit-build>=0.13
+  - Cython
   - cmake
   - doxygen
+  - ninja
 
   # documentation
   - breathe>=4.14.1

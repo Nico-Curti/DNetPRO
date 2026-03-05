@@ -62,6 +62,6 @@ jobs:
         cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
         useVcpkgToolchainFile: false
         buildDirectory: '${{ runner.workspace }}/buildDirectory'
-        cmakeAppendedArgs: "-G\"${{ matrix.cfg.generator }}\" -DCMAKE_BUILD_TYPE:STRING=Release -DBUILD_DOCS:BOOL=OFF -DPYWRAP:BOOL=OFF -DFORCE_USE_SUBMODULES:BOOL=ON"
+        cmakeAppendedArgs: "-G\"${{ matrix.cfg.generator }}\" -DCMAKE_BUILD_TYPE:STRING=Release -DBUILD_DOCS:BOOL=OFF -DSKBUILD:BOOL=OFF -DFORCE_USE_SUBMODULES:BOOL=ON"
         cmakeBuildType: 'Release'
         buildWithCMakeArgs: '--config Release --target install'

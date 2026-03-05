@@ -35,12 +35,13 @@
 #include <unordered_map>  // std :: unordered_map
 #include <numeric>        // std :: accumulate
 
-constexpr float epsilon = std :: numeric_limits < float > :: min ();
+constexpr float epsilon = std :: numeric_limits < float > :: epsilon ();
 constexpr float inf     = std :: numeric_limits < float > :: infinity ();
 
 #include <score.h>        // score object
 #include <utils.hpp>      // split function and file_error function
 #include <parse_args.hpp> // ArgumentParser object
+#include <version.h>
 
 #ifdef _OPENMP
 
@@ -51,8 +52,10 @@ constexpr float inf     = std :: numeric_limits < float > :: infinity ();
 
 
 void parse_args (const int & argc, char ** argv,
+                 bool & omp,
                  std :: string & input_filename,
                  std :: string & output_filename,
+                 std :: string & delimiter,
                  float & fraction,
                  bool & bin,
                  bool & verbose,
@@ -60,11 +63,14 @@ void parse_args (const int & argc, char ** argv,
                  int32_t & nth
                  )
 {
-  parser :: ArgumentParser argparse("DNetPRO couples evaluation 2.0");
+  parser :: ArgumentParser argparse("DNetPRO couples evaluation v" + dnetpro :: info :: get_version());
 
-  argparse.add_argument < std :: string >("iArg", "f", "input",   "Input filename",                    true, "");
-  argparse.add_argument < std :: string >("oArg", "o", "output",  "Output filename",                   true, "");
-  argparse.add_argument < float >(        "fArg", "s", "frac",    "Fraction of results to save",       false, 1.f);
+  argparse.add_flag ("omp", "o", "omp", "Check if the installed DNetPRO supports OpenMP");
+
+  argparse.add_argument < std :: string >("iArg", "f", "input",  "Input filename",              true, "");
+  argparse.add_argument < std :: string >("oArg", "o", "output", "Output filename",             true, "");
+  argparse.add_argument < std :: string >("dArg", "d", "sep",    "File delimiter",              false, "\t");
+  argparse.add_argument < float >(        "fArg", "s", "frac",   "Fraction of results to save", false, 1.f);
   argparse.add_flag ("bArg", "b", "bin",     "Enable Binary output");
   argparse.add_flag ("qArg", "q", "verbose", "Enable stream output");
   argparse.add_flag ("pArg", "p", "probeID", "ProbeID name to skip");
@@ -81,8 +87,11 @@ void parse_args (const int & argc, char ** argv,
 
   argparse.parse_args(argc, argv);
 
+  argparse.get("omp", omp);
+
   argparse.get("iArg", input_filename);
   argparse.get("oArg", output_filename);
+  argparse.get("dArg", delimiter);
   argparse.get("fArg", fraction);
   argparse.get("bArg", bin);
   argparse.get("qArg", verbose);
@@ -97,11 +106,14 @@ int main(int argc, char *argv[])
 {
   bool  verbose,                                          // enable(ON)/disable(OFF) cout log
         binary,                                           // boolean for the output formatted(OFF)/binary(ON)
-        skipID;                                           // skip first element of each row if true (probeID)
+        skipID,                                           // skip first element of each row if true (probeID)
+        omp = false;                                      // check OMP support
+  std :: string delimiter = "\t";                         // file delimiter to use in the split rows
   int32_t Nprobe,                                         // number of rows in db
           Nsample,                                        // number of columns in db
           Ncomb,                                          // total number of combination
           Nclass,                                         // number of classes
+          topK,                                           // number of top-scoring couples to preserve
           predict_lbl,                                    // label predict each time
           count,                                          // number of variables in LooCV
           idx,                                            // temporary index of couples
@@ -117,7 +129,9 @@ int main(int argc, char *argv[])
         mean_a, mean_b;                                   // temporary means for classifier
   std :: unique_ptr < int32_t[] > num_lbl      = nullptr, // numeric labels
                               idx_sort_single  = nullptr, // sorted indices of single gene
-                              idx_sort_couples = nullptr; // sorted indices of couples gene
+                              idx_sort_couples = nullptr, // sorted indices of couples gene
+                              row_sum          = nullptr, // temporary buffer for MCC evaluation
+                              col_sum          = nullptr; // temporary buffer for MCC evaluation
   //std :: unique_ptr < float[] > prior = nullptr;
   std :: ifstream is;                                     // input file (db)
   std :: ofstream os;                                     // output of couples
@@ -131,7 +145,10 @@ int main(int argc, char *argv[])
   std :: vector < std :: string > labels;                                   // string labels
 
   // parse the command line input
-  parse_args(argc, argv, input_filename, output_filename, fraction, binary, verbose, skipID, nth);
+  parse_args(argc, argv, omp, input_filename, output_filename, delimiter, fraction, binary, verbose, skipID, nth);
+  
+  if ( omp )
+    dnetpro :: info :: get_omp_support ();
 
   if ( verbose )
     std :: cout << "Using " << nth << " threads" << std :: endl;
@@ -152,11 +169,15 @@ int main(int argc, char *argv[])
                                     // BUT the first row is of labels
 
   Ncomb   = (Nprobe * (Nprobe - 1) >> 1);
+  
+  if ( fraction <= 0.f ) fraction = .1f;
+  topK = std :: max < int32_t >(1, static_cast < int32_t >(Ncomb * fraction));
+
   buff.clear();
   buff.seekg(0, std :: ios :: beg);
   buff.setf(std :: ios_base :: skipws);
   std :: getline(buff, row);                  // read first row of labels
-  labels  = split(row, "\t");
+  labels  = split(row, delimiter);
   Nsample = static_cast < int >(labels.size());
   num_lbl = lbl2num(labels);                // convert string to number
   labels.clear();                           // useless variable
@@ -195,7 +216,10 @@ int main(int argc, char *argv[])
   means     = new float * [Nprobe];
   means_sq  = new float * [Nprobe];
   score single_gene(Nprobe, Nclass);
-  score couples(Ncomb, Nclass);
+  score couples(topK, Nclass);
+
+  row_sum = std :: make_unique < int32_t[] >(Nclass);
+  col_sum = std :: make_unique < int32_t[] >(Nclass);
 
   // reading data and computing of means and means_sq
   if (skipID)
@@ -279,6 +303,11 @@ int main(int argc, char *argv[])
 
       idx = ((Nprobe * (Nprobe - 1)) >> 1) - ((Nprobe - gene_a) * ((Nprobe - gene_a) - 1) >> 1) + gene_b - gene_a - 1;
       idx_sort_couples[idx] = idx;
+
+      std :: fill_n(row_sum.get(), Nclass, 0);
+      std :: fill_n(col_sum.get(), Nclass, 0);
+      int32_t trace = 0;
+      
       // Leave One Out Cross Validation with diagQDA
       for (int32_t i = 0; i < Nsample; ++i) // looCV cycle
       {
@@ -308,18 +337,31 @@ int main(int argc, char *argv[])
           max_score   = (max_score < discr) ? discr    : max_score;
         }
         predict_lbl = predict_lbl < 0 ? 0 : predict_lbl;
-        couples.class_score[predict_lbl][idx] += static_cast < int32_t >(num_lbl[i] == predict_lbl);
+
+        row_sum[num_lbl[i]] += 1;
+        col_sum[predict_lbl] += 1;
+        trace += static_cast < int32_t >(num_lbl[i] == predict_lbl);
+
+        couples.class_score[idx * Nclass + num_lbl[i]] += static_cast < int32_t >(num_lbl[i] == predict_lbl); // diagonale per classe
+        // confusion matrix flat
+        couples.confusion[
+          (
+            static_cast < std :: size_t >(idx) * static_cast < std :: size_t >(Nclass) + 
+            static_cast < std :: size_t >(num_lbl[i])
+          ) * static_cast < std :: size_t >(Nclass)
+          + static_cast < std :: size_t >(predict_lbl)
+        ] += 1u;
       } // end sample loop
 
-      // update total and gene number
-      couples.gene_a[idx] = gene_a;
-      couples.gene_b[idx] = gene_b;
-      couples.tot[idx]  = std :: accumulate(  couples.class_score.get(), couples.class_score.get() + couples.n_class,
-                                               0, [&idx](const int32_t & res, std :: unique_ptr < int32_t[] > & score)
-                                               {
-                                                 return res + score[idx];
-                                               });
-      couples.mcc[idx]  = score :: matthews_corrcoef(couples.class_score[0][idx], static_cast < int32_t >(member_class[0].size()), couples.class_score[1][idx], static_cast < int32_t >(member_class[1].size()));
+      // update couples information
+        couples.gene_a[idx] = gene_a;
+        couples.gene_b[idx] = gene_b;
+        // total accuracy
+        couples.tot[idx] = trace;
+        // matthew correlation coefficient
+        couples.mcc[idx] = score :: matthews_corrcoef(
+          row_sum.get(), col_sum.get(), Nclass, trace, Nsample
+        );
     } // end second gene loop
 
 #ifdef _OPENMP
@@ -348,6 +390,10 @@ int main(int argc, char *argv[])
   {
     idx_sort_single[gene_a] = gene_a;
 
+    std :: fill_n(row_sum.get(), Nclass, 0);
+    std :: fill_n(col_sum.get(), Nclass, 0);
+    int32_t trace = 0;
+
     // single gene case
     for (int32_t i = 0; i < Nsample; ++i) // looCV cycle
     {
@@ -369,18 +415,31 @@ int main(int argc, char *argv[])
         max_score   = (max_score < discr) ? discr : max_score;
       }
       predict_lbl = predict_lbl < 0 ? 0 : predict_lbl;
-      single_gene.class_score[predict_lbl][gene_a] += static_cast < int32_t >(num_lbl[i] == predict_lbl);
-    } // end sample loop
-    // update total and gene number
-    single_gene.gene_a[gene_a]  = gene_a;
-    single_gene.gene_b[gene_a]  = gene_a;
-    single_gene.tot[gene_a] = std::accumulate(  single_gene.class_score.get(), single_gene.class_score.get() + single_gene.n_class,
-                                                0, [&gene_a](const int32_t & res, std :: unique_ptr < int32_t[] > & score)
-                                                {
-                                                  return res + score[gene_a];
-                                                });
-    single_gene.mcc[gene_a] = score :: matthews_corrcoef(single_gene.class_score[0][gene_a], static_cast < int32_t >(member_class[0].size()), single_gene.class_score[1][gene_a], static_cast < int32_t >(member_class[1].size()));
 
+      row_sum[num_lbl[i]] += 1;
+      col_sum[predict_lbl] += 1;
+      trace += static_cast < int32_t >(num_lbl[i] == predict_lbl);
+
+      single_gene.class_score[gene_a * Nclass + num_lbl[i]] += static_cast < int32_t >(num_lbl[i] == predict_lbl); // diagonale per classe
+      // confusion matrix flat
+      single_gene.confusion[
+        (
+          static_cast < std :: size_t >(gene_a) * static_cast < std :: size_t >(Nclass) + 
+          static_cast < std :: size_t >(num_lbl[i])
+        ) * static_cast < std :: size_t >(Nclass)
+        + static_cast < std :: size_t >(predict_lbl)
+      ] += 1u;
+    } // end sample loop
+
+    // update couples information
+    single_gene.gene_a[gene_a] = gene_a;
+    single_gene.gene_b[gene_a] = gene_a;
+    // total accuracy
+    single_gene.tot[gene_a] = trace;
+    // matthew correlation coefficient
+    single_gene.mcc[gene_a] = score :: matthews_corrcoef(
+      row_sum.get(), col_sum.get(), Nclass, trace, Nsample
+    );
   } // end first gene loop
 
   // delete all ptr
@@ -422,17 +481,45 @@ int main(int argc, char *argv[])
 
 #pragma omp single
   {
-    mergeargsort_parallel_omp(idx_sort_single.get(), single_gene.tot.get(), 0, size_single, nth, [&](const int32_t & a1, const int32_t & a2){return single_gene.tot[a1] > single_gene.tot[a2];});
+    mergeargsort_parallel_omp(
+      idx_sort_single.get(), single_gene.tot.get(), 0, size_single, nth, 
+      [&](const int32_t & a1, const int32_t & a2)
+      {
+        return single_gene.tot[a1] > single_gene.tot[a2];
+      }
+    );
     if (diff_size_single)
     {
-      std :: sort(idx_sort_single.get() + size_single, idx_sort_single.get() + Nprobe, [&](const int32_t & a1, const int32_t & a2){return single_gene.tot[a1] > single_gene.tot[a2];});
-      std :: inplace_merge(idx_sort_single.get(), idx_sort_single.get() + size_single, idx_sort_single.get() + Nprobe, [&](const int32_t & a1, const int32_t & a2){return single_gene.tot[a1] > single_gene.tot[a2];});
+      std :: sort(
+        idx_sort_single.get() + size_single, 
+        idx_sort_single.get() + Nprobe, 
+        [&](const int32_t & a1, const int32_t & a2)
+        {
+          return single_gene.tot[a1] > single_gene.tot[a2];
+        }
+      );
+      std :: inplace_merge(
+        idx_sort_single.get(), 
+        idx_sort_single.get() + size_single, 
+        idx_sort_single.get() + Nprobe, 
+        [&](const int32_t & a1, const int32_t & a2)
+        {
+          return single_gene.tot[a1] > single_gene.tot[a2];
+        }
+      );
     }
   }
 
 #else
 
-  std :: sort(idx_sort_single.get(), idx_sort_single.get() + Nprobe, [&](const int32_t & a1, const int32_t & a2){return single_gene.tot[a1] > single_gene.tot[a2];});
+  std :: sort(
+    idx_sort_single.get(), 
+    idx_sort_single.get() + Nprobe, 
+    [&](const int32_t & a1, const int32_t & a2)
+    {
+      return single_gene.tot[a1] > single_gene.tot[a2];
+    }
+  );
 
 #endif
 
@@ -456,21 +543,66 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef _OPENMP
-
 #pragma omp single
-  {
-    mergeargsort_parallel_omp(idx_sort_couples.get(), couples.tot.get(), 0, size_couples, nth, [&](const int32_t & a1, const int32_t & a2){return couples.tot[a1] > couples.tot[a2];});
-    if (diff_size_couples)
     {
-      std :: sort(idx_sort_couples.get() + size_couples, idx_sort_couples.get() + Ncomb, [&](const int32_t & a1, const int32_t & a2){return couples.tot[a1] > couples.tot[a2];});
-      std :: inplace_merge(idx_sort_couples.get(), idx_sort_couples.get() + size_couples, idx_sort_couples.get() + Ncomb, [&](const int32_t & a1, const int32_t & a2){return couples.tot[a1] > couples.tot[a2];});
+#endif
+
+    // 1) Partition: keep only TOP M in front (unordered)
+    std :: nth_element(
+      idx_sort_couples.get(),
+      idx_sort_couples.get() + topK,
+      idx_sort_couples.get() + Ncomb,
+      [&](const int32_t &a1, const int32_t &a2)
+      {
+        return couples.mcc[a1] > couples.mcc[a2];
+      });
+
+#ifdef _OPENMP
+    } // single
+#endif
+
+// 2) Now sort ONLY the first topK indices (parallel merge-argsort like your logic)
+#ifdef _OPENMP
+#pragma omp single
+    {
+      const int32_t diff_size_top = topK % nth;
+      const int32_t size_top      = diff_size_top ? (topK - diff_size_top) : topK;
+
+      mergeargsort_parallel_omp(
+        idx_sort_couples.get(), couples.mcc.get(), 0, size_top, nth,
+        [&](const int32_t &a1, const int32_t &a2)
+        {
+          return couples.mcc[a1] > couples.mcc[a2];
+        });
+
+      if (diff_size_top)
+      {
+        std :: sort(
+          idx_sort_couples.get() + size_top,
+          idx_sort_couples.get() + topK,
+          [&](const int32_t &a1, const int32_t &a2)
+          {
+            return couples.mcc[a1] > couples.mcc[a2];
+          });
+
+        std :: inplace_merge(
+          idx_sort_couples.get(),
+          idx_sort_couples.get() + size_top,
+          idx_sort_couples.get() + topK,
+          [&](const int32_t &a1, const int32_t &a2)
+          {
+            return couples.mcc[a1] > couples.mcc[a2];
+          });
+      }
     }
-  }
-
 #else
-
-  std :: sort(idx_sort_couples.get(), idx_sort_couples.get() + Ncomb, [&](const int32_t & a1, const int32_t & a2){return couples.tot[a1] > couples.tot[a2];});
-
+  std :: sort(
+    idx_sort_couples.get(),
+    idx_sort_couples.get() + topK,
+    [&](const int32_t &a1, const int32_t &a2)
+    {
+      return couples.mcc[a1] > couples.mcc[a2];
+    });
 #endif
 
 #ifdef _OPENMP
@@ -503,7 +635,7 @@ int main(int argc, char *argv[])
     {
       os.write(reinterpret_cast < char* >(&idx_sort_single[i]), sizeof (short int));
       os.write(reinterpret_cast < char* >(&idx_sort_single[i]), sizeof (short int));
-      for(int j = 0; j < Nclass; ++j) os.write(reinterpret_cast < char* >(&single_gene.class_score[j][idx_sort_single[i]]), sizeof (short int));
+      for(int j = 0; j < Nclass; ++j) os.write(reinterpret_cast < char* >(&single_gene.class_score[idx_sort_single[i] * Nclass + j]), sizeof (short int));
       os.write(reinterpret_cast < char* >(&single_gene.tot[idx_sort_single[i]]), sizeof (short int));
       os.write(reinterpret_cast < char* >(&single_gene.mcc[idx_sort_single[i]]), sizeof (float));
     }
@@ -511,7 +643,7 @@ int main(int argc, char *argv[])
     {
       os.write(reinterpret_cast < char* >(&idx_sort_couples[i]), sizeof (short int));
       os.write(reinterpret_cast < char* >(&idx_sort_couples[i]), sizeof (short int));
-      for (int j = 0; j < Nclass; ++j) os.write(reinterpret_cast < char* >(&couples.class_score[j][idx_sort_couples[i]]), sizeof (short int));
+      for (int j = 0; j < Nclass; ++j) os.write(reinterpret_cast < char* >(&couples.class_score[idx_sort_couples[i] * Nclass + j]), sizeof (short int));
       os.write(reinterpret_cast < char* >(&couples.tot[idx_sort_couples[i]]), sizeof (short int));
       os.write(reinterpret_cast < char* >(&couples.mcc[idx_sort_couples[i]]), sizeof (float));
     }
@@ -522,20 +654,20 @@ int main(int argc, char *argv[])
     os.open(output_filename + ".dat");
     for (int i = 0; i < Nprobe*fraction; ++i)
     {
-      os  << single_gene.gene_a[idx_sort_single[i]]                                            << "\t"
-          << single_gene.gene_b[idx_sort_single[i]]                                            << "\t";
-        for (int j = 0; j < Nclass; ++j) os << single_gene.class_score[j][idx_sort_single[i]]  << "\t";
-      os  << single_gene.tot[idx_sort_single[i]]                                               << "\t"
-          //<< single_gene.mcc[idx_sort_single[i]]
+      os  << single_gene.gene_a[idx_sort_single[i]]                                                     << delimiter
+          << single_gene.gene_b[idx_sort_single[i]]                                                     << delimiter;
+        for (int j = 0; j < Nclass; ++j) os << single_gene.class_score[idx_sort_single[i] * Nclass + j] << delimiter;
+      os  << single_gene.tot[idx_sort_single[i]]                                                        << delimiter
+          << single_gene.mcc[idx_sort_single[i]]
           << std :: endl;
     }
     for (int i = 0; i < Ncomb*fraction; ++i)
     {
-      os  << couples.gene_a[idx_sort_couples[i]]                                            << "\t"
-          << couples.gene_b[idx_sort_couples[i]]                                            << "\t";
-        for (int j = 0; j < Nclass; ++j) os << couples.class_score[j][idx_sort_couples[i]]  << "\t";
-      os  << couples.tot[idx_sort_couples[i]]                                               << "\t"
-          //<< couples.mcc[idx_sort_couples[i]]
+      os  << couples.gene_a[idx_sort_couples[i]]                                                     << delimiter
+          << couples.gene_b[idx_sort_couples[i]]                                                     << delimiter;
+        for (int j = 0; j < Nclass; ++j) os << couples.class_score[idx_sort_couples[i] * Nclass + j] << delimiter;
+      os  << couples.tot[idx_sort_couples[i]]                                                        << delimiter
+          << couples.mcc[idx_sort_couples[i]]
           << std :: endl;
     }
     os.close();

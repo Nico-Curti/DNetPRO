@@ -9,11 +9,11 @@
 #define __minimum_sort_size__ 1000
 
 template < typename type, typename lambda >
-void mergeargsort_serial (int32_t * index, type * arr, const int32_t & start, const int32_t & end, lambda order)
+void mergeargsort_serial (int32_t * index, type * /*arr*/, const int32_t & start, const int32_t & end, lambda order)
 {
   if ((end - start) == 2)
   {
-    if (order(arr[start] , arr[end - 1]))
+    if (order(index[start] , index[end - 1]))
       return;
     else
     {
@@ -31,8 +31,8 @@ void mergeargsort_serial (int32_t * index, type * arr, const int32_t & start, co
   }
   else
   {
-    mergeargsort_serial(index, arr, start, pivot, order);
-    mergeargsort_serial(index, arr, pivot, end, order);
+    mergeargsort_serial(index, /*arr*/ nullptr, start, pivot, order);
+    mergeargsort_serial(index, /*arr*/ nullptr, pivot, end, order);
   }
 
   std :: inplace_merge(index + start, index + pivot, index + end, order);
@@ -45,20 +45,20 @@ void mergeargsort_parallel_omp ( int32_t * index, type * arr, const int32_t & st
 {
   const int32_t pivot = start + ((end - start) >> 1);
 
-  if (threads <= 1)
+  if (threads <= 1 || (end - start) < __minimum_sort_size__)
   {
-    mergeargsort_serial(index, arr, start, end, order);
+    mergeargsort_serial(index, /*arr*/ nullptr, start, end, order);
     return;
   }
   else
   {
-#pragma omp task shared (start, end, threads)
+#pragma omp task firstprivate (start, pivot, threads) shared (index, order)
     {
-      mergeargsort_parallel_omp(index, arr, start, pivot, threads >> 1, order);
+      mergeargsort_parallel_omp(index, /*arr*/ nullptr, start, pivot, threads >> 1, order);
     }
-#pragma omp task shared (start, end, threads)
+#pragma omp task firstprivate (pivot, end, threads) shared (index, order)
     {
-      mergeargsort_parallel_omp(index, arr, pivot, end, threads - (threads >> 1), order);
+      mergeargsort_parallel_omp(index, /*arr*/ nullptr, pivot, end, threads - (threads >> 1), order);
     }
 #pragma omp taskwait
   }

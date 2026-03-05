@@ -1,3 +1,54 @@
+[project]
+name = "DNetPRO"
+version = "1.0.0"
+description = "Discriminant Analysis with Network Processing"
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [{ name = "Nico Curti", email = "nico.curti2@unibo.it" }]
+license = "MIT"
+requires-python = ">=3.8"
+
+dependencies = [
+  "numpy>=1.16.0",
+  "networkx>=2.2",
+  "scikit-learn>=0.19.1",
+  "pandas>=0.24.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/Nico-Curti/DNetPRO"
+"Bug Tracker" = "https://github.com/Nico-Curti/DNetPRO/issues"
+
+# CLI entrypoint (single source of truth)
+[project.scripts]
+dnetpro = "DNetPRO.__main__:main"
+
 [build-system]
-requires = ["setuptools>=18.0", "wheel", "numpy>=1.16", "Cython>=0.29", "cmake"]
-build-backend = "setuptools.build_meta"
+requires = [
+  "scikit-build-core>=0.9",
+  "pybind11; platform_system!=''",
+  "setuptools>=42",
+  "numpy>=1.16",
+  "scikit-build>=0.13",
+  "cmake>=3.18",
+  "Cython",
+  "ninja",
+  "tomli",
+]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+cmake.minimum-version = "3.18"
+build.verbose = true
+wheel.packages = ["DNetPRO"]
+
+[tool.scikit-build.sdist]
+include = [
+  "DNetPRO/*.py",
+  "DNetPRO/lib/*.py",
+  "DNetPRO/source/*",
+  "DNetPRO/lib/*.pxd",
+  "CMakeLists.txt",
+  "src/*",
+  "include/**",
+  "hpp/*",
+]

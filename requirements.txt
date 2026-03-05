@@ -1,5 +1,6 @@
-numpy>=1.15
+numpy>=1.16
 networkx>=2.2
-cython>=0.29
+Cython
 scikit-learn>=0.19.1
 pandas>=0.24.2
+scikit-build>=0.13

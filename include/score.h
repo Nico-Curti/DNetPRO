@@ -29,10 +29,11 @@ struct score
   std :: unique_ptr < int32_t[] > gene_b; ///< Second index of the couples
   std :: unique_ptr < int32_t[] > tot;    ///< Total accuracy of the couples
 
-  std :: unique_ptr < std :: unique_ptr < int32_t[] >[] > class_score; ///< Accuracy score for each class
+  std :: unique_ptr < int32_t[] > class_score; ///< Accuracy score for each class
+  std :: unique_ptr < uint32_t[] > confusion;  ///< Confusion matrix
 
-  int32_t N;       ///< The number of couples
-  int32_t n_class; ///< The number of classes
+  int32_t N;       ///< The number of stored results
+  int32_t n_class; ///< The number of classes (fixed to 2)
 
   // Constructors
 
@@ -68,7 +69,7 @@ struct score
   * @param s Score object
   *
   */
-  score (score & s);
+  score (score && s) noexcept = default; // o implementazione esplicita
 
   /**
   * @brief Copy operator.
@@ -79,9 +80,23 @@ struct score
   * @param s Score object
   *
   */
-  score & operator = (score && s);
+  score & operator = (score&& s) noexcept = default;
 
   // Destructors
+
+  /**
+  * @brief Delete copy constructor
+  * 
+  * @note This is employed to avoid accidental expensive copies
+  */
+  score (const score &) = delete;
+
+  /**
+  * @brief Delete assignment operator
+  * 
+  * @note This is employed to avoid accidental expensive copies
+  */
+  score & operator = (const score &) = delete;
 
   /**
   * @brief Destructor set as default.
@@ -103,7 +118,7 @@ struct score
   * the information used by the score object without recomputing new ones.
   *
   */
-  static float matthews_corrcoef (const float & s0, const int32_t & m0, const float & s1, const int32_t & m1);
+  static float matthews_corrcoef (const int32_t * row_sum, const int32_t * col_sum, const int32_t & K, const int32_t & trace, const int32_t & n);
 
 };
 
