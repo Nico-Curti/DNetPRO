@@ -86,7 +86,7 @@ class TestDNetPRO:
               'verbose' : False,
               'n_jobs' : 1}
 
-    with pytest.raises(AttributeError):
+    with pytest.raises(AttributeError), pytest.raises(ValueError):
       dnet = DNetPRO(**params)
 
 
