@@ -3,6 +3,7 @@ branch = True
 omit =
     */DNetPRO/__init__.py
     */DNetPRO/__version__.py
+    */DNetPRO/__main__.py
     */DNetPRO/test/*
     */toy/*
     */timing/*

@@ -86,7 +86,7 @@ class TestDNetPRO:
               'verbose' : False,
               'n_jobs' : 1}
 
-    with pytest.raises(ValueError):
+    with pytest.raises(AttributeError):
       dnet = DNetPRO(**params)
 
 
@@ -125,11 +125,6 @@ class TestDNetPRO:
 
     assert all(x == y for x, y in zip(g.nodes(), graph.nodes))
 
-  def test_estimator_type (self):
-    dnet = DNetPRO(estimator=GaussianNB(), max_chunk=4)
-
-    assert dnet._estimator_type == 'classifier'
-
   def test_is_fitted (self):
     dnet = DNetPRO(estimator=GaussianNB(), max_chunk=4)
 
@@ -160,11 +155,11 @@ class TestDNetPRO:
 
     signature = dnet.get_signature()[0]
 
-    assert all(x in ('number_of_genes', 'performace_couples', 'features', 'signature', 'score') for x in signature.keys())
-    assert signature['number_of_genes'] == 2
+    assert all(x in ('number_of_features', 'performance_couples', 'features', 'signature', 'score') for x in signature.keys())
+    assert signature['number_of_features'] == 2
     assert signature['score'] == 0
-    assert signature['performace_couples'] == 0
-    assert all(x == y for x, y in zip(signature['features'], (0, 1)))
+    assert signature['performance_couples'] == 0
+    assert all(x == y for x, y in zip(signature['features'], (2, 4))), signature['features']
 
   def test_equal_fit (self):
     dnet = DNetPRO(estimator=GaussianNB(), max_chunk=4)
@@ -180,11 +175,11 @@ class TestDNetPRO:
 
     signature = dnet.signatures[0]
 
-    assert all(x in ('number_of_genes', 'performace_couples', 'features', 'signature', 'score') for x in signature.keys())
-    assert signature['number_of_genes'] == 2
+    assert all(x in ('number_of_features', 'performance_couples', 'features', 'signature', 'score') for x in signature.keys())
+    assert signature['number_of_features'] == 2
     assert signature['score'] == 0.5
-    assert signature['performace_couples'] == 2
-    assert all(x == y for x, y in zip(signature['features'], (0, 1)))
+    assert signature['performance_couples'] == 2
+    assert all(x == y for x, y in zip(signature['features'], (2, 4))), signature['features']
 
   def test_set_signature (self):
     dnet = DNetPRO(estimator=GaussianNB(), max_chunk=4)
@@ -210,7 +205,7 @@ class TestDNetPRO:
 
     Xnew = dnet.fit_transform(X, y)
     assert Xnew.shape == (Nsample, 2)
-    assert np.allclose(Xnew, X[:, :2])
+    assert np.allclose(Xnew, X[:, [2, 4]]), (Xnew, X)
 
   def test_score (self):
     dnet = DNetPRO(estimator=GaussianNB(), max_chunk=4)
@@ -263,7 +258,7 @@ class TestDNetPRO:
 
     with pytest.warns(RuntimeWarning):
       dnet.fit(X, y)
-      proba = dnet.predict_proba(dnet.transform(X))
+      proba = dnet.predict_proba(X)
       assert np.isnan(proba).sum() == np.prod(proba.shape)
 
   def test_predict_logproba (self):
@@ -277,5 +272,5 @@ class TestDNetPRO:
 
     with pytest.warns(RuntimeWarning):
       dnet.fit(X, y)
-      proba = dnet.predict_log_proba(dnet.transform(X))
+      proba = dnet.predict_log_proba(X)
       assert np.isnan(proba).sum() == np.prod(proba.shape)

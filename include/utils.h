@@ -7,6 +7,7 @@
 #include <unordered_map> // std :: unordered_map
 #include <algorithm>     // std :: copy_n
 #include <memory>        // std :: unique_ptr
+#include <stdint.h>      // int32_t def for msvc
 
 constexpr int error_file = 1; ///< error as no file found
 

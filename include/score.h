@@ -4,7 +4,7 @@
 #include <memory>  // std :: unique_ptr
 #include <utility> // std :: move
 #include <cmath>   // std :: sqrt
-
+#include <stdint.h> // int32_t def for msvc
 #include <utils.hpp> // old gcc compatibility
 
 

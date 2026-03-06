@@ -3,6 +3,7 @@
 
 #include <numeric>
 #include <algorithm>
+#include <stdint.h> // int32_t def for msvc
 
 #ifdef _OPENMP
 

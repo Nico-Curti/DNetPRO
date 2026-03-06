@@ -14,8 +14,6 @@ from operator import itemgetter
 
 from sklearn.utils import check_X_y
 from sklearn.utils import check_array
-from sklearn.utils.metaestimators import available_if
-#from sklearn.utils.metaestimators import if_delegate_has_method
 from sklearn.utils.validation import check_is_fitted
 
 from sklearn.model_selection import check_cv
