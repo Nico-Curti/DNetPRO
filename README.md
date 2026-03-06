@@ -105,8 +105,8 @@ So, given an initial dataset, with `S` *samples* (e.g. cells or patients) each o
   This procedure can be applied once, or recursively until the core network, *i.e.*, a network with all nodes with at least two links, is reached.
   We have tested the efficacy of this empirical approach in some real cases [[10.3233/JAD-190480](https://doi.org/10.3233/JAD-190480), [10.1007/BF02951333](https://doi.org/10.1007/BF02951333)], obtaining a smaller-dimensional signature with comparable performance, even if there is not a solid theoretical basis supporting this procedure.
 5. [**Optional**] The classifier used in the feature selection and the final classification does not need to be a Discriminant
-Analysis classifier, but can in principle be any classifier. Moreover, the classifier used in the feature selection does not
-need to be the same one used for the final evaluation of the obtained signature.
+  Analysis classifier, but can in principle be any classifier. Moreover, the classifier used in the feature selection does not
+  need to be the same one used for the final evaluation of the obtained signature.
 6. **(a)** All signatures are applied onto the test set to estimate their performance, producing more than one final signature.
 > **OR**
 6. **(b)** To identify a unique best performing signature, a further cross validation step can be applied, with a further `dataset` splitting into training (to identify the multiple signatures), test (to identify the best signature) and validation set (to evaluate the best signature performance).
@@ -147,7 +147,7 @@ The only requirements are the following:
 * numpy >= 1.15
 * networkx >= 2.2
 * cython >= 0.29
-* scikit-learn >= 0.19.1
+* scikit-learn>=1.3.2
 * pandas >= 0.24.2
 
 The `Cython` version can be built and installed via `CMake` enabling the `-DPYWRAP` variable.

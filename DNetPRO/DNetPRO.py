@@ -14,6 +14,8 @@ from operator import itemgetter
 
 from sklearn.utils import check_X_y
 from sklearn.utils import check_array
+from sklearn.utils.metaestimators import available_if
+#from sklearn.utils.metaestimators import if_delegate_has_method
 from sklearn.utils.validation import check_is_fitted
 
 from sklearn.model_selection import check_cv
@@ -54,6 +56,14 @@ def _estimator_has(attr):
 
 __author__  = ['Nico Curti']
 __email__   = ['nico.curti2@unibo.it']
+__all__     = ['DNetPRO']
+
+
+def _estimator_has (attr) :
+  def check (self) :
+    return hasattr(self.estimator, attr)
+
+  return check
 
 class DNetPRO (BaseEstimator, ClassifierMixin):
   '''
@@ -551,7 +561,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     X = X[:, self.selected_signature]
     return X
 
-  @available_if(_estimator_has("score"))
+  @available_if(_estimator_has('score'))
   def score (self, X, y):
     '''
     Reduce X to the selected features and then return the score of the
@@ -567,12 +577,12 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
     '''
     return self.estimator_.score(self.transform(X), y)
 
-  @available_if(_estimator_has("decision_function"))
+  @available_if(_estimator_has('decision_function'))
   def decision_function (self, X):
     check_is_fitted(self, 'estimator_')
     return self.estimator_.decision_function(self.transform(X))
 
-  @available_if(_estimator_has("predict_proba"))
+  @available_if(_estimator_has('predict_proba'))
   def predict_proba (self, X):
     check_is_fitted(self, 'estimator_')
     return self.estimator_.predict_proba(self.transform(X))
