@@ -10,13 +10,15 @@ build:
     - cython3
   jobs:
     install:
-      - python -m pip install --upgrade pip setuptools wheel
+      - python -m pip install --upgrade pip
+      - python -m pip install setuptools wheel
       - python -m pip install -r requirements.txt
       - python -m pip install -r docs/requirements.txt
       - python -m pip install numpy
       - python -m pip install sphinx sphinx-rtd-theme breathe nbsphinx ipython
-      - /usr/bin/cython3 --version
       - python -m sphinx --version
+      - /usr/bin/cython3 --version
+
     build:
       html:
         - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON -DCYTHON_EXECUTABLE=/usr/bin/cython3 -DSPHINX_EXECUTABLE="$(python -c 'import shutil; print(shutil.which("sphinx-build") or "")')"
