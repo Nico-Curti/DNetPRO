@@ -10,15 +10,20 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import os
 import sys
 import platform
 from ctypes import *
 
 sys.path.insert(0, '@CMAKE_SOURCE_DIR@')
-if platform.system() == 'Windows':
-  lib = cdll.LoadLibrary('@INSTALL_BIN_DIR@/@dnetprolib@.dll')
-else:
-  lib = cdll.LoadLibrary('@INSTALL_LIB_DIR@/lib@dnetprolib@.so')
+if os.environ.get("READTHEDOCS") != "True":
+  try:
+    if platform.system() == 'Windows':
+      lib = cdll.LoadLibrary('@INSTALL_BIN_DIR@/@dnetprolib@.dll')
+    else:
+      lib = cdll.LoadLibrary('@INSTALL_LIB_DIR@/lib@dnetprolib@.so')
+  except OSError:
+    pass
 
 # -- Project information -----------------------------------------------------
 
