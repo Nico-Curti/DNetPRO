@@ -138,10 +138,6 @@ if (COMPILER_SUPPORTS_MARCH_NATIVE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 endif()
 
-if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}" CACHE PATH "Install prefix" FORCE)
-endif()
-
 # -------------------------------------------------------------------------
 # Parse options
 # -------------------------------------------------------------------------
@@ -178,23 +174,6 @@ if (NOT SKBUILD)
     set(INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/parseargs" CACHE PATH "Install dir for headers" FORCE)
     set(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/parseargs" CACHE PATH "Install dir for CMake package files" FORCE)
 
-if (FORCE_USE_SUBMODULES)
-  message (STATUS "Use ParseArgs submodule")
-  add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args")
-  include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/include/")
-  include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/hpp/")
-  set (parseargslib parseargs)
-else ()
-  message (STATUS "Looking for ParseArgs library")
-  find_package (ParseArgs HINTS ParseArgs_DIR)
-  message (STATUS "----------------------------${ParseArgs_FOUND}")
-  if (ParseArgs_FOUND)
-    include_directories(${ParseArgs_INCLUDE_DIR})
-    set (parseargslib ParseArgs::parseargs)
-  else ()
-    set (FORCE_USE_SUBMODULES TRUE)
-    message (STATUS "ParseArgs NOT FOUND")
-    message (STATUS "Use ParseArgs submodule")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args")
     include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/include/")
     include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/hpp/")
@@ -216,9 +195,6 @@ else ()
       include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/hpp/")
       set(parseargslib parseargs)
     endif()
-    
-    # force output prefix
-    set(CMAKE_INSTALL_PREFIX "${_DNETPRO_PREFIX_SAVED}" CACHE PATH "Install prefix" FORCE)
   endif()
 
   list(APPEND linked_libs ${parseargslib})
