@@ -13,30 +13,15 @@ build:
   apt_packages:
     - cmake
     - doxygen
-  install:
-    - python -m pip install --upgrade pip
-    - python -m pip install -r requirements.txt
-    - python -m pip install -r docs/requirements.txt
-    - python -m pip install cython numpy sphinx sphinx-rtd-theme breathe nbsphinx ipython
-  build:
-    html:
-      - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON
-      - cmake --build build --target py_docs
-      - mkdir --parents "$READTHEDOCS_OUTPUT/html"
-      - cp --recursive docs/build/* "$READTHEDOCS_OUTPUT/html/"
-
-# Build documentation with MkDocs
-#mkdocs:
-#  configuration: mkdocs.yml
-
-# Optionally build your docs in additional formats such as PDF
-#formats:
-#  - pdf
-
-# Optionally set the version of Python and requirements required to build your docs
-python:
-  install:
-    - requirements: requirements.txt
-    - requirements: docs/requirements.txt
-    - method: pip
-      path: .
+  jobs:
+    install:
+      - python -m pip install --upgrade pip
+      - python -m pip install -r requirements.txt
+      - python -m pip install -r docs/requirements.txt
+      - python -m pip install cython numpy sphinx sphinx-rtd-theme breathe nbsphinx ipython
+    build:
+      html:
+        - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON
+        - cmake --build build --target py_docs
+        - mkdir --parents "$READTHEDOCS_OUTPUT/html"
+        - cp --recursive docs/build/* "$READTHEDOCS_OUTPUT/html/"
