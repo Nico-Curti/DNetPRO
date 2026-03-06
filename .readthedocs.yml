@@ -16,9 +16,11 @@ build:
       - python -m pip install -r docs/requirements.txt
       - python -m pip install numpy
       - python -m pip install sphinx sphinx-rtd-theme breathe nbsphinx ipython
-      - python -c 'import pkg_resources; print(pkg_resources.__file__)'
+      - python -c "import pkg_resources; print(pkg_resources.__file__)"
       - python -m sphinx --version
       - /usr/bin/cython3 --version
+      - python -c "import sys; print(sys.executable)"
+      - which sphinx-build
 
     build:
       html:
