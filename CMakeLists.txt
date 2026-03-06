@@ -178,8 +178,6 @@ if (NOT SKBUILD)
     set(INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/parseargs" CACHE PATH "Install dir for headers" FORCE)
     set(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/parseargs" CACHE PATH "Install dir for CMake package files" FORCE)
 
-<<<<<<< HEAD
-=======
 if (FORCE_USE_SUBMODULES)
   message (STATUS "Use ParseArgs submodule")
   add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args")
@@ -197,7 +195,6 @@ else ()
     set (FORCE_USE_SUBMODULES TRUE)
     message (STATUS "ParseArgs NOT FOUND")
     message (STATUS "Use ParseArgs submodule")
->>>>>>> 0f9e920a80d6d329c8c1b4767094c1a40d5f09c0
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args")
     include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/include/")
     include_directories("${CMAKE_CURRENT_SOURCE_DIR}/modules/parse_args/hpp/")
@@ -359,16 +356,7 @@ target_include_directories(${DNetPROlib}
   $<INSTALL_INTERFACE:${DNETPRO_INSTALL_INCLUDE_DIR}>
 )
 
-<<<<<<< HEAD
 target_link_libraries(${DNetPROlib} ${linked_libs})
-=======
-add_executable(DNetPRO_couples "${CMAKE_CURRENT_LIST_DIR}/example/DNetPRO_couples.cpp")
-target_link_libraries(DNetPRO_couples ${linked_libs} ${parseargslib} ${dnetprolib} parseargs)
-if (FORCE_USE_SUBMODULES)
-  add_dependencies(DNetPRO_couples parseargs)
-endif ()
-install(TARGETS DNetPRO_couples DESTINATION "${INSTALL_BIN_DIR}")
->>>>>>> 0f9e920a80d6d329c8c1b4767094c1a40d5f09c0
 
 if (NOT SKBUILD)
   set_target_properties(${DNetPROlib} PROPERTIES PUBLIC_HEADER "${DNetPRO_HEADER}")
