@@ -16,7 +16,7 @@ build:
       - python -m cython --version
     build:
       html:
-        - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON -DCYTHON_EXECUTABLE="$(python -c 'import shutil; print(shutil.which("cython") or "")')"
+        - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON -DCYTHON_EXECUTABLE=\"$(python -c 'import shutil; print(shutil.which(\"cython\") or \"\")')"
         - cmake --build build --target py_docs
         - mkdir -p "$READTHEDOCS_OUTPUT/html"
         - cp -r docs/build/* "$READTHEDOCS_OUTPUT/html/"
