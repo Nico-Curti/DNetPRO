@@ -8,19 +8,21 @@ build:
     - cmake
     - doxygen
     - cython3
+    - graphviz
   jobs:
     install:
       - python -m pip install --upgrade pip
       - python -m pip install "setuptools<81" wheel
       - python -m pip install -r requirements.txt
       - python -m pip install -r docs/requirements.txt
-      - python -m pip install numpy
+      - python -m pip install "numpy==1.26.4"
       - python -m pip install sphinx sphinx-rtd-theme breathe nbsphinx ipython
+      - mkdir -p docs/doxygen-tags
 
     build:
       html:
+        - rm -rf build docs/build docs/source/doxydoc docs/source/html
         - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON -DCYTHON_EXECUTABLE=/usr/bin/cython3 -DSPHINX_EXECUTABLE="$(python -c "import os,sysconfig; print(os.path.join(sysconfig.get_path(\"scripts\"), \"sphinx-build\"))")"
         - cmake --build build --target py_docs
         - mkdir -p "$READTHEDOCS_OUTPUT/html"
         - cp -r docs/build/* "$READTHEDOCS_OUTPUT/html/"
-        
