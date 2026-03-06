@@ -301,7 +301,7 @@ class DNetPRO (BaseEstimator, ClassifierMixin):
 
     y = np.asarray(y)
 
-    if np.issubdtype(y.dtype, np.integer):
+    if not np.issubdtype(y.dtype, np.integer):
       y = DNetPRO.label2numbers(y)
 
     self.X = check_array(X, dtype=np.float32)
