@@ -20,11 +20,12 @@ build:
       - python -m sphinx --version
       - /usr/bin/cython3 --version
       - python -c "import sys; print(sys.executable)"
-      - which sphinx-build
+      - python -c "import sysconfig; print(sysconfig.get_path('scripts'))"
+      - test -x "$(python -c "import os,sysconfig; print(os.path.join(sysconfig.get_path('scripts'), 'sphinx-build'))")"
 
     build:
       html:
-        - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON -DCYTHON_EXECUTABLE=/usr/bin/cython3 -DSPHINX_EXECUTABLE="$(python -c 'import shutil; print(shutil.which("sphinx-build") or "")')"
+        - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON -DCYTHON_EXECUTABLE=/usr/bin/cython3 -DSPHINX_EXECUTABLE="$(python -c "import os,sysconfig; print(os.path.join(sysconfig.get_path('scripts'), 'sphinx-build'))")"
         - cmake --build build --target py_docs
         - mkdir -p "$READTHEDOCS_OUTPUT/html"
         - cp -r docs/build/* "$READTHEDOCS_OUTPUT/html/"
