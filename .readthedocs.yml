@@ -7,16 +7,17 @@ build:
   apt_packages:
     - cmake
     - doxygen
+    - cython3
   jobs:
     install:
       - python -m pip install --upgrade pip setuptools wheel
       - python -m pip install -r requirements.txt
       - python -m pip install -r docs/requirements.txt
-      - python -m pip install "Cython>=3" "numpy>=1.26"
-      - python -m cython --version
+      - python -m pip install numpy
+      - /usr/bin/cython3 --version
     build:
       html:
-        - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON
+        - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON -DCYTHON_EXECUTABLE=/usr/bin/cython3
         - cmake --build build --target py_docs
         - mkdir -p "$READTHEDOCS_OUTPUT/html"
         - cp -r docs/build/* "$READTHEDOCS_OUTPUT/html/"
