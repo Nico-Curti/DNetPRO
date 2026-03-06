@@ -1,11 +1,5 @@
-# .readthedocs.yml
-# Read the Docs configuration file
-# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
-
-# Required
 version: 2
 
-# Set the OS, Python version and other tools you might need
 build:
   os: ubuntu-24.04
   tools:
@@ -15,13 +9,16 @@ build:
     - doxygen
   jobs:
     install:
-      - python -m pip install --upgrade pip
+      - python -m pip install --upgrade pip setuptools wheel
       - python -m pip install -r requirements.txt
       - python -m pip install -r docs/requirements.txt
-      - python -m pip install cython numpy sphinx sphinx-rtd-theme breathe nbsphinx ipython
+      - python -m pip install Cython numpy
+      - python -m pip install .
+      - python -c "import shutil; print(shutil.which('cython'))"
+      - cython --version
     build:
       html:
         - cmake -S . -B build -DBUILD_DOCS=ON -DSKBUILD=ON
         - cmake --build build --target py_docs
-        - mkdir --parents "$READTHEDOCS_OUTPUT/html"
-        - cp --recursive docs/build/* "$READTHEDOCS_OUTPUT/html/"
+        - mkdir -p "$READTHEDOCS_OUTPUT/html"
+        - cp -r docs/build/* "$READTHEDOCS_OUTPUT/html/"
