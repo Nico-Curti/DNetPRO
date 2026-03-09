@@ -16,7 +16,7 @@ build:
       - python -m pip install -r requirements.txt
       - python -m pip install -r docs/requirements.txt
       - python -m pip install "numpy==1.26.4"
-      - python -m pip install "Sphinx==1.8.6" "Jinja2<3.1" "docutils<0.18" "MarkupSafe<2.1"
+      - python -m pip install "Sphinx>=6.2,<7" "docutils<0.20" "Jinja2<3.2"
       - python -m pip install sphinx-rtd-theme breathe nbsphinx ipython
       - mkdir -p docs/doxygen-tags
 
