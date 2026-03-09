@@ -263,7 +263,7 @@ endforeach()
 # -------------------------------------------------------------------------
 message(STATUS ""                                                                          )
 message(STATUS "=================== DNetPRO configuration Summary =================="      )
-message(STATUS "   DNetPRO version: ${DNETPRO_VERSION}"                                    )
+message(STATUS "   DNetPRO version: ${DNetPRO_VERSION}"                                    )
 message(STATUS ""                                                                          )
 message(STATUS "   Build type      : ${CMAKE_BUILD_TYPE}"                                  )
 message(STATUS "   Install prefix  : ${CMAKE_INSTALL_PREFIX}"                              )

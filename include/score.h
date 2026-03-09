@@ -107,17 +107,15 @@ struct score
   // Static functions
 
   /**
-  * @brief Compute the Matthews Correlation Coefficient from the class scores
-  *
-  * @param s0 True positive score
-  * @param m0 Total of true positive
-  * @param s1 False Negative score
-  * @param m1 Total of false negative
-  *
-  * @note This function is useful in the current implementation since we can easily manage
-  * the information used by the score object without recomputing new ones.
-  *
-  */
+   * @brief Compute the Matthews correlation coefficient.
+   *
+   * @param row_sum Sum over rows of the confusion matrix.
+   * @param col_sum Sum over columns of the confusion matrix.
+   * @param K Number of classes.
+   * @param trace Trace of the confusion matrix.
+   * @param n Total number of samples.
+   * @return Matthews correlation coefficient.
+   */
   static float matthews_corrcoef (const int32_t * row_sum, const int32_t * col_sum, const int32_t & K, const int32_t & trace, const int32_t & n);
 
 };
