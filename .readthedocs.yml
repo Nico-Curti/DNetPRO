@@ -11,13 +11,13 @@ build:
     - graphviz
   jobs:
     install:
-      - python -m pip install --upgrade pip
+      - python -m pip install "pip<26"
       - python -m pip install "setuptools<81" wheel
       - python -m pip install -r requirements.txt
       - python -m pip install -r docs/requirements.txt
-      - python -m pip install "numpy==1.26.4"
-      - python -m pip install "Sphinx>=6.2,<7" "docutils<0.20" "Jinja2<3.2"
-      - python -m pip install sphinx-rtd-theme breathe nbsphinx ipython
+      - python -m pip install --upgrade "numpy==1.26.4"
+      - python -m pip install --upgrade "Sphinx>=7.2,<8" "breathe>=4.35" "docutils<0.21" "Jinja2<3.2"
+      - python -m pip install --upgrade sphinx-rtd-theme nbsphinx ipython
       - mkdir -p docs/doxygen-tags
 
     build:
